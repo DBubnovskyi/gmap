@@ -55,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ButtonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ButtonControl.Designer.cs">
+      <DependentUpon>ButtonControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MapControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -70,6 +76,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\ButtonControl.resx">
+      <DependentUpon>ButtonControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\MapControl.resx">
       <DependentUpon>MapControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -102,7 +111,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="map.ico" />
-    <None Include="Resources\806068.png" />
+    <None Include="Resources\polygon.png" />
+    <None Include="Resources\top-arrow-button.png" />
+    <None Include="Resources\down-arrow-button.png" />
+    <None Include="Resources\left-arrow-button.png" />
+    <None Include="Resources\right-arrow-button.png" />
+    <None Include="Resources\route.png" />
+    <None Include="Resources\fast-forward-r.png" />
+    <None Include="Resources\fast-forward-l.png" />
+    <None Include="Resources\maps-and-flags.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

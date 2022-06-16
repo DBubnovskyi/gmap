@@ -11,13 +11,20 @@ namespace MapForms.Controls
 {
     public partial class MapControl : UserControl
     {
+        enum ActiveMode
+        {
+            Marcer,
+            Route,
+            Poligon
+        }
+
         public MapControl()
         {
             InitializeComponent();
             gMapControl.MapProvider = BingMapProvider.Instance;
             GMaps.Instance.Mode = AccessMode.ServerOnly;
             gMapControl.SetPositionByKeywords("Kyiv, Ukrane");
-            gMapControl.MapProvider = GMapProviders.BingMap;
+            gMapControl.MapProvider = GMapProviders.GoogleMap;
             gMapControl.Position = new PointLatLng(48.35, 33.35);
             gMapControl.MinZoom = 0;
             gMapControl.MaxZoom = 22;
@@ -73,16 +80,6 @@ namespace MapForms.Controls
                 routes.Routes.Clear();
                 list.Clear();
             }
-        }
-
-        private void labelCoordinates_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

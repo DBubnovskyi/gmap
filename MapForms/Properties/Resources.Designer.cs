@@ -63,9 +63,89 @@ namespace MapForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _806068 {
+        internal static System.Drawing.Bitmap down_arrow_button {
             get {
-                object obj = ResourceManager.GetObject("806068", resourceCulture);
+                object obj = ResourceManager.GetObject("down-arrow-button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fast_forward_l {
+            get {
+                object obj = ResourceManager.GetObject("fast-forward-l", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fast_forward_r {
+            get {
+                object obj = ResourceManager.GetObject("fast-forward-r", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap left_arrow_button {
+            get {
+                object obj = ResourceManager.GetObject("left-arrow-button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap maps_and_flags {
+            get {
+                object obj = ResourceManager.GetObject("maps-and-flags", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap polygon {
+            get {
+                object obj = ResourceManager.GetObject("polygon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap right_arrow_button {
+            get {
+                object obj = ResourceManager.GetObject("right-arrow-button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap route {
+            get {
+                object obj = ResourceManager.GetObject("route", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap top_arrow_button {
+            get {
+                object obj = ResourceManager.GetObject("top-arrow-button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
