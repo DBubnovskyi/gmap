@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using MapForms.Controls;
 
 namespace MapForms.Controls
 {
@@ -17,6 +12,7 @@ namespace MapForms.Controls
         private Color Highlight = SystemColors.WindowFrame;
         private Color HighlightActive = SystemColors.MenuHighlight;
 
+        public ActiveMapMode ActiveMode { get; set; } = ActiveMapMode.None;
         public enum IconType {
             marker,
             route,
@@ -71,11 +67,11 @@ namespace MapForms.Controls
             IsActive = state;
             if (state)
             {
-                this.panelHiglight.BackColor = HighlightActive;
+                panelHiglight.BackColor = HighlightActive;
             }
             else
             {
-                this.panelHiglight.BackColor = Highlight;
+                panelHiglight.BackColor = Highlight;
             }
         }
         public void SetActiveShow(bool state)
@@ -83,23 +79,23 @@ namespace MapForms.Controls
             IsActiveShow = state;
             if (state)
             {
-                this.pictureShow.Image = global::MapForms.Properties.Resources.right_arrow_button;
+                pictureShow.Image = MapForms.Properties.Resources.right_arrow_button;
             }
             else
             {
-                this.pictureShow.Image = global::MapForms.Properties.Resources.left_arrow_button;
+                pictureShow.Image = Properties.Resources.left_arrow_button;
             }
         }
 
         private void Mouse_Enter(object sender, EventArgs e)
         {
-            this.BackColor = backgroundHover;
+            BackColor = backgroundHover;
             IsHover = true;
         }
 
         private void Mouse_Leave(object sender, EventArgs e)
         {
-            this.BackColor = background;
+            BackColor = background;
             IsHover = false;
         }
 
@@ -111,13 +107,13 @@ namespace MapForms.Controls
 
         private void Mouse_EnterShow(object sender, EventArgs e)
         {
-            this.panelShowButton.BackColor = backgroundHover;
+            panelShowButton.BackColor = backgroundHover;
             IsHover = true;
         }
 
         private void Mouse_LeaveShow(object sender, EventArgs e)
         {
-            this.panelShowButton.BackColor = background;
+            panelShowButton.BackColor = background;
             IsHover = false;
         }
 

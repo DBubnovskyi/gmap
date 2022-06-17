@@ -1,13 +1,6 @@
-﻿using MapForms.Controls;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using MapForms.Controls;
+using MapForms.Helpers;
 
 namespace MapForms
 {
@@ -26,6 +19,13 @@ namespace MapForms
             buttonMarker.MainClicked += SetActive;
             buttonRoute.MainClicked += SetActive;
             buttonControl1.MainClicked += SetActive;
+            mapControl.gMapControl.MouseMove += gMapControl_MouseMove;
+        }
+
+        private void gMapControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            var coordinates = MouseHelper.GetPointLatLng(e);
+            labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}";
         }
 
         private void SetActive(ButtonControl control)
@@ -34,12 +34,15 @@ namespace MapForms
             {
                 ButtonsDeactivate();
                 control.SetActive(true);
+                mapControl.ActiveMode = control.ActiveMode;
             }
             else
             {
                 ButtonsDeactivate();
+                mapControl.ActiveMode = ActiveMapMode.None;
             }
         }
+
         private void RightPanelProc(ButtonControl control)
         {
             if (control.IsActiveShow)
@@ -54,12 +57,14 @@ namespace MapForms
                 panelRight.Visible = control.IsActiveShow;
             }
         }
+
         private void ButtonsHidePanel()
         {
             buttonMarker.SetActiveShow(false);
             buttonRoute.SetActiveShow(false);
             buttonControl1.SetActiveShow(false);
         }
+
         private void ButtonsDeactivate()
         {
             buttonMarker.SetActive(false);

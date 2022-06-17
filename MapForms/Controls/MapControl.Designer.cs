@@ -99,7 +99,7 @@
 
         #endregion
 
-        private GMap.NET.WindowsForms.GMapControl gMapControl;
+        public GMap.NET.WindowsForms.GMapControl gMapControl;
         private System.Windows.Forms.Label labelCoordinates;
         private System.Windows.Forms.Label labelDistance;
     }

@@ -12,6 +12,7 @@ namespace MapForms.Helpers
     internal class MouseHelper
     {
         internal static GMapControl MapControl;
+
         internal static PointLatLng GetPointLatLng(MouseEventArgs e)
         {
             var lat = MapControl.FromLocalToLatLng(e.X, e.Y).Lat;

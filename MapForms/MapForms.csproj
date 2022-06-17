@@ -111,6 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="map.ico" />
+    <None Include="Resources\dot_blue.png" />
+    <None Include="Resources\dot_green.png" />
+    <None Include="Resources\dot_red.png" />
+    <None Include="Resources\dot_yellow.png" />
+    <None Include="Resources\dot_violet.png" />
+    <None Include="Resources\record.png" />
     <None Include="Resources\polygon.png" />
     <None Include="Resources\top-arrow-button.png" />
     <None Include="Resources\down-arrow-button.png" />
