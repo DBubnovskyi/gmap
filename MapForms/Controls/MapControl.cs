@@ -21,6 +21,7 @@ namespace MapForms.Controls
     public partial class MapControl : UserControl
     {
         public ActiveMapMode ActiveMode;
+        public Action<MouseEventArgs> MouseTriger;
 
         public MapControl()
         {
@@ -109,7 +110,7 @@ namespace MapForms.Controls
                     //marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                     marker.ToolTipText = "ARDUINO 1";
                     marker.ToolTip = new GMapBaloonToolTip(marker);
-                    marker.ToolTip.Stroke.Color = Color.FromArgb(0, 255, 255, 0);
+                    //marker.ToolTip.Stroke.Color = Color.FromArgb(0, 255, 255, 0);
                     marker.ToolTip.Font = new Font("Arial", 8, FontStyle.Regular);
                     marker.ToolTip.Fill = new SolidBrush(Color.Transparent);
                     marker.ToolTip.Foreground = new SolidBrush(Color.Red);
@@ -118,7 +119,7 @@ namespace MapForms.Controls
                     markers.Markers.Add(marker);
                     gMapControl.Overlays.Add(markers);
 
-                    CreateCircle2(coordinates, 10);
+                    //CreateCircle2(coordinates, 10);
                 }
             }
         }
@@ -134,102 +135,5 @@ namespace MapForms.Controls
                 gMapControl.Overlays.Clear();
             }
         }
-
-        private void CreateCircle(PointLatLng point, double radius, int segments = 360)
-        {
-            List<PointLatLng> gpollist = new List<PointLatLng>();
-
-            double seg = Math.PI * 2 / segments;
-
-            for (int i = 0; i < segments; i++)
-            {
-                double theta = seg * i;
-                double a = point.Lat + Math.Cos(theta) * radius;
-                double b = point.Lng + Math.Sin(theta) * radius;
-
-                PointLatLng gpoi = new PointLatLng(a, b);
-
-                gpollist.Add(gpoi);
-            }
-            GMapPolygon gpol = new GMapPolygon(gpollist, "pol");
-
-            markers.Polygons.Add(gpol);
-            gMapControl.Overlays.Add(polyOverlay);
-        }
-
-
-        private void CreateCircle2(PointLatLng point, double radius, int ColorIndex = 1)
-        {
-            int startAngle = 90;
-            int endAngle = 360;
-
-            List<PointLatLng> gpollist = new List<PointLatLng>();
-
-            if ((startAngle != 0 && endAngle != 360) || (startAngle != 360 && endAngle != 0))
-            {
-                gpollist.Add(point);
-            }
-            for (; startAngle < endAngle; startAngle++)
-            {
-                var target = FindPointAtDistanceFrom(point, startAngle * (Math.PI / 180), radius);
-                gpollist.Add(target);
-            }
-
-            GMapPolygon polygon = new GMapPolygon(gpollist, "Circle");
-            switch (ColorIndex)
-            {
-                case 1:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(80, Color.Red));
-                    break;
-                case 2:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(80, Color.Orange));
-                    break;
-                case 3:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(20, Color.Aqua));
-                    break;
-                default:
-                    MessageBox.Show("No search zone found!");
-                    break;
-            }
-
-            polygon.Stroke = new Pen(Color.Red, 1);
-            gMapControl.Overlays.Remove(markers1);
-            markers1.Polygons.Add(polygon);
-            gMapControl.Overlays.Add(markers1);
-        }
-
-        public static PointLatLng FindPointAtDistanceFrom(PointLatLng startPoint, double initialBearingRadians, double distanceKilometres)
-        {
-            const double radiusEarthKilometres = 6371.01;
-            var distRatio = distanceKilometres / radiusEarthKilometres;
-            var distRatioSine = Math.Sin(distRatio);
-            var distRatioCosine = Math.Cos(distRatio);
-
-            var startLatRad = DegreesToRadians(startPoint.Lat);
-            var startLonRad = DegreesToRadians(startPoint.Lng);
-
-            var startLatCos = Math.Cos(startLatRad);
-            var startLatSin = Math.Sin(startLatRad);
-
-            var endLatRads = Math.Asin((startLatSin * distRatioCosine) + (startLatCos * distRatioSine * Math.Cos(initialBearingRadians)));
-            var endLonRads = startLonRad + Math.Atan2(Math.Sin(initialBearingRadians) * distRatioSine * startLatCos, distRatioCosine - startLatSin * Math.Sin(endLatRads));
-
-            return new PointLatLng(RadiansToDegrees(endLatRads), RadiansToDegrees(endLonRads));
-        }
-
-        public static double DegreesToRadians(double degrees)
-        {
-            const double degToRadFactor = Math.PI / 180;
-            return degrees * degToRadFactor;
-        }
-
-        public static double RadiansToDegrees(double radians)
-        {
-            const double radToDegFactor = 180 / Math.PI;
-            return radians * radToDegFactor;
-        }
-
-
-
     }
 }

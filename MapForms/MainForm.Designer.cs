@@ -47,15 +47,17 @@ namespace MapForms
             this.labelCoordinates = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.panelLeft = new System.Windows.Forms.Panel();
-            this.panelRight = new System.Windows.Forms.Panel();
             this.buttonControl1 = new MapForms.Controls.ButtonControl();
             this.buttonRoute = new MapForms.Controls.ButtonControl();
             this.buttonMarker = new MapForms.Controls.ButtonControl();
             this.mapControl = new MapForms.Controls.MapControl();
+            this.panelLeft = new System.Windows.Forms.Panel();
+            this.panelRight = new System.Windows.Forms.Panel();
+            this.markerSettingsControl1 = new MapForms.Controls.MarkerSettingsControl();
             this.panelBottom.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panelRight.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
@@ -113,22 +115,6 @@ namespace MapForms
             this.panel5.Size = new System.Drawing.Size(442, 513);
             this.panel5.TabIndex = 10;
             // 
-            // panelLeft
-            // 
-            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeft.Location = new System.Drawing.Point(6, 6);
-            this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(300, 513);
-            this.panelLeft.TabIndex = 9;
-            // 
-            // panelRight
-            // 
-            this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelRight.Location = new System.Drawing.Point(748, 6);
-            this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(600, 513);
-            this.panelRight.TabIndex = 8;
-            // 
             // buttonControl1
             // 
             this.buttonControl1.ActiveMode = MapForms.Controls.ActiveMapMode.Poligon;
@@ -174,11 +160,38 @@ namespace MapForms
             this.mapControl.Size = new System.Drawing.Size(442, 513);
             this.mapControl.TabIndex = 3;
             // 
+            // panelLeft
+            // 
+            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelLeft.Location = new System.Drawing.Point(6, 6);
+            this.panelLeft.Name = "panelLeft";
+            this.panelLeft.Size = new System.Drawing.Size(300, 513);
+            this.panelLeft.TabIndex = 9;
+            // 
+            // panelRight
+            // 
+            this.panelRight.Controls.Add(this.markerSettingsControl1);
+            this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelRight.Location = new System.Drawing.Point(748, 6);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(600, 513);
+            this.panelRight.TabIndex = 8;
+            // 
+            // markerSettingsControl1
+            // 
+            this.markerSettingsControl1.BackColor = System.Drawing.Color.Transparent;
+            this.markerSettingsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.markerSettingsControl1.Location = new System.Drawing.Point(0, 0);
+            this.markerSettingsControl1.Name = "markerSettingsControl1";
+            this.markerSettingsControl1.Padding = new System.Windows.Forms.Padding(15);
+            this.markerSettingsControl1.Size = new System.Drawing.Size(600, 513);
+            this.markerSettingsControl1.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1354, 622);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelBottom);
@@ -191,6 +204,7 @@ namespace MapForms
             this.panelBottom.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
+            this.panelRight.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -208,6 +222,7 @@ namespace MapForms
         private System.Windows.Forms.Panel panelRight;
         private ButtonControl buttonRoute;
         private ButtonControl buttonControl1;
+        private MarkerSettingsControl markerSettingsControl1;
     }
 }
 
