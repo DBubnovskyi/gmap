@@ -47,10 +47,6 @@
             "GMap.NET.WinPresentation": {
               "target": "Package",
               "version": "[2.1.6, )"
-            },
-            "ModernWpfUI": {
-              "target": "Package",
-              "version": "[0.9.5, )"
             }
           },
           "imports": [

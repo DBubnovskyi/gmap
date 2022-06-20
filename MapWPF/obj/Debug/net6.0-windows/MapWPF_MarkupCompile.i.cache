@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\оллд\Documents\gmap\MapWPF\App.xaml
-11407045341
+51825124671
 
-6-811874168
-20474770498
-MainWindow.xaml;
+7979914966
+202-495432781
+Controls\Buttons\IconBtn.xaml;MainWindow.xaml;Resources\Icons\IconsCanvas.xaml;Styles\Colors.xaml;Styles\DarkTheme.xaml;
 
 True
 

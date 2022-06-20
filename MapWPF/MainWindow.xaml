@@ -7,6 +7,14 @@
         xmlns:local="clr-namespace:MapWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="1200" Width="1500">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Styles/DarkTheme.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/Icons/IconsCanvas.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />

@@ -10,7 +10,6 @@
   <ItemGroup>
     <PackageReference Include="GMap.NET.Core" Version="2.1.6" />
     <PackageReference Include="GMap.NET.WinPresentation" Version="2.1.6" />
-    <PackageReference Include="ModernWpfUI" Version="0.9.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="Controls\Menu\" />
   </ItemGroup>
 
 </Project>
