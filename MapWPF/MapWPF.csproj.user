@@ -21,10 +21,13 @@
     <Page Update="Resources\Icons\IconsCanvas.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\Buttons\SmallIconButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Colors.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Styles\DarkTheme.xaml">
+    <Page Update="Styles\LightTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

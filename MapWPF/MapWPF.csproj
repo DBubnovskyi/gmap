@@ -31,4 +31,11 @@
     <Folder Include="Controls\Menu\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Styles\Buttons\SmallIconButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

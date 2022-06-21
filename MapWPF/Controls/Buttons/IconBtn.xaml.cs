@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,19 @@ namespace MapWPF.Controls.Buttons
     /// </summary>
     public partial class IconBtn : UserControl
     {
-        public string Text { get; set; } = "";
+        public bool IsActive { get; set; } = true;
+
+        [Category("Employee Control")]
+        public string Text { get
+            {
+                return TextLabel.Content.ToString();
+            } 
+            set
+            { 
+                TextLabel.Content = value; 
+            } 
+        }
+
         public IconBtn()
         {
             InitializeComponent();

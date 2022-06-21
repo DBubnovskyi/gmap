@@ -25,6 +25,7 @@ namespace MapWPF
         {
             InitializeComponent();
             BottomGrid.Visibility = Visibility.Collapsed;
+            this.WindowState = WindowState.Maximized;
         }
         private void mapView_Loaded(object sender, RoutedEventArgs e)
         {

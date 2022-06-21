@@ -5,16 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         xmlns:local="clr-namespace:MapWPF"
+        xmlns:btn="clr-namespace:MapWPF.Controls.Buttons"
         mc:Ignorable="d"
         Title="MainWindow" Height="1200" Width="1500">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Styles/DarkTheme.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources/Icons/IconsCanvas.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -31,6 +24,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="400" />
             </Grid.ColumnDefinitions>
+            <btn:IconBtn Height="50" Width="50" Text="Test1" IsActive="True"/>
             <gmaps:GMapControl Grid.Column="1" x:Name="mapView" Loaded="mapView_Loaded"/>
         </Grid>
         <Grid Grid.Row="2" x:Name="BottomGrid" Background="DimGray"></Grid>
