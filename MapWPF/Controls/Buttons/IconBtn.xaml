@@ -6,23 +6,23 @@
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="50" Foreground="{x:Null}">
     <Grid>
-        <Button Style="{StaticResource B1}">
+        <Button Style="{StaticResource SmalIconBtnRounded}" MouseDown="Button_MouseClick">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="48"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="7" />
-                        <ColumnDefinition Width="34" />
-                        <ColumnDefinition Width="7" />
+                        <ColumnDefinition Width="7"/>
+                        <ColumnDefinition Width="34"/>
+                        <ColumnDefinition Width="7"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1">
-                        <ContentControl Content="{StaticResource IconClock}" />
+                        <ContentControl Content="{StaticResource IconClock}"/>
                     </Grid>
                 </Grid>
                 <Label x:Name="TextLabel">Label</Label>

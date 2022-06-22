@@ -3,6 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Buttons/SmallIconButton.xaml"/>
+        <ResourceDictionary Source="Buttons/ShowHideButtons.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

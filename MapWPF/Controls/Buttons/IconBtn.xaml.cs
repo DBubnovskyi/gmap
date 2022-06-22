@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace MapWPF.Controls.Buttons
 {
@@ -21,22 +10,29 @@ namespace MapWPF.Controls.Buttons
     /// </summary>
     public partial class IconBtn : UserControl
     {
-        public bool IsActive { get; set; } = true;
+        public bool IsActive
+        {
+            get => (bool)GetValue(IsActiveProperty);
+            set => SetValue(IsActiveProperty, value);
+        }
+        public static readonly DependencyProperty IsActiveProperty = DependencyProperty.RegisterAttached(
+            "IsActive", typeof(bool), typeof(IconBtn), new PropertyMetadata(false));
 
-        [Category("Employee Control")]
-        public string Text { get
-            {
-                return TextLabel.Content.ToString();
-            } 
-            set
-            { 
-                TextLabel.Content = value; 
-            } 
+        [Category("Content")]
+        public string Text
+        {
+            get => TextLabel.Content.ToString() ?? "";
+            set => TextLabel.Content = value;
         }
 
         public IconBtn()
         {
             InitializeComponent();
+        }
+
+        private void Button_MouseClick(object sender, MouseButtonEventArgs e)
+        {
+            IsActive = !IsActive;
         }
     }
 }

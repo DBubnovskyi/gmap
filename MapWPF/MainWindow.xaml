@@ -25,7 +25,9 @@
                 <ColumnDefinition Width="400" />
             </Grid.ColumnDefinitions>
             <btn:IconBtn Height="50" Width="50" Text="Test1" IsActive="True"/>
-            <gmaps:GMapControl Grid.Column="1" x:Name="mapView" Loaded="mapView_Loaded"/>
+            <gmaps:GMapControl Grid.Column="1" x:Name="mapView" Loaded="mapView_Loaded">
+                <btn:ShowHideButtons/>
+            </gmaps:GMapControl>
         </Grid>
         <Grid Grid.Row="2" x:Name="BottomGrid" Background="DimGray"></Grid>
     </Grid>

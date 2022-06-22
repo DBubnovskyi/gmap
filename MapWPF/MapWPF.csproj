@@ -8,11 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\Menu\**" />
+    <EmbeddedResource Remove="Controls\Menu\**" />
+    <None Remove="Controls\Menu\**" />
+    <Page Remove="Controls\Menu\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GMap.NET.Core" Version="2.1.6" />
     <PackageReference Include="GMap.NET.WinPresentation" Version="2.1.6" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\Buttons\ShowHideButtons.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -28,10 +38,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controls\Menu\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Page Update="Controls\Buttons\ShowHideButtons.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Buttons\ShowHideButtons.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Buttons\SmallIconButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

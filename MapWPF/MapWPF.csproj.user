@@ -12,6 +12,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Buttons\ShowHideButtons.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Buttons\IconBtn.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -19,6 +22,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Icons\IconsCanvas.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Buttons\ShowHideButtons.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\Buttons\SmallIconButton.xaml">

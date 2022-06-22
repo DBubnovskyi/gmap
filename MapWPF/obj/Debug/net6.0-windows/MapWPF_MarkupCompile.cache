@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\оллд\Documents\gmap\MapWPF\obj\Debug\net6.0-windows\
+D:\Projects\gmap\MapWPF\obj\Debug\net6.0-windows\
 MapWPF
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\оллд\Documents\gmap\MapWPF\App.xaml
-6-97330667
+D:\Projects\gmap\MapWPF\App.xaml
+8-792800881
 
-5-2124039191
-202-495432781
-Controls\Buttons\IconBtn.xaml;MainWindow.xaml;Resources\Icons\IconsCanvas.xaml;Styles\Buttons\SmallIconButton.xaml;Styles\Colors.xaml;Styles\LightTheme.xaml;
+6-80099724
+202289923859
+Controls\Buttons\IconBtn.xaml;Controls\Buttons\ShowHideButtons.xaml;MainWindow.xaml;Resources\Icons\IconsCanvas.xaml;Styles\Buttons\ShowHideButtons.xaml;Styles\Buttons\SmallIconButton.xaml;Styles\Colors.xaml;Styles\LightTheme.xaml;
 
 False
 
