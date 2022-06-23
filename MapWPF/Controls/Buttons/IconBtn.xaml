@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="MapWPF.Controls.Buttons.IconBtn"
+﻿<local:ButtonExtention x:Class="MapWPF.Controls.Buttons.IconBtn"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MapWPF.Extentions"
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="50" Foreground="{x:Null}">
     <Grid>
-        <Button Style="{StaticResource SmalIconBtnRounded}" MouseDown="Button_MouseClick">
+        <Button Style="{StaticResource SmalIconBtnRounded}" Click="Button_MouseClick">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
@@ -29,4 +30,4 @@
             </Grid>
         </Button>
     </Grid>
-</UserControl>
+</local:ButtonExtention>

@@ -99,3 +99,6 @@ D:\Projects\gmap\MapWPF\obj\Debug\net6.0-windows\MapWPF.genruntimeconfig.cache
 D:\Projects\gmap\MapWPF\obj\Debug\net6.0-windows\Controls\Buttons\ShowHideButtons.baml
 D:\Projects\gmap\MapWPF\obj\Debug\net6.0-windows\Controls\Buttons\ShowHideButtons.g.cs
 D:\Projects\gmap\MapWPF\obj\Debug\net6.0-windows\Styles\Buttons\ShowHideButtons.baml
+C:\Users\оллд\Documents\gmap\MapWPF\obj\Debug\net6.0-windows\Controls\Buttons\ShowHideButtons.baml
+C:\Users\оллд\Documents\gmap\MapWPF\obj\Debug\net6.0-windows\Controls\Buttons\ShowHideButtons.g.cs
+C:\Users\оллд\Documents\gmap\MapWPF\obj\Debug\net6.0-windows\Styles\Buttons\ShowHideButtons.baml

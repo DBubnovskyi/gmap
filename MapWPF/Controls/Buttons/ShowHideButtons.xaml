@@ -1,15 +1,16 @@
-﻿<UserControl x:Class="MapWPF.Controls.Buttons.ShowHideButtons"
+﻿<local:ButtonExtention x:Class="MapWPF.Controls.Buttons.ShowHideButtons"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MapWPF.Extentions"
              mc:Ignorable="d"
-             d:DesignHeight="50" d:DesignWidth="25" Foreground="{x:Null}">
+             d:DesignHeight="30" d:DesignWidth="20" Foreground="{x:Null}">
     <Grid>
-        <Button Style="{StaticResource ShowRight}" MouseDown="Button_MouseClick">
+        <Button Style="{StaticResource ShowRight}" Click="Button_MouseClick">
             <Grid>
-                <ContentControl Content="{StaticResource IconArrowRight}"/>
+                <ContentControl Content="{StaticResource IconArrowLeft}"/>
             </Grid>
         </Button>
     </Grid>
-</UserControl>
+</local:ButtonExtention>

@@ -53,7 +53,7 @@
             </Trigger>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource 
                 AncestorType=buttons:IconBtn, AncestorLevel=1}, Path=IsActive}" Value="True">
-                <Setter Property="Background" Value="{StaticResource Light_CCC_Brush}"/>
+                <Setter Property="Background" Value="{StaticResource Red_Brush}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
