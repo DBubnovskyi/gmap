@@ -9,7 +9,9 @@
     <Grid>
         <Button Style="{StaticResource ShowRight}" Click="Button_MouseClick">
             <Grid>
-                <ContentControl Content="{StaticResource IconArrowLeft}"/>
+                <ContentControl>
+                    <Image Width="15"/>
+                </ContentControl>
             </Grid>
         </Button>
     </Grid>

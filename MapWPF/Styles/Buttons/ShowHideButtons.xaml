@@ -8,14 +8,14 @@
 
     <Style x:Key="ShowRight" TargetType="{x:Type Button}">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Light_CCC_Brush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Gray_777_Brush}"/>
         <Setter Property="Background" Value="{StaticResource Light_EEE_Brush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="3,0 0,3" 
                             Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="1,1,0,1" >
                         <ContentPresenter x:Name="contentPresenter" 
                                           ContentTemplate="{TemplateBinding ContentTemplate}" 
@@ -28,22 +28,13 @@
             </Setter.Value>
         </Setter>
         <Style.Resources>
-            <Style TargetType="{x:Type ContentControl}">
-                <!--<Setter Property="Content" Value="{StaticResource IconArrowRight}"/>-->
-                <!--<Style.Triggers>
+            <Style TargetType="{x:Type Image}">
+                <Setter Property="Source" Value="{DynamicResource Skippy}"/>
+
+                <Style.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource 
                 AncestorType=buttons:ShowHideButtons, AncestorLevel=1}, Path=IsActive}" Value="True">
-                        <Setter Property="Content" Value="{StaticResource IconArrowLeft}"/>
-                    </DataTrigger>
-                </Style.Triggers>-->
-            </Style>
-            <Style TargetType="{x:Type Path}">
-                <Setter Property="Fill" Value="{StaticResource Gray_444_Brush}"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button,
-                        AncestorLevel=1}, 
-                        Path=IsMouseOver}" Value="True" >
-                        <Setter Property="Fill" Value="{StaticResource Gray_333_Brush}"/>
+                        <Setter Property="Source" Value="{DynamicResource Skippy1}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -57,6 +48,46 @@
                 AncestorType=buttons:ShowHideButtons, AncestorLevel=1}, Path=IsActive}" Value="True">
                 <Setter Property="Background" Value="{StaticResource Red_Brush}"/>
             </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ShowRightV2" TargetType="{x:Type Button}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Gray_777_Brush}"/>
+        <Setter Property="Background" Value="{StaticResource Light_EEE_Brush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="3,0 0,3" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="1,1,0,1" >
+                        <ContentPresenter x:Name="contentPresenter" 
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                          Content="{TemplateBinding Content}" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          Margin="{TemplateBinding Padding}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Resources>
+            <Style TargetType="{x:Type ContentControl}">
+                <Setter Property="Content" Value="{DynamicResource IconArrowLeft}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource 
+                AncestorType=buttons:ShowHideButtons, AncestorLevel=1}, Path=IsActive}" Value="True">
+                        <Setter Property="Content" Value="{DynamicResource IconArrowRight}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource LightBlue_Brush}"/>
+                <Setter Property="Background" Value="{StaticResource Light_DDD_Brush}"/>
+            </Trigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>
