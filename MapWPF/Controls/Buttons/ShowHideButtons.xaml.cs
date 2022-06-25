@@ -21,6 +21,16 @@ namespace MapWPF.Controls.Buttons
         private void Button_MouseClick(object sender, RoutedEventArgs e)
         {
             IsActive = !IsActive;
+            if (IsActive)
+            {
+                ArrowLeft.Visibility = Visibility.Collapsed;
+                ArrowRight.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ArrowRight.Visibility = Visibility.Collapsed;
+                ArrowLeft.Visibility = Visibility.Visible;
+            }
             IsActiveChanged?.Invoke(IsActive);
         }
     }

@@ -73,6 +73,15 @@
             </Setter.Value>
         </Setter>
         <Style.Resources>
+            <Style TargetType="{x:Type Path}">
+                <Setter Property="Fill" Value="{StaticResource Gray_444_Brush}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button,AncestorLevel=1}, 
+                        Path=IsMouseOver}" Value="True" >
+                        <Setter Property="Fill" Value="{StaticResource Gray_333_Brush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
             <Style TargetType="{x:Type ContentControl}">
                 <Setter Property="Content" Value="{DynamicResource IconArrowLeft}"/>
                 <Style.Triggers>
@@ -88,6 +97,53 @@
                 <Setter Property="BorderBrush" Value="{StaticResource LightBlue_Brush}"/>
                 <Setter Property="Background" Value="{StaticResource Light_DDD_Brush}"/>
             </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="ShowRightV3" TargetType="{x:Type Button}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Gray_777_Brush}"/>
+        <Setter Property="Background" Value="{StaticResource Light_EEE_Brush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="3,0 0,3" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="1,1,0,1" >
+                        <ContentPresenter x:Name="contentPresenter" 
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                          Content="{TemplateBinding Content}" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          Margin="{TemplateBinding Padding}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Resources>
+            <Style TargetType="{x:Type Path}">
+                <Setter Property="Fill" Value="{StaticResource Gray_444_Brush}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button,AncestorLevel=1}, 
+                        Path=IsMouseOver}" Value="True" >
+                        <Setter Property="Fill" Value="{StaticResource Gray_333_Brush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type ContentControl}">
+                <Setter Property="Content" Value="{DynamicResource IconArrowLeft}"/>
+            </Style>
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource LightBlue_Brush}"/>
+                <Setter Property="Background" Value="{StaticResource Light_DDD_Brush}"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource 
+                AncestorType=buttons:IconBtn, AncestorLevel=1}, Path=IsActive}" Value="True">
+                <Setter Property="Background" Value="{StaticResource Red_Brush}"/>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>

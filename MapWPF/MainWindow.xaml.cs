@@ -42,6 +42,19 @@ namespace MapWPF
             mapView.CanDragMap = true;
             // lets the user drag the map with the left mouse button
             mapView.DragButton = MouseButton.Left;
+            ToggleRight.IsActiveChanged += ShowHideButtons_Click;
+        }
+
+        private void ShowHideButtons_Click(bool isActive)
+        {
+            if (isActive)
+            {
+                RightPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                RightPanel.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

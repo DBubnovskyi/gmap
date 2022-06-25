@@ -6,13 +6,15 @@
              xmlns:local="clr-namespace:MapWPF.Extentions"
              mc:Ignorable="d"
              d:DesignHeight="30" d:DesignWidth="20" Foreground="{x:Null}">
-    <Grid>
-        <Button Style="{StaticResource ShowRight}" Click="Button_MouseClick">
+    <Button Style="{StaticResource ShowRightV3}" 
+            Click="Button_MouseClick" 
+            HorizontalAlignment="Center" 
+            Width="15">
+        <ContentControl>
             <Grid>
-                <ContentControl>
-                    <Image Width="15"/>
-                </ContentControl>
+                <ContentControl x:Name="ArrowRight" Content="{StaticResource IconArrowRight}"/>
+                <ContentControl Visibility="Hidden" x:Name="ArrowLeft" Content="{StaticResource IconArrowLeft}"/>
             </Grid>
-        </Button>
-    </Grid>
+        </ContentControl>
+    </Button>
 </local:ButtonExtention>
