@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using MapForms.Controls;
@@ -13,7 +14,10 @@ namespace MapForms.Controls
         private Color HighlightActive = SystemColors.MenuHighlight;
 
         public ActiveMapMode ActiveMode { get; set; } = ActiveMapMode.None;
+
+        [Category("Content")]
         public enum IconType {
+            none,
             marker,
             route,
             polygon
@@ -23,6 +27,7 @@ namespace MapForms.Controls
             get => _buttonIcon;
             set {
                 _buttonIcon = value;
+                pictureIcon.Visible = true;
                 switch (_buttonIcon)
                 {
                     case IconType.marker:
@@ -35,6 +40,7 @@ namespace MapForms.Controls
                         pictureIcon.Image = Properties.Resources.polygon;
                         break;
                     default:
+                        pictureIcon.Visible = false;
                         break;
                 }
             }
@@ -43,6 +49,7 @@ namespace MapForms.Controls
         public bool IsActiveShow { get; private set; } = false;
         public bool IsHover { get; private set; } = false;
         private string _elementText;
+        [Category("Content")]
         public string ElementText { 
             get
             {

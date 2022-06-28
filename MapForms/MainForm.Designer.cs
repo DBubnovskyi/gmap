@@ -47,17 +47,14 @@ namespace MapForms
             this.labelCoordinates = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.buttonControl1 = new MapForms.Controls.ButtonControl();
+            this.panelLeft = new System.Windows.Forms.Panel();
+            this.panelRight = new System.Windows.Forms.Panel();
             this.buttonRoute = new MapForms.Controls.ButtonControl();
             this.buttonMarker = new MapForms.Controls.ButtonControl();
             this.mapControl = new MapForms.Controls.MapControl();
-            this.panelLeft = new System.Windows.Forms.Panel();
-            this.panelRight = new System.Windows.Forms.Panel();
-            this.markerSettingsControl1 = new MapForms.Controls.MarkerSettingsControl();
             this.panelBottom.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panelRight.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
@@ -105,7 +102,6 @@ namespace MapForms
             // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.buttonControl1);
             this.panel5.Controls.Add(this.buttonRoute);
             this.panel5.Controls.Add(this.buttonMarker);
             this.panel5.Controls.Add(this.mapControl);
@@ -115,17 +111,21 @@ namespace MapForms
             this.panel5.Size = new System.Drawing.Size(442, 513);
             this.panel5.TabIndex = 10;
             // 
-            // buttonControl1
+            // panelLeft
             // 
-            this.buttonControl1.ActiveMode = MapForms.Controls.ActiveMapMode.Poligon;
-            this.buttonControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.buttonControl1.ButtonIcon = MapForms.Controls.ButtonControl.IconType.polygon;
-            this.buttonControl1.ElementText = "Полігони";
-            this.buttonControl1.Location = new System.Drawing.Point(201, 113);
-            this.buttonControl1.Name = "buttonControl1";
-            this.buttonControl1.Size = new System.Drawing.Size(235, 49);
-            this.buttonControl1.TabIndex = 6;
+            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelLeft.Location = new System.Drawing.Point(6, 6);
+            this.panelLeft.Name = "panelLeft";
+            this.panelLeft.Size = new System.Drawing.Size(300, 513);
+            this.panelLeft.TabIndex = 9;
+            // 
+            // panelRight
+            // 
+            this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelRight.Location = new System.Drawing.Point(748, 6);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(600, 513);
+            this.panelRight.TabIndex = 8;
             // 
             // buttonRoute
             // 
@@ -133,7 +133,7 @@ namespace MapForms
             this.buttonRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonRoute.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.buttonRoute.ButtonIcon = MapForms.Controls.ButtonControl.IconType.route;
-            this.buttonRoute.ElementText = "Маршрути";
+            this.buttonRoute.ElementText = "Траекторія";
             this.buttonRoute.Location = new System.Drawing.Point(201, 58);
             this.buttonRoute.Name = "buttonRoute";
             this.buttonRoute.Size = new System.Drawing.Size(235, 49);
@@ -145,7 +145,7 @@ namespace MapForms
             this.buttonMarker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonMarker.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.buttonMarker.ButtonIcon = MapForms.Controls.ButtonControl.IconType.marker;
-            this.buttonMarker.ElementText = "Маркери";
+            this.buttonMarker.ElementText = "Цілі";
             this.buttonMarker.Location = new System.Drawing.Point(201, 3);
             this.buttonMarker.Name = "buttonMarker";
             this.buttonMarker.Size = new System.Drawing.Size(235, 49);
@@ -159,33 +159,6 @@ namespace MapForms
             this.mapControl.Name = "mapControl";
             this.mapControl.Size = new System.Drawing.Size(442, 513);
             this.mapControl.TabIndex = 3;
-            // 
-            // panelLeft
-            // 
-            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeft.Location = new System.Drawing.Point(6, 6);
-            this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(300, 513);
-            this.panelLeft.TabIndex = 9;
-            // 
-            // panelRight
-            // 
-            this.panelRight.Controls.Add(this.markerSettingsControl1);
-            this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelRight.Location = new System.Drawing.Point(748, 6);
-            this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(600, 513);
-            this.panelRight.TabIndex = 8;
-            // 
-            // markerSettingsControl1
-            // 
-            this.markerSettingsControl1.BackColor = System.Drawing.Color.Transparent;
-            this.markerSettingsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.markerSettingsControl1.Location = new System.Drawing.Point(0, 0);
-            this.markerSettingsControl1.Name = "markerSettingsControl1";
-            this.markerSettingsControl1.Padding = new System.Windows.Forms.Padding(15);
-            this.markerSettingsControl1.Size = new System.Drawing.Size(600, 513);
-            this.markerSettingsControl1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -204,7 +177,6 @@ namespace MapForms
             this.panelBottom.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
-            this.panelRight.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -221,8 +193,6 @@ namespace MapForms
         private System.Windows.Forms.Panel panelLeft;
         private System.Windows.Forms.Panel panelRight;
         private ButtonControl buttonRoute;
-        private ButtonControl buttonControl1;
-        private MarkerSettingsControl markerSettingsControl1;
     }
 }
 

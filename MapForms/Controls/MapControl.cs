@@ -6,6 +6,7 @@ using MapForms.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Numerics;
 using System.Windows.Forms;
 
 namespace MapForms.Controls
@@ -28,7 +29,6 @@ namespace MapForms.Controls
             InitializeComponent();
             gMapControl.MapProvider = BingMapProvider.Instance;
             GMaps.Instance.Mode = AccessMode.ServerOnly;
-            gMapControl.SetPositionByKeywords("Kyiv, Ukrane");
             gMapControl.MapProvider = GMapProviders.GoogleMap;
             gMapControl.Position = new PointLatLng(48.35, 33.35);
             gMapControl.MinZoom = 0;
@@ -38,12 +38,14 @@ namespace MapForms.Controls
             //gMapControl.MouseMove += gMapControl_MouseMove;
             gMapControl.MouseUp += gMapControl_MouseClick;
             gMapControl.KeyDown += gMapControl_KeyClick;
-            MouseHelper.MapControl = gMapControl;
+            gMapControl.Overlays.Add(markers);
+            gMapControl.Overlays.Add(polyOverlay);
+            //InitTimer();
         }
 
         private void gMapControl_MouseMove(object sender, MouseEventArgs e)
         {
-            var coordinates = MouseHelper.GetPointLatLng(e);
+            var coordinates = MouseHelper.GetPointLatLng(gMapControl ,e);
             labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}";
 
             var mouseY = e.Location.Y;
@@ -53,7 +55,6 @@ namespace MapForms.Controls
 
         GMapOverlay routes = new GMapOverlay("gMapControl");
         GMapOverlay markers = new GMapOverlay("markers");
-        GMapOverlay markers1 = new GMapOverlay("markers1");
         GMapOverlay polyOverlay = new GMapOverlay("polygons");
         List<PointLatLng> points = new List<PointLatLng>();
         List<PointLatLng> list = new List<PointLatLng>();
@@ -64,63 +65,82 @@ namespace MapForms.Controls
                 return;
             }
 
-            var coordinates = MouseHelper.GetPointLatLng(e);
-            if (e.Button == MouseButtons.Left) 
+            var coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
+            if (e.Button == MouseButtons.Left)
             {
-                if (ActiveMode == ActiveMapMode.Route)
-                {
-                    gMapControl.Overlays.Add(routes);
-                    list.Add(coordinates);
-                    GMapRoute r = new GMapRoute(list, "myroute"); // object for routing
-                    r.Stroke.Width = 5;
-                    r.Stroke.Color = Color.Red;
-                    labelDistance.Text = $"{Math.Round(r.Distance, 3)} km";
-                    routes.Routes.Add(r);
-                }
-                else if (ActiveMode == ActiveMapMode.Poligon)
-                {
-                    polyOverlay.Polygons.Clear();
-                    gMapControl.Overlays.Remove(polyOverlay);
-                    gMapControl.Overlays.Add(polyOverlay);
-                    points.Add(coordinates);
-                    GMapPolygon polygon = new GMapPolygon(points, "mypolygon")
-                    {
-                        Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
-                        Stroke = new Pen(Color.Red, 1)
-                    };
-                    polyOverlay.Polygons.Add(polygon);
+                var m = new MarkerHelper().AddMarker(coordinates);
+                m.Offset = new Point(-12, -12);
 
-                    GMapMarker marker = new GMap.NET.WindowsForms.Markers.GMarkerGoogle(
-                        coordinates, Properties.Resources.dot_red);
-                    //marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                    marker.ToolTipText = "ARDUINO 1";
-                    marker.ToolTip = new GMapBaloonToolTip(marker);
-                    marker.ToolTip.Stroke.Color = Color.FromArgb(0, 255, 255, 0);
-                    marker.ToolTip.Font = new Font("Arial", 8, FontStyle.Regular);
-                    marker.ToolTip.Fill = new SolidBrush(Color.Transparent);
-                    marker.ToolTip.Offset = new Point(4, -4);
-                    marker.Offset = new Point(-12, -12);
-                    markers.Markers.Add(marker);
-                    gMapControl.Overlays.Add(markers);
-                }
-                else if (ActiveMode == ActiveMapMode.Marcer)
+                if(markers.Markers.Count == 2)
                 {
-                    GMapMarker marker = new GMap.NET.WindowsForms.Markers.GMarkerGoogle(
-                        coordinates, Properties.Resources.dot_blue);
-                    //marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                    marker.ToolTipText = "ARDUINO 1";
-                    marker.ToolTip = new GMapBaloonToolTip(marker);
-                    //marker.ToolTip.Stroke.Color = Color.FromArgb(0, 255, 255, 0);
-                    marker.ToolTip.Font = new Font("Arial", 8, FontStyle.Regular);
-                    marker.ToolTip.Fill = new SolidBrush(Color.Transparent);
-                    marker.ToolTip.Foreground = new SolidBrush(Color.Red);
-                    marker.ToolTip.Offset = new Point(8,-8);
-                    marker.Offset = new Point(-12, -12);
-                    markers.Markers.Add(marker);
-                    gMapControl.Overlays.Add(markers);
+                    var Vec_P1 = markers.Markers[0].Position;
+                    var Vec_P2 = markers.Markers[1].Position;
 
-                    //CreateCircle2(coordinates, 10);
+                    const float radiusEarthKilometres = 6371.01f;
+                    float distRatio = 10 / radiusEarthKilometres;
+                    Vector2 a = new Vector2((float)Vec_P1.Lat, (float)Vec_P1.Lng);
+                    Vector2 b = new Vector2((float)Vec_P2.Lat, (float)Vec_P2.Lng);
+                    float distance = 0.5f; // From 0.0 to 1.0.
+                    Vector2 c = (a - b) * distance + a;
+                    var Vec_x = new PointLatLng(c.X, c.Y);
+
+                    markers.Markers.Add(new MarkerHelper().AddMarker(Vec_x));
                 }
+                else if(markers.Markers.Count > 2)
+                {
+                    markers.Markers.Clear();
+
+                }
+                markers.Markers.Add(m);
+
+                //if (ActiveMode == ActiveMapMode.Route)
+                //{
+                //    gMapControl.Overlays.Add(routes);
+                //    list.Add(coordinates);
+                //    GMapRoute r = new GMapRoute(list, "myroute"); // object for routing
+                //    r.Stroke.Width = 5;
+                //    r.Stroke.Color = Color.Red;
+                //    labelDistance.Text = $"{Math.Round(r.Distance, 3)} km";
+                //    routes.Routes.Add(r);
+
+
+                //    var m = new MarkerHelper().AddMarker(coordinates);
+                //    m.Offset = new Point(-12, -12);
+                //    markers.Markers.Add(m);
+                //}
+                //else if (ActiveMode == ActiveMapMode.Poligon)
+                //{
+                //    polyOverlay.Polygons.Clear();
+                //    points.Add(coordinates);
+                //    GMapPolygon polygon = new GMapPolygon(points, "mypolygon")
+                //    {
+                //        Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
+                //        Stroke = new Pen(Color.Red, 1)
+                //    };
+                //    polyOverlay.Polygons.Add(polygon);
+
+                //    var m = new MarkerHelper().AddMarker(coordinates);
+                //    m.Offset = new Point(-12, -12);
+                //    markers.Markers.Add(m);
+                //}
+                //else if (ActiveMode == ActiveMapMode.Marcer)
+                //{
+                //    //GMapMarker marker = new GMap.NET.WindowsForms.Markers.GMarkerGoogle(
+                //    //    coordinates, Properties.Resources.dot_blue);
+                //    //marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                //    ////marker.ToolTipText = "ARDUINO 1";
+                //    //marker.ToolTip = new GMapBaloonToolTip(marker);
+                //    ////marker.ToolTip.Stroke.Color = Color.FromArgb(0, 255, 255, 0);
+                //    //marker.ToolTip.Font = new Font("Arial", 8, FontStyle.Regular);
+                //    //marker.ToolTip.Fill = new SolidBrush(Color.Transparent);
+                //    //marker.ToolTip.Foreground = new SolidBrush(Color.Red);
+                //    //marker.ToolTip.Offset = new Point(8, -8);
+                //    //marker.Offset = new Point(-12, -12);
+
+                //    var m = new MarkerHelper().AddMarker(coordinates);
+                //    m.Offset = new Point(-12, -12);
+                //    markers.Markers.Add(m);
+                //}
             }
         }
         private void gMapControl_KeyClick(object sender, KeyEventArgs e)
@@ -133,6 +153,26 @@ namespace MapForms.Controls
                 routes.Routes.Clear();
                 polyOverlay.Polygons.Clear();
                 gMapControl.Overlays.Clear();
+            }
+        }
+        private Timer timer1;
+        public void InitTimer()
+        {
+            timer1 = new Timer();
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Interval = 1000; // in miliseconds
+            timer1.Start();
+        }
+
+        int s = 10;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            s++;
+            foreach(var m in markers.Markers)
+            {
+                polyOverlay.Polygons.Clear();
+                var poligon = PoliginCirculeHelper.CreateCircle(m.Position, s);
+                polyOverlay.Polygons.Add(poligon);
             }
         }
     }

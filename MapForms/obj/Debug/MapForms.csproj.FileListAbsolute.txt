@@ -75,7 +75,6 @@ C:\Users\User\Documents\GitHub\gmap\MapForms\obj\Debug\MapForms.csproj.CoreCompi
 C:\Users\User\Documents\GitHub\gmap\MapForms\obj\Debug\MapForms.csproj.CopyComplete
 C:\Users\User\Documents\GitHub\gmap\MapForms\obj\Debug\MapForms.exe
 C:\Users\User\Documents\GitHub\gmap\MapForms\obj\Debug\MapForms.pdb
-C:\Users\оллд\Documents\gmap\MapForms\obj\Debug\MapForms.Controls.MarkerSettingsControl.resources
 D:\Projects\gmap\MapForms\bin\Debug\MapForms.exe.config
 D:\Projects\gmap\MapForms\bin\Debug\MapForms.exe
 D:\Projects\gmap\MapForms\bin\Debug\MapForms.pdb

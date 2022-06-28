@@ -12,8 +12,8 @@
             Width="15">
         <ContentControl>
             <Grid>
-                <ContentControl x:Name="ArrowRight" Content="{StaticResource IconArrowRight}"/>
-                <ContentControl Visibility="Hidden" x:Name="ArrowLeft" Content="{StaticResource IconArrowLeft}"/>
+                <ContentControl Visibility="Hidden" x:Name="ArrowRight" Content="{StaticResource IconArrowRight}"/>
+                <ContentControl x:Name="ArrowLeft" Content="{StaticResource IconArrowLeft}"/>
             </Grid>
         </ContentControl>
     </Button>

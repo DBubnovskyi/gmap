@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace MapForms.Helpers
 {
-    internal class PoliginCirculeHelper
+    internal static class PoliginCirculeHelper
     {
-        private void CreateCircle2(PointLatLng point, double radius, int ColorIndex = 1)
+        public static GMapPolygon CreateCircle(PointLatLng point, double radius, int ColorIndex = 1)
         {
-            int startAngle = 90;
+            int startAngle = 0;
             int endAngle = 360;
 
             List<PointLatLng> gpollist = new List<PointLatLng>();
 
-            if ((startAngle != 0 && endAngle != 360) || (startAngle != 360 && endAngle != 0))
+            if ((startAngle != 0 && endAngle != 360))
             {
                 gpollist.Add(point);
             }
@@ -45,9 +45,7 @@ namespace MapForms.Helpers
             }
 
             polygon.Stroke = new Pen(Color.Red, 1);
-            //gMapControl.Overlays.Remove(markers1);
-            //markers1.Polygons.Add(polygon);
-            //gMapControl.Overlays.Add(markers1);
+            return polygon;
         }
 
         public static PointLatLng FindPointAtDistanceFrom(PointLatLng startPoint, double initialBearingRadians, double distanceKilometres)

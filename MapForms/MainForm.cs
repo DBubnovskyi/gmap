@@ -15,16 +15,14 @@ namespace MapForms
             this.panelLeft.Visible = false;
             buttonMarker.ShowClicked += RightPanelProc;
             buttonRoute.ShowClicked += RightPanelProc;
-            buttonControl1.ShowClicked += RightPanelProc;
             buttonMarker.MainClicked += SetActive;
             buttonRoute.MainClicked += SetActive;
-            buttonControl1.MainClicked += SetActive;
             mapControl.gMapControl.MouseMove += gMapControl_MouseMove;
         }
 
         private void gMapControl_MouseMove(object sender, MouseEventArgs e)
         {
-            var coordinates = MouseHelper.GetPointLatLng(e);
+            var coordinates = MouseHelper.GetPointLatLng(mapControl.gMapControl, e);
             labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}";
         }
 
@@ -62,14 +60,12 @@ namespace MapForms
         {
             buttonMarker.SetActiveShow(false);
             buttonRoute.SetActiveShow(false);
-            buttonControl1.SetActiveShow(false);
         }
 
         private void ButtonsDeactivate()
         {
             buttonMarker.SetActive(false);
             buttonRoute.SetActive(false);
-            buttonControl1.SetActive(false);
         }
     }
 }

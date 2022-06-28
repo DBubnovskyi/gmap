@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GMap.NET;
 using MapWPF.Controls.Buttons;
 
 namespace MapWPF
@@ -26,18 +27,20 @@ namespace MapWPF
             InitializeComponent();
             BottomGrid.Visibility = Visibility.Collapsed;
             this.WindowState = WindowState.Maximized;
+            RightPanel1.Width = new GridLength(0);
         }
         private void mapView_Loaded(object sender, RoutedEventArgs e)
         {
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
             // choose your provider here
             mapView.MapProvider = GMap.NET.MapProviders.OpenStreetMapProvider.Instance;
+            mapView.Position = new PointLatLng(48.35, 33.35);
             mapView.MinZoom = 2;
-            mapView.MaxZoom = 17;
+            mapView.MaxZoom = 22;
             // whole world zoom
-            mapView.Zoom = 2;
+            mapView.Zoom = 6;
             // lets the map use the mousewheel to zoom
-            mapView.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            //mapView.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
             // lets the user drag the map
             mapView.CanDragMap = true;
             // lets the user drag the map with the left mouse button
@@ -50,11 +53,36 @@ namespace MapWPF
             if (isActive)
             {
                 RightPanel.Visibility = Visibility.Visible;
+                RightPanel1.Width = new GridLength(400);
             }
             else
             {
                 RightPanel.Visibility = Visibility.Collapsed;
+                RightPanel1.Width = new GridLength(0);
             }
+        }
+        
+        void Window_ManipulationStarting(object sender, ManipulationStartingEventArgs e)
+        {
+            e.ManipulationContainer = this;
+            e.Handled = true;
+        }
+
+        void Window_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        {
+            // uses the scaling value to supply the Zoom amount
+            mapView.Zoom = e.DeltaManipulation.Scale.X;
+            e.Handled = true;
+        }
+
+        void Window_InertiaStarting(
+            object sender, ManipulationInertiaStartingEventArgs e)
+        {
+            // Decrease the velocity of the Rectangle's resizing by 
+            // 0.1 inches per second every second.
+            // (0.1 inches * 96 pixels per inch / (1000ms^2)
+            e.ExpansionBehavior.DesiredDeceleration = 0.1 * 96 / (1000.0 * 1000.0);
+            e.Handled = true;
         }
     }
 }

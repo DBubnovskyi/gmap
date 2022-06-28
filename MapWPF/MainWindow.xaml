@@ -7,7 +7,10 @@
         xmlns:local="clr-namespace:MapWPF"
         xmlns:btn="clr-namespace:MapWPF.Controls.Buttons"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1200" Width="1500">
+        Title="MainWindow" Height="1200" Width="1500"
+        ManipulationStarting="Window_ManipulationStarting"
+        ManipulationDelta="Window_ManipulationDelta"
+        ManipulationInertiaStarting="Window_InertiaStarting">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -20,15 +23,22 @@
         <Grid Grid.Row="0" x:Name="TopGrid" Background="AliceBlue"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400"  x:Name="PanelRight"/>
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" x:Name="RightPanel1"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <btn:IconBtn Height="50" Width="50" Text="Test1"/>
             </Grid>
             <Grid Grid.Column="1">
-                <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" HorizontalAlignment="Left" Width="700"/>
+                <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" 
+                                   HorizontalAlignment="Stretch">
+                    <gmaps:GMapControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas IsManipulationEnabled="True" />
+                        </ItemsPanelTemplate>
+                    </gmaps:GMapControl.ItemsPanel>
+                </gmaps:GMapControl>
 
                 <btn:ShowHideButtons x:Name="ToggleRight" Height="30" Width="20" 
                                  HorizontalAlignment="Right" 
