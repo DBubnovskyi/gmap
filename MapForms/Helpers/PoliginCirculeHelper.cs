@@ -11,20 +11,18 @@ namespace MapForms.Helpers
 {
     internal static class PoliginCirculeHelper
     {
-        public static GMapPolygon CreateCircle(PointLatLng point, double radius, int ColorIndex = 1)
+        public static GMapPolygon CreateCircle(PointLatLng point, double radius,
+            int ColorIndex = 1, int startAngle = 0, int endAngle = 360)
         {
-            int startAngle = 0;
-            int endAngle = 360;
-
             List<PointLatLng> gpollist = new List<PointLatLng>();
 
-            if ((startAngle != 0 && endAngle != 360))
+            if (startAngle != 0 && endAngle != 360)
             {
                 gpollist.Add(point);
             }
             for (; startAngle < endAngle; startAngle++)
             {
-                var target = FindPointAtDistanceFrom(point, startAngle * (Math.PI / 180), radius);
+                PointLatLng target = FindPointAtDistanceFrom(point, startAngle * (Math.PI / 180), radius);
                 gpollist.Add(target);
             }
 
@@ -51,18 +49,18 @@ namespace MapForms.Helpers
         public static PointLatLng FindPointAtDistanceFrom(PointLatLng startPoint, double initialBearingRadians, double distanceKilometres)
         {
             const double radiusEarthKilometres = 6371.01;
-            var distRatio = distanceKilometres / radiusEarthKilometres;
-            var distRatioSine = Math.Sin(distRatio);
-            var distRatioCosine = Math.Cos(distRatio);
+            double distRatio = distanceKilometres / radiusEarthKilometres;
+            double distRatioSine = Math.Sin(distRatio);
+            double distRatioCosine = Math.Cos(distRatio);
 
-            var startLatRad = DegreesToRadians(startPoint.Lat);
-            var startLonRad = DegreesToRadians(startPoint.Lng);
+            double startLatRad = DegreesToRadians(startPoint.Lat);
+            double startLonRad = DegreesToRadians(startPoint.Lng);
 
-            var startLatCos = Math.Cos(startLatRad);
-            var startLatSin = Math.Sin(startLatRad);
+            double startLatCos = Math.Cos(startLatRad);
+            double startLatSin = Math.Sin(startLatRad);
 
-            var endLatRads = Math.Asin((startLatSin * distRatioCosine) + (startLatCos * distRatioSine * Math.Cos(initialBearingRadians)));
-            var endLonRads = startLonRad + Math.Atan2(Math.Sin(initialBearingRadians) * distRatioSine * startLatCos, distRatioCosine - startLatSin * Math.Sin(endLatRads));
+            double endLatRads = Math.Asin((startLatSin * distRatioCosine) + (startLatCos * distRatioSine * Math.Cos(initialBearingRadians)));
+            double endLonRads = startLonRad + Math.Atan2(Math.Sin(initialBearingRadians) * distRatioSine * startLatCos, distRatioCosine - (startLatSin * Math.Sin(endLatRads)));
 
             return new PointLatLng(RadiansToDegrees(endLatRads), RadiansToDegrees(endLonRads));
         }

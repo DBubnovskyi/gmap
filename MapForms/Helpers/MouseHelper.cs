@@ -1,10 +1,5 @@
 ﻿using GMap.NET;
 using GMap.NET.WindowsForms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MapForms.Helpers
@@ -13,8 +8,8 @@ namespace MapForms.Helpers
     {
         internal static PointLatLng GetPointLatLng(GMapControl MapControl, MouseEventArgs e)
         {
-            var lat = MapControl.FromLocalToLatLng(e.X, e.Y).Lat;
-            var lng = MapControl.FromLocalToLatLng(e.X, e.Y).Lng;
+            double lat = MapControl.FromLocalToLatLng(e.X, e.Y).Lat;
+            double lng = MapControl.FromLocalToLatLng(e.X, e.Y).Lng;
             return new PointLatLng(lat, lng);
         }
     }

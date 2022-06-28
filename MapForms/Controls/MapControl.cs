@@ -73,18 +73,25 @@ namespace MapForms.Controls
 
                 if(markers.Markers.Count == 2)
                 {
-                    var Vec_P1 = markers.Markers[0].Position;
-                    var Vec_P2 = markers.Markers[1].Position;
+                    PointLatLng Vec_P1 = markers.Markers[0].Position;
+                    PointLatLng Vec_P2 = markers.Markers[1].Position;
 
-                    const float radiusEarthKilometres = 6371.01f;
-                    float distRatio = 10 / radiusEarthKilometres;
-                    Vector2 a = new Vector2((float)Vec_P1.Lat, (float)Vec_P1.Lng);
-                    Vector2 b = new Vector2((float)Vec_P2.Lat, (float)Vec_P2.Lng);
-                    float distance = 0.5f; // From 0.0 to 1.0.
-                    Vector2 c = (a - b) * distance + a;
-                    var Vec_x = new PointLatLng(c.X, c.Y);
+                    var diff_X = Vec_P2.Lat - Vec_P1.Lat;
+                    var diff_Y = Vec_P2.Lng - Vec_P1.Lng;
+                    int pointNum = 8;
 
-                    markers.Markers.Add(new MarkerHelper().AddMarker(Vec_x));
+                    var interval_X = diff_X / (pointNum + 1);
+                    var interval_Y = diff_Y / (pointNum + 1);
+
+                    for (int i = 1; i <= pointNum; i++)
+                    {
+                        var m1 = new MarkerHelper().AddMarker(new PointLatLng(Vec_P1.Lat + interval_X * i, Vec_P1.Lng + interval_Y * i));
+                        m1.Offset = new Point(-12, -12);
+                        markers.Markers.Add(m1);
+                    }
+
+                    //var Vec_x = new PointLatLng(c.X, c.Y);
+                    //markers.Markers.Add(new MarkerHelper().AddMarker(Vec_x));
                 }
                 else if(markers.Markers.Count > 2)
                 {
@@ -104,9 +111,9 @@ namespace MapForms.Controls
                 //    routes.Routes.Add(r);
 
 
-                //    var m = new MarkerHelper().AddMarker(coordinates);
+                //    GMapMarker m1 = new MarkerHelper().AddMarker(coordinates);
                 //    m.Offset = new Point(-12, -12);
-                //    markers.Markers.Add(m);
+                //    markers.Markers.Add(m1);
                 //}
                 //else if (ActiveMode == ActiveMapMode.Poligon)
                 //{
