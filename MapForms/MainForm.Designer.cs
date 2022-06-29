@@ -47,11 +47,11 @@ namespace MapForms
             this.labelCoordinates = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.panelLeft = new System.Windows.Forms.Panel();
-            this.panelRight = new System.Windows.Forms.Panel();
             this.buttonRoute = new MapForms.Controls.ButtonControl();
             this.buttonMarker = new MapForms.Controls.ButtonControl();
             this.mapControl = new MapForms.Controls.MapControl();
+            this.panelLeft = new System.Windows.Forms.Panel();
+            this.panelRight = new System.Windows.Forms.Panel();
             this.panelBottom.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -61,19 +61,19 @@ namespace MapForms
             // 
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelTop.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1354, 50);
+            this.panelTop.Size = new System.Drawing.Size(903, 32);
             this.panelTop.TabIndex = 0;
             // 
             // panelBottom
             // 
             this.panelBottom.Controls.Add(this.labelCoordinates);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBottom.Location = new System.Drawing.Point(0, 575);
-            this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelBottom.Location = new System.Drawing.Point(0, 373);
+            this.panelBottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1354, 47);
+            this.panelBottom.Size = new System.Drawing.Size(903, 31);
             this.panelBottom.TabIndex = 1;
             // 
             // labelCoordinates
@@ -81,9 +81,10 @@ namespace MapForms
             this.labelCoordinates.AutoSize = true;
             this.labelCoordinates.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelCoordinates.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.labelCoordinates.Location = new System.Drawing.Point(12, 9);
+            this.labelCoordinates.Location = new System.Drawing.Point(8, 6);
+            this.labelCoordinates.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCoordinates.Name = "labelCoordinates";
-            this.labelCoordinates.Size = new System.Drawing.Size(124, 25);
+            this.labelCoordinates.Size = new System.Drawing.Size(88, 17);
             this.labelCoordinates.TabIndex = 0;
             this.labelCoordinates.Text = "Координати";
             // 
@@ -93,11 +94,11 @@ namespace MapForms
             this.panel1.Controls.Add(this.panelLeft);
             this.panel1.Controls.Add(this.panelRight);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 50);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel1.Location = new System.Drawing.Point(0, 32);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(6);
-            this.panel1.Size = new System.Drawing.Size(1354, 525);
+            this.panel1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Size = new System.Drawing.Size(903, 341);
             this.panel1.TabIndex = 4;
             // 
             // panel5
@@ -106,26 +107,11 @@ namespace MapForms
             this.panel5.Controls.Add(this.buttonMarker);
             this.panel5.Controls.Add(this.mapControl);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(306, 6);
+            this.panel5.Location = new System.Drawing.Point(204, 4);
+            this.panel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(442, 513);
+            this.panel5.Size = new System.Drawing.Size(295, 333);
             this.panel5.TabIndex = 10;
-            // 
-            // panelLeft
-            // 
-            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeft.Location = new System.Drawing.Point(6, 6);
-            this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(300, 513);
-            this.panelLeft.TabIndex = 9;
-            // 
-            // panelRight
-            // 
-            this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelRight.Location = new System.Drawing.Point(748, 6);
-            this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(600, 513);
-            this.panelRight.TabIndex = 8;
             // 
             // buttonRoute
             // 
@@ -134,9 +120,10 @@ namespace MapForms
             this.buttonRoute.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.buttonRoute.ButtonIcon = MapForms.Controls.ButtonControl.IconType.route;
             this.buttonRoute.ElementText = "Траекторія";
-            this.buttonRoute.Location = new System.Drawing.Point(201, 58);
+            this.buttonRoute.Location = new System.Drawing.Point(134, 38);
+            this.buttonRoute.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.buttonRoute.Name = "buttonRoute";
-            this.buttonRoute.Size = new System.Drawing.Size(235, 49);
+            this.buttonRoute.Size = new System.Drawing.Size(157, 32);
             this.buttonRoute.TabIndex = 5;
             // 
             // buttonMarker
@@ -146,31 +133,50 @@ namespace MapForms
             this.buttonMarker.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.buttonMarker.ButtonIcon = MapForms.Controls.ButtonControl.IconType.marker;
             this.buttonMarker.ElementText = "Цілі";
-            this.buttonMarker.Location = new System.Drawing.Point(201, 3);
+            this.buttonMarker.Location = new System.Drawing.Point(134, 2);
+            this.buttonMarker.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.buttonMarker.Name = "buttonMarker";
-            this.buttonMarker.Size = new System.Drawing.Size(235, 49);
+            this.buttonMarker.Size = new System.Drawing.Size(157, 32);
             this.buttonMarker.TabIndex = 4;
             // 
             // mapControl
             // 
             this.mapControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapControl.Location = new System.Drawing.Point(0, 0);
-            this.mapControl.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.mapControl.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.mapControl.Name = "mapControl";
-            this.mapControl.Size = new System.Drawing.Size(442, 513);
+            this.mapControl.Size = new System.Drawing.Size(295, 333);
             this.mapControl.TabIndex = 3;
+            // 
+            // panelLeft
+            // 
+            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelLeft.Location = new System.Drawing.Point(4, 4);
+            this.panelLeft.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelLeft.Name = "panelLeft";
+            this.panelLeft.Size = new System.Drawing.Size(200, 333);
+            this.panelLeft.TabIndex = 9;
+            // 
+            // panelRight
+            // 
+            this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelRight.Location = new System.Drawing.Point(499, 4);
+            this.panelRight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(400, 333);
+            this.panelRight.TabIndex = 8;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(1354, 622);
+            this.ClientSize = new System.Drawing.Size(903, 404);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.panelTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "MainForm";
             this.Text = "Map";
             this.panelBottom.ResumeLayout(false);

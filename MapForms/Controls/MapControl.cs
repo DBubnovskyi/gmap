@@ -1,13 +1,16 @@
 ﻿using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 using GMap.NET.WindowsForms.ToolTips;
 using MapForms.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Numerics;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 
 namespace MapForms.Controls
 {
@@ -45,7 +48,7 @@ namespace MapForms.Controls
 
         private void gMapControl_MouseMove(object sender, MouseEventArgs e)
         {
-            var coordinates = MouseHelper.GetPointLatLng(gMapControl ,e);
+            var coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
             labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}";
 
             var mouseY = e.Location.Y;
@@ -60,7 +63,7 @@ namespace MapForms.Controls
         List<PointLatLng> list = new List<PointLatLng>();
         private void gMapControl_MouseClick(object sender, MouseEventArgs e)
         {
-            if(gMapControl.IsDragging || ActiveMode == ActiveMapMode.None)
+            if (gMapControl.IsDragging || ActiveMode == ActiveMapMode.None)
             {
                 return;
             }
@@ -77,55 +80,21 @@ namespace MapForms.Controls
                     PointLatLng p1 = markers.Markers[0].Position;
                     PointLatLng p2 = markers.Markers[1].Position;
 
-                    markers.Markers[0].ToolTipMode = MarkerTooltipMode.Always;
+                    var icon = Properties.Resources.missaile;
+                    icon = RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
 
-                    list.Add(markers.Markers[0].Position);
-                    list.Add(markers.Markers[1].Position);
-                    GMapRoute r = new GMapRoute(list, "myroute"); // object for routing
-
-                    var distance = DistanceTo(p1, p2);
-                    markers.Markers[0].ToolTipText = Math.Round(distance, 3).ToString() + " km\n" 
-                        + Math.Round(Bearing(p1, p2), 3) + "°\n" + Math.Round(r.Distance,3) + "km";
-
-                    var diff_X = p2.Lat - p1.Lat;
-                    var diff_Y = p2.Lng - p1.Lng;
-                    //int pointNum = 8;
-                    var d = 15;
-                    var interval_X = diff_X / distance * d;
-                    var interval_Y = diff_Y / distance * d;
-
-                    //for (int i = 1; i <= pointNum; i++)
-                    //{
-                    var x = new PointLatLng(p1.Lat + interval_X, p1.Lng + interval_Y);
-                    var m1 = new MarkerHelper().AddMarker(x);
-                    m1.ToolTipText = Math.Round(DistanceTo(p1, x), 3).ToString() + " km\n" + Math.Round(Bearing(p1, x), 3) + "° v1";
-                    m1.Offset = new Point(-12, -12);
+                    var point = VectorHelper.FindPointOnRoute(p1, p2, s);
+                    var m1 = new MarkerHelper().AddMarker(point, icon);
+                    m1.Offset = new Point(-20, -20);
                     m1.ToolTipMode = MarkerTooltipMode.Always;
+                    m1.ToolTipText = "--";
+
                     markers.Markers.Add(m1);
-
-                    interval_X = diff_X / r.Distance * d;
-                    interval_Y = diff_Y / r.Distance * d;
-
-                    x = new PointLatLng(p1.Lat + interval_X, p1.Lng + interval_Y);
-                    m1 = new MarkerHelper().AddMarker(x);
-                    m1.ToolTipText = Math.Round(DistanceTo(p1, x), 3).ToString() + " km\n" + Math.Round(Bearing(p1, x), 3) + "° v2";
-                    m1.Offset = new Point(-12, -12);
-                    m1.ToolTipMode = MarkerTooltipMode.Always;
-                    markers.Markers.Add(m1);
-
-                    x = PoligonCirculeHelper.FindPointAtDistanceFrom(p1, (Bearing(p1, p2)) * (Math.PI / 180), d);
-                    m1 = new MarkerHelper().AddMarker(x);
-                    m1.ToolTipText = Math.Round(DistanceTo(p1, x), 3).ToString() + " km\n" + Math.Round(Bearing(p1, x), 3) + "° v3";
-                    m1.Offset = new Point(-12, -12);
-                    m1.ToolTipMode = MarkerTooltipMode.Always;
-                    markers.Markers.Add(m1);
-                    //}
-
-                    //var Vec_x = new PointLatLng(c.X, c.Y);
-                    //markers.Markers.Add(new MarkerHelper().AddMarker(Vec_x));
+                    InitTimer();
                 }
-                else if(markers.Markers.Count > 2)
+                else if (markers.Markers.Count > 2)
                 {
+                    timer1.Stop();
                     markers.Markers.Clear();
                     list.Clear();
                     routes.Routes.Clear();
@@ -202,54 +171,46 @@ namespace MapForms.Controls
             timer1.Start();
         }
 
-        int s = 10;
+        public static Bitmap RotateImage(Bitmap b, float angle)
+        {
+            //create a new empty bitmap to hold rotated image
+            Bitmap returnBitmap = new Bitmap(b.Width*2, b.Height*2);
+            //make a graphics object from the empty bitmap
+            using (Graphics g = Graphics.FromImage(returnBitmap))
+            {
+                //move rotation point to center of image
+                g.TranslateTransform((float)b.Width / 2, (float)b.Height / 2);
+                //rotate
+                g.RotateTransform(angle);
+                //move image back
+                g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
+                //draw passed in image onto graphics object
+                g.DrawImage(b, new Point(0, 0));
+            }
+            return returnBitmap;
+        }
+
+        double s = 0.237;
         private void timer1_Tick(object sender, EventArgs e)
         {
-            s++;
-            foreach(var m in markers.Markers)
+            if (markers.Markers.Count == 3)
             {
-                polyOverlay.Polygons.Clear();
-                var poligon = PoligonCirculeHelper.CreateCircle(m.Position, s);
-                polyOverlay.Polygons.Add(poligon);
-            }
-        }
+                PointLatLng p1 = markers.Markers[0].Position;
+                PointLatLng p2 = markers.Markers[1].Position;
+                var x = markers.Markers[2];
 
-        double DistanceTo(PointLatLng p1, PointLatLng p2, char unit = 'K') 
-            => DistanceTo(p1.Lat, p1.Lng, p2.Lat, p2.Lng, unit);
-        double DistanceTo(double lat1, double lon1, double lat2, double lon2, char unit = 'K')
-        {
-            double rlat1 = Math.PI * lat1 / 180;
-            double rlat2 = Math.PI * lat2 / 180;
-            double theta = lon1 - lon2;
-            double rtheta = Math.PI * theta / 180;
-            double dist =
-                Math.Sin(rlat1) * Math.Sin(rlat2) + Math.Cos(rlat1) *
-                Math.Cos(rlat2) * Math.Cos(rtheta);
-            dist = Math.Acos(dist);
-            dist = dist * 180 / Math.PI;
-            dist = dist * 60 * 1.15077945;
+                var point = VectorHelper.FindPointOnVector(x.Position, p2, s);
 
-            switch (unit)
-            {
-                case 'K': //Kilometers -> default
-                    return dist * 1.6093472187;
-                case 'N': //Nautical -> Miles 
-                    return dist * 0.868976242;
-                case 'M': //Miles
-                    return dist;
+                x.Position = point;
+                x.ToolTipText = $"{VectorHelper.VectorBearing360(x.Position, p2)}°\n{VectorHelper.DistanceTo(x.Position, p2)}км";
             }
 
-            return dist;
-        }
-
-        private double Bearing(PointLatLng p1, PointLatLng p2) 
-            => Bearing(p1.Lat, p1.Lng, p2.Lat, p2.Lng);
-
-        private double Bearing(double x1, double y1, double x2, double y2)
-        {
-            double dx = x2 - x1;
-            double dy = y2 - y1;
-            return Math.Atan2(dy, dx) * (180 / Math.PI);
+            //foreach (var m in markers.Markers)
+            //{
+            //    polyOverlay.Polygons.Clear();
+            //    var poligon = PoligonCirculeHelper.CreateCircle(m.Position, s);
+            //    polyOverlay.Polygons.Add(poligon);
+            //}
         }
     }
 }
