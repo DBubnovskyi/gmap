@@ -71,24 +71,55 @@ namespace MapForms.Controls
                 var m = new MarkerHelper().AddMarker(coordinates);
                 m.Offset = new Point(-12, -12);
 
-                if(markers.Markers.Count == 2)
+                markers.Markers.Add(m);
+                if (markers.Markers.Count == 2)
                 {
-                    PointLatLng Vec_P1 = markers.Markers[0].Position;
-                    PointLatLng Vec_P2 = markers.Markers[1].Position;
+                    PointLatLng p1 = markers.Markers[0].Position;
+                    PointLatLng p2 = markers.Markers[1].Position;
 
-                    var diff_X = Vec_P2.Lat - Vec_P1.Lat;
-                    var diff_Y = Vec_P2.Lng - Vec_P1.Lng;
-                    int pointNum = 8;
+                    markers.Markers[0].ToolTipMode = MarkerTooltipMode.Always;
 
-                    var interval_X = diff_X / (pointNum + 1);
-                    var interval_Y = diff_Y / (pointNum + 1);
+                    list.Add(markers.Markers[0].Position);
+                    list.Add(markers.Markers[1].Position);
+                    GMapRoute r = new GMapRoute(list, "myroute"); // object for routing
 
-                    for (int i = 1; i <= pointNum; i++)
-                    {
-                        var m1 = new MarkerHelper().AddMarker(new PointLatLng(Vec_P1.Lat + interval_X * i, Vec_P1.Lng + interval_Y * i));
-                        m1.Offset = new Point(-12, -12);
-                        markers.Markers.Add(m1);
-                    }
+                    var distance = DistanceTo(p1, p2);
+                    markers.Markers[0].ToolTipText = Math.Round(distance, 3).ToString() + " km\n" 
+                        + Math.Round(Bearing(p1, p2), 3) + "°\n" + Math.Round(r.Distance,3) + "km";
+
+                    var diff_X = p2.Lat - p1.Lat;
+                    var diff_Y = p2.Lng - p1.Lng;
+                    //int pointNum = 8;
+                    var d = 15;
+                    var interval_X = diff_X / distance * d;
+                    var interval_Y = diff_Y / distance * d;
+
+                    //for (int i = 1; i <= pointNum; i++)
+                    //{
+                    var x = new PointLatLng(p1.Lat + interval_X, p1.Lng + interval_Y);
+                    var m1 = new MarkerHelper().AddMarker(x);
+                    m1.ToolTipText = Math.Round(DistanceTo(p1, x), 3).ToString() + " km\n" + Math.Round(Bearing(p1, x), 3) + "° v1";
+                    m1.Offset = new Point(-12, -12);
+                    m1.ToolTipMode = MarkerTooltipMode.Always;
+                    markers.Markers.Add(m1);
+
+                    interval_X = diff_X / r.Distance * d;
+                    interval_Y = diff_Y / r.Distance * d;
+
+                    x = new PointLatLng(p1.Lat + interval_X, p1.Lng + interval_Y);
+                    m1 = new MarkerHelper().AddMarker(x);
+                    m1.ToolTipText = Math.Round(DistanceTo(p1, x), 3).ToString() + " km\n" + Math.Round(Bearing(p1, x), 3) + "° v2";
+                    m1.Offset = new Point(-12, -12);
+                    m1.ToolTipMode = MarkerTooltipMode.Always;
+                    markers.Markers.Add(m1);
+
+                    x = PoligonCirculeHelper.FindPointAtDistanceFrom(p1, (Bearing(p1, p2)) * (Math.PI / 180), d);
+                    m1 = new MarkerHelper().AddMarker(x);
+                    m1.ToolTipText = Math.Round(DistanceTo(p1, x), 3).ToString() + " km\n" + Math.Round(Bearing(p1, x), 3) + "° v3";
+                    m1.Offset = new Point(-12, -12);
+                    m1.ToolTipMode = MarkerTooltipMode.Always;
+                    markers.Markers.Add(m1);
+                    //}
 
                     //var Vec_x = new PointLatLng(c.X, c.Y);
                     //markers.Markers.Add(new MarkerHelper().AddMarker(Vec_x));
@@ -96,9 +127,9 @@ namespace MapForms.Controls
                 else if(markers.Markers.Count > 2)
                 {
                     markers.Markers.Clear();
-
+                    list.Clear();
+                    routes.Routes.Clear();
                 }
-                markers.Markers.Add(m);
 
                 //if (ActiveMode == ActiveMapMode.Route)
                 //{
@@ -178,9 +209,47 @@ namespace MapForms.Controls
             foreach(var m in markers.Markers)
             {
                 polyOverlay.Polygons.Clear();
-                var poligon = PoliginCirculeHelper.CreateCircle(m.Position, s);
+                var poligon = PoligonCirculeHelper.CreateCircle(m.Position, s);
                 polyOverlay.Polygons.Add(poligon);
             }
+        }
+
+        double DistanceTo(PointLatLng p1, PointLatLng p2, char unit = 'K') 
+            => DistanceTo(p1.Lat, p1.Lng, p2.Lat, p2.Lng, unit);
+        double DistanceTo(double lat1, double lon1, double lat2, double lon2, char unit = 'K')
+        {
+            double rlat1 = Math.PI * lat1 / 180;
+            double rlat2 = Math.PI * lat2 / 180;
+            double theta = lon1 - lon2;
+            double rtheta = Math.PI * theta / 180;
+            double dist =
+                Math.Sin(rlat1) * Math.Sin(rlat2) + Math.Cos(rlat1) *
+                Math.Cos(rlat2) * Math.Cos(rtheta);
+            dist = Math.Acos(dist);
+            dist = dist * 180 / Math.PI;
+            dist = dist * 60 * 1.15077945;
+
+            switch (unit)
+            {
+                case 'K': //Kilometers -> default
+                    return dist * 1.6093472187;
+                case 'N': //Nautical -> Miles 
+                    return dist * 0.868976242;
+                case 'M': //Miles
+                    return dist;
+            }
+
+            return dist;
+        }
+
+        private double Bearing(PointLatLng p1, PointLatLng p2) 
+            => Bearing(p1.Lat, p1.Lng, p2.Lat, p2.Lng);
+
+        private double Bearing(double x1, double y1, double x2, double y2)
+        {
+            double dx = x2 - x1;
+            double dy = y2 - y1;
+            return Math.Atan2(dy, dx) * (180 / Math.PI);
         }
     }
 }

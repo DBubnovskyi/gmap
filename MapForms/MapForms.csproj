@@ -71,7 +71,7 @@
     </Compile>
     <Compile Include="Helpers\MarkerHelper.cs" />
     <Compile Include="Helpers\MouseHelper.cs" />
-    <Compile Include="Helpers\PoliginCirculeHelper.cs" />
+    <Compile Include="Helpers\PoligonCirculeHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

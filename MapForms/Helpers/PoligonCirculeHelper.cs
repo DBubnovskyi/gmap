@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace MapForms.Helpers
 {
-    internal static class PoliginCirculeHelper
+    internal static class PoligonCirculeHelper
     {
-        public static GMapPolygon CreateCircle(PointLatLng point, double radius,
-            int ColorIndex = 1, int startAngle = 0, int endAngle = 360)
+        public static GMapPolygon CreateCircle(PointLatLng point, double radius, int ColorIndex = 1,
+             int startAngle = 0, int endAngle = 360, SolidBrush fill = null, Pen border = null)
         {
             List<PointLatLng> gpollist = new List<PointLatLng>();
 
@@ -27,22 +27,8 @@ namespace MapForms.Helpers
             }
 
             GMapPolygon polygon = new GMapPolygon(gpollist, "Circle");
-            switch (ColorIndex)
-            {
-                case 1:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(80, Color.Red));
-                    break;
-                case 2:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(80, Color.Orange));
-                    break;
-                case 3:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(20, Color.Aqua));
-                    break;
-                default:
-                    break;
-            }
-
-            polygon.Stroke = new Pen(Color.Red, 1);
+            polygon.Fill = fill ?? new SolidBrush(Color.Red);
+            polygon.Stroke = border ?? new Pen(Color.Red, 1);
             return polygon;
         }
 
