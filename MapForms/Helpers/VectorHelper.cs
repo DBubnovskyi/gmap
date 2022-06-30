@@ -1,19 +1,14 @@
 ﻿using GMap.NET;
 using GMap.NET.WindowsForms;
+using MapForms.Models.Units;
 using System;
 using System.Collections.Generic;
+using static MapForms.Models.Units.Distance;
 
 namespace MapForms.Helpers
 {
     public static class VectorHelper
     {
-        public enum DistanceUnits
-        {
-            Kilometers,
-            NauticalMiles,
-            Miles
-        }
-
         public class Interval
         {
             public double X;
@@ -90,25 +85,9 @@ namespace MapForms.Helpers
             dist = Math.Acos(dist);
             dist = dist * 180 / Math.PI;
             dist = dist * 60 * 1.15077945;
-
-            switch (unit)
-            {
-                //Kilometers -> default
-                case DistanceUnits.Kilometers:
-                    return dist * 1.6093472187;
-
-                //Nautical -> Miles 
-                case DistanceUnits.NauticalMiles:
-                    return dist * 0.868976242;
-
-                //Miles
-                case DistanceUnits.Miles:
-                    return dist;
-
-                default:
-                    //Kilometers -> default
-                    return dist * 1.6093472187;
-            }
+            Distance distance = new Distance(dist);
+            double result = distance.From_km(dist, unit);
+            return result;
         }
 
         public static PointLatLng FindPointAtDistanceFrom(PointLatLng startPoint, double initialBearingRadians, double distanceKilometres)

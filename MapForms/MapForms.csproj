@@ -69,7 +69,14 @@
     <Compile Include="Controls\MapControl.Designer.cs">
       <DependentUpon>MapControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TraceSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TraceSettings.Designer.cs">
+      <DependentUpon>TraceSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\MarkerHelper.cs" />
+    <Compile Include="Helpers\MathHelper.cs" />
     <Compile Include="Helpers\MouseHelper.cs" />
     <Compile Include="Helpers\PoligonCirculeHelper.cs" />
     <Compile Include="Helpers\VectorHelper.cs" />
@@ -81,6 +88,8 @@
     </Compile>
     <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\MarkerTooltip.cs" />
+    <Compile Include="Models\Units\Distance.cs" />
+    <Compile Include="Models\Units\Speed.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\ButtonControl.resx">
@@ -88,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MapControl.resx">
       <DependentUpon>MapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TraceSettings.resx">
+      <DependentUpon>TraceSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -118,6 +130,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="map.ico" />
+    <None Include="Resources\cruise missile.png" />
+    <None Include="Resources\x-22.png" />
+    <None Include="Resources\tu-22.png" />
+    <None Include="Resources\tu-95.png" />
+    <None Include="Resources\tu-160.png" />
     <None Include="Resources\missaile.png" />
     <None Include="Resources\dot_blue.png" />
     <None Include="Resources\dot_green.png" />

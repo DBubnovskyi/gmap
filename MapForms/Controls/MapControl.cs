@@ -4,6 +4,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET.WindowsForms.ToolTips;
 using MapForms.Helpers;
+using MapForms.Models.Units;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -83,18 +84,31 @@ namespace MapForms.Controls
                     var icon = Properties.Resources.missaile;
                     icon = RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
 
-                    var point = VectorHelper.FindPointOnRoute(p1, p2, s);
+                    var point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
                     var m1 = new MarkerHelper().AddMarker(point, icon);
                     m1.Offset = new Point(-20, -20);
                     m1.ToolTipMode = MarkerTooltipMode.Always;
-                    m1.ToolTipText = "--";
+
+                    double bering = VectorHelper.VectorBearing360(m1.Position, p2);
+                    bering = Math.Round(bering, 1);
+                    double distance = VectorHelper.DistanceTo(m1.Position, p2);
+                    distance = Math.Round(distance, 3);
+                    m1.ToolTipText = $"{bering}°\n{distance}км";
+
+                    var markEnd = markers.Markers[1];
+                    markEnd.ToolTipMode = MarkerTooltipMode.Always;
+                    var timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
+                    var time = TimeSpan.FromHours(timeInHours);
+                    var timeEnd = DateTime.Now + time;
+                    markEnd.ToolTipText = $"{Math.Round(time.TotalMinutes, 0)} min\n" +
+                        $"{timeEnd.Hour}:{timeEnd.Minute}:{timeEnd.Second}";
 
                     markers.Markers.Add(m1);
                     InitTimer();
                 }
                 else if (markers.Markers.Count > 2)
                 {
-                    timer1.Stop();
+                    timer1?.Stop();
                     markers.Markers.Clear();
                     list.Clear();
                     routes.Routes.Clear();
@@ -190,7 +204,7 @@ namespace MapForms.Controls
             return returnBitmap;
         }
 
-        double s = 0.237;
+        public Speed Speed = new Speed(0, Speed.SpeedUnits.kmph);
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (markers.Markers.Count == 3)
@@ -199,10 +213,23 @@ namespace MapForms.Controls
                 PointLatLng p2 = markers.Markers[1].Position;
                 var x = markers.Markers[2];
 
-                var point = VectorHelper.FindPointOnVector(x.Position, p2, s);
-
+                var point = VectorHelper.FindPointOnRoute(x.Position, p2, Speed.ToMps() / 1000);
                 x.Position = point;
-                x.ToolTipText = $"{VectorHelper.VectorBearing360(x.Position, p2)}°\n{VectorHelper.DistanceTo(x.Position, p2)}км";
+
+                double bering = VectorHelper.VectorBearing360(x.Position, p2);
+                bering = Math.Round(bering, 1);
+                double distance = VectorHelper.DistanceTo(x.Position, p2);
+                distance = Math.Round(distance, 3);
+
+                x.ToolTipText = $"{bering}°\n{distance}км";
+
+                var markEnd = markers.Markers[1];
+                markEnd.ToolTipMode = MarkerTooltipMode.Always;
+                var timeInHours = VectorHelper.DistanceTo(x.Position, p2) / Speed.ToKmph();
+                var time = TimeSpan.FromHours(timeInHours);
+                var timeEnd = DateTime.Now + time;
+                markEnd.ToolTipText = $"{time.Minutes,0}:{time.Seconds, 0} \n" +
+                    $"{timeEnd.Hour}:{timeEnd.Minute}:{timeEnd.Second}";
             }
 
             //foreach (var m in markers.Markers)

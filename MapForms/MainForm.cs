@@ -18,12 +18,18 @@ namespace MapForms
             buttonMarker.MainClicked += SetActive;
             buttonRoute.MainClicked += SetActive;
             mapControl.gMapControl.MouseMove += gMapControl_MouseMove;
+            traceSettings.SpeedChaged += SpeedChaged;
         }
 
         private void gMapControl_MouseMove(object sender, MouseEventArgs e)
         {
             var coordinates = MouseHelper.GetPointLatLng(mapControl.gMapControl, e);
             labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}";
+        }
+
+        private void SpeedChaged(double speed)
+        {
+            mapControl.Speed.Value = speed;
         }
 
         private void SetActive(ButtonControl control)
