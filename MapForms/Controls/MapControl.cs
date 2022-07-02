@@ -1,32 +1,31 @@
 ﻿using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
-using GMap.NET.WindowsForms.ToolTips;
 using MapForms.Helpers;
 using MapForms.Models.Units;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Numerics;
 using System.Windows.Forms;
-using System.Windows.Media.Imaging;
 
 namespace MapForms.Controls
 {
     public enum ActiveMapMode
     {
         None,
-        Marcer,
+        Marker,
         Route,
-        Poligon
+        Poligon,
+        Targets,
+        Trajectory
     }
 
     public partial class MapControl : UserControl
     {
         public ActiveMapMode ActiveMode;
         public Action<MouseEventArgs> MouseTriger;
+
+        public string TooltipText { get; set; }
 
         public MapControl()
         {
@@ -40,50 +39,54 @@ namespace MapForms.Controls
             gMapControl.Zoom = 6;
             gMapControl.DragButton = MouseButtons.Left;
             //gMapControl.MouseMove += gMapControl_MouseMove;
-            gMapControl.MouseUp += gMapControl_MouseClick;
-            gMapControl.KeyDown += gMapControl_KeyClick;
+            gMapControl.MouseUp += GMapControl_MouseClick;
+            gMapControl.KeyDown += GMapControl_KeyClick;
             gMapControl.Overlays.Add(markers);
             gMapControl.Overlays.Add(polyOverlay);
             gMapControl.Overlays.Add(targets);
             //InitTimer();
         }
 
-        private void gMapControl_MouseMove(object sender, MouseEventArgs e)
+        private void GMapControl_MouseMove(object sender, MouseEventArgs e)
         {
-            var coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
+            PointLatLng coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
             labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}";
 
-            var mouseY = e.Location.Y;
-            var mouseX = e.Location.X;
+            int mouseY = e.Location.Y;
+            int mouseX = e.Location.X;
             labelCoordinates.Location = new Point(mouseX, mouseY + 10);
         }
 
-
-        GMapOverlay targets = new GMapOverlay("targets");
-        GMapOverlay routes = new GMapOverlay("gMapControl");
-        GMapOverlay markers = new GMapOverlay("markers");
-        GMapOverlay polyOverlay = new GMapOverlay("polygons");
-        List<PointLatLng> points = new List<PointLatLng>();
-        List<PointLatLng> list = new List<PointLatLng>();
-        private void gMapControl_MouseClick(object sender, MouseEventArgs e)
+        private readonly GMapOverlay targets = new GMapOverlay("targets");
+        private readonly GMapOverlay routes = new GMapOverlay("gMapControl");
+        private readonly GMapOverlay markers = new GMapOverlay("markers");
+        private readonly GMapOverlay polyOverlay = new GMapOverlay("polygons");
+        private readonly List<PointLatLng> points = new List<PointLatLng>();
+        private readonly List<PointLatLng> list = new List<PointLatLng>();
+        private void GMapControl_MouseClick(object sender, MouseEventArgs e)
         {
             if (gMapControl.IsDragging || ActiveMode == ActiveMapMode.None)
             {
                 return;
             }
 
-            var coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
+            PointLatLng coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
             if (e.Button == MouseButtons.Left)
             {
-                if (ActiveMode == ActiveMapMode.Marcer)
+                if (ActiveMode == ActiveMapMode.Targets)
                 {
                     GMapMarker m1 = new MarkerHelper().AddMarker(coordinates, Properties.Resources.dot_blue);
+                    if(!string.IsNullOrEmpty(TooltipText))
+                    {
+                        m1.ToolTipText = TooltipText;
+                        m1.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                    }
                     m1.Offset = new Point(-12, -12);
                     targets.Markers.Add(m1);
                 }
                 else if (ActiveMode == ActiveMapMode.Route)
                 {
-                    var m = new MarkerHelper().AddMarker(coordinates);
+                    GMapMarker m = new MarkerHelper().AddMarker(coordinates);
                     m.Offset = new Point(-12, -12);
 
                     markers.Markers.Add(m);
@@ -92,11 +95,11 @@ namespace MapForms.Controls
                         PointLatLng p1 = markers.Markers[0].Position;
                         PointLatLng p2 = markers.Markers[1].Position;
 
-                        var icon = Properties.Resources.missaile;
+                        Bitmap icon = Properties.Resources.missaile;
                         icon = RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
 
-                        var point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
-                        var m1 = new MarkerHelper().AddMarker(point, icon);
+                        PointLatLng point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
+                        GMapMarker m1 = new MarkerHelper().AddMarker(point, icon);
                         m1.Offset = new Point(-20, -20);
                         m1.ToolTipMode = MarkerTooltipMode.Always;
 
@@ -106,11 +109,11 @@ namespace MapForms.Controls
                         distance = Math.Round(distance, 3);
                         m1.ToolTipText = $"{bering}°\n{distance}км";
 
-                        var markEnd = markers.Markers[1];
+                        GMapMarker markEnd = markers.Markers[1];
                         markEnd.ToolTipMode = MarkerTooltipMode.Always;
-                        var timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
-                        var time = TimeSpan.FromHours(timeInHours);
-                        var timeEnd = DateTime.Now + time;
+                        double timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
+                        TimeSpan time = TimeSpan.FromHours(timeInHours);
+                        DateTime timeEnd = DateTime.Now + time;
                         markEnd.ToolTipText = $"{Math.Round(time.TotalMinutes, 0)} min\n" +
                             $"{timeEnd.Hour}:{timeEnd.Minute}:{timeEnd.Second}";
 
@@ -177,7 +180,7 @@ namespace MapForms.Controls
                 //}
             }
         }
-        private void gMapControl_KeyClick(object sender, KeyEventArgs e)
+        private void GMapControl_KeyClick(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {

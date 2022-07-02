@@ -69,6 +69,12 @@
     <Compile Include="Controls\MapControl.Designer.cs">
       <DependentUpon>MapControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TargetSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TargetSettings.Designer.cs">
+      <DependentUpon>TargetSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TraceSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -97,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MapControl.resx">
       <DependentUpon>MapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TargetSettings.resx">
+      <DependentUpon>TargetSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TraceSettings.resx">
       <DependentUpon>TraceSettings.cs</DependentUpon>

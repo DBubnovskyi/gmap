@@ -9,6 +9,5 @@ namespace MapForms.Models
         public MarkerTooltipMode ToolTipMode { get; set; } = MarkerTooltipMode.OnMouseOver;
         public Bitmap Icon { get; set; }
         public double Bering { get; set; } = 0;
-        public double Speed { get; set; } = 0;
     }
 }

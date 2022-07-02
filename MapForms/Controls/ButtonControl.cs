@@ -8,10 +8,10 @@ namespace MapForms.Controls
 {
     public partial class ButtonControl : UserControl
     {
-        private Color background = Color.FromArgb(64, 64, 64);
-        private Color backgroundHover = Color.FromArgb(100, 100, 100);
-        private Color Highlight = SystemColors.WindowFrame;
-        private Color HighlightActive = SystemColors.MenuHighlight;
+        private readonly Color background = Color.FromArgb(64, 64, 64);
+        private readonly Color backgroundHover = Color.FromArgb(100, 100, 100);
+        private readonly Color Highlight = SystemColors.WindowFrame;
+        private readonly Color HighlightActive = SystemColors.MenuHighlight;
 
         public ActiveMapMode ActiveMode { get; set; } = ActiveMapMode.None;
 
@@ -38,6 +38,9 @@ namespace MapForms.Controls
                         break;
                     case IconType.polygon:
                         pictureIcon.Image = Properties.Resources.polygon;
+                        break;
+                    case IconType.none:
+                        pictureIcon.Visible = false;
                         break;
                     default:
                         pictureIcon.Visible = false;
@@ -72,21 +75,14 @@ namespace MapForms.Controls
         public void SetActive(bool state)
         {
             IsActive = state;
-            if (state)
-            {
-                panelHiglight.BackColor = HighlightActive;
-            }
-            else
-            {
-                panelHiglight.BackColor = Highlight;
-            }
+            panelHiglight.BackColor = state ? HighlightActive : Highlight;
         }
         public void SetActiveShow(bool state)
         {
             IsActiveShow = state;
             if (state)
             {
-                pictureShow.Image = MapForms.Properties.Resources.right_arrow_button;
+                pictureShow.Image = Properties.Resources.right_arrow_button;
             }
             else
             {
