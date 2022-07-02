@@ -44,6 +44,7 @@ namespace MapForms.Controls
             gMapControl.KeyDown += gMapControl_KeyClick;
             gMapControl.Overlays.Add(markers);
             gMapControl.Overlays.Add(polyOverlay);
+            gMapControl.Overlays.Add(targets);
             //InitTimer();
         }
 
@@ -57,6 +58,8 @@ namespace MapForms.Controls
             labelCoordinates.Location = new Point(mouseX, mouseY + 10);
         }
 
+
+        GMapOverlay targets = new GMapOverlay("targets");
         GMapOverlay routes = new GMapOverlay("gMapControl");
         GMapOverlay markers = new GMapOverlay("markers");
         GMapOverlay polyOverlay = new GMapOverlay("polygons");
@@ -72,47 +75,57 @@ namespace MapForms.Controls
             var coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
             if (e.Button == MouseButtons.Left)
             {
-                var m = new MarkerHelper().AddMarker(coordinates);
-                m.Offset = new Point(-12, -12);
-
-                markers.Markers.Add(m);
-                if (markers.Markers.Count == 2)
+                if (ActiveMode == ActiveMapMode.Marcer)
                 {
-                    PointLatLng p1 = markers.Markers[0].Position;
-                    PointLatLng p2 = markers.Markers[1].Position;
-
-                    var icon = Properties.Resources.missaile;
-                    icon = RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
-
-                    var point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
-                    var m1 = new MarkerHelper().AddMarker(point, icon);
-                    m1.Offset = new Point(-20, -20);
-                    m1.ToolTipMode = MarkerTooltipMode.Always;
-
-                    double bering = VectorHelper.VectorBearing360(m1.Position, p2);
-                    bering = Math.Round(bering, 1);
-                    double distance = VectorHelper.DistanceTo(m1.Position, p2);
-                    distance = Math.Round(distance, 3);
-                    m1.ToolTipText = $"{bering}°\n{distance}км";
-
-                    var markEnd = markers.Markers[1];
-                    markEnd.ToolTipMode = MarkerTooltipMode.Always;
-                    var timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
-                    var time = TimeSpan.FromHours(timeInHours);
-                    var timeEnd = DateTime.Now + time;
-                    markEnd.ToolTipText = $"{Math.Round(time.TotalMinutes, 0)} min\n" +
-                        $"{timeEnd.Hour}:{timeEnd.Minute}:{timeEnd.Second}";
-
-                    markers.Markers.Add(m1);
-                    InitTimer();
+                    GMapMarker m1 = new MarkerHelper().AddMarker(coordinates, Properties.Resources.dot_blue);
+                    m1.Offset = new Point(-12, -12);
+                    targets.Markers.Add(m1);
                 }
-                else if (markers.Markers.Count > 2)
+                else if (ActiveMode == ActiveMapMode.Route)
                 {
-                    timer1?.Stop();
-                    markers.Markers.Clear();
-                    list.Clear();
-                    routes.Routes.Clear();
+                    var m = new MarkerHelper().AddMarker(coordinates);
+                    m.Offset = new Point(-12, -12);
+
+                    markers.Markers.Add(m);
+                    if (markers.Markers.Count == 2)
+                    {
+                        PointLatLng p1 = markers.Markers[0].Position;
+                        PointLatLng p2 = markers.Markers[1].Position;
+
+                        var icon = Properties.Resources.missaile;
+                        icon = RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
+
+                        var point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
+                        var m1 = new MarkerHelper().AddMarker(point, icon);
+                        m1.Offset = new Point(-20, -20);
+                        m1.ToolTipMode = MarkerTooltipMode.Always;
+
+                        double bering = VectorHelper.VectorBearing360(m1.Position, p2);
+                        bering = Math.Round(bering, 1);
+                        double distance = VectorHelper.DistanceTo(m1.Position, p2);
+                        distance = Math.Round(distance, 3);
+                        m1.ToolTipText = $"{bering}°\n{distance}км";
+
+                        var markEnd = markers.Markers[1];
+                        markEnd.ToolTipMode = MarkerTooltipMode.Always;
+                        var timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
+                        var time = TimeSpan.FromHours(timeInHours);
+                        var timeEnd = DateTime.Now + time;
+                        markEnd.ToolTipText = $"{Math.Round(time.TotalMinutes, 0)} min\n" +
+                            $"{timeEnd.Hour}:{timeEnd.Minute}:{timeEnd.Second}";
+
+                        markers.Markers.Add(m1);
+                        InitTimer();
+                    }
+                    else if (markers.Markers.Count > 2)
+                    {
+                        timer1?.Stop();
+                        markers.Markers.Clear();
+                        list.Clear();
+                        routes.Routes.Clear();
+                    }
                 }
+
 
                 //if (ActiveMode == ActiveMapMode.Route)
                 //{
@@ -228,7 +241,7 @@ namespace MapForms.Controls
                 var timeInHours = VectorHelper.DistanceTo(x.Position, p2) / Speed.ToKmph();
                 var time = TimeSpan.FromHours(timeInHours);
                 var timeEnd = DateTime.Now + time;
-                markEnd.ToolTipText = $"{time.Minutes,0}:{time.Seconds, 0} \n" +
+                markEnd.ToolTipText = $"{time.Hours}:{time.Minutes}:{time.Seconds} \n" +
                     $"{timeEnd.Hour}:{timeEnd.Minute}:{timeEnd.Second}";
             }
 

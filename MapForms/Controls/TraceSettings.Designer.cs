@@ -54,9 +54,19 @@
             0,
             0,
             0});
+            this.numericSpeed.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.numericSpeed.Name = "numericSpeed";
             this.numericSpeed.Size = new System.Drawing.Size(100, 26);
             this.numericSpeed.TabIndex = 1;
+            this.numericSpeed.Value = new decimal(new int[] {
+            840,
+            0,
+            0,
+            0});
             this.numericSpeed.ValueChanged += new System.EventHandler(this.numericSpeed_ValueChanged);
             // 
             // label2
