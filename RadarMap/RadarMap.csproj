@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="UI\Controls\Menu\" />
+    <Folder Include="UI\Controls\MainScreen\" />
+    <Folder Include="UI\Drawers\Contracts\" />
+  </ItemGroup>
+
+</Project>
