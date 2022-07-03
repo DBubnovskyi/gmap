@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using MapForms.Models;
 
 namespace MapForms.Controls
 {
@@ -75,33 +76,46 @@ namespace MapForms.Controls
             {
                 if (ActiveMode == ActiveMapMode.Targets)
                 {
-                    GMapMarker m1 = new MarkerHelper().AddMarker(coordinates, Properties.Resources.dot_blue);
-                    if(!string.IsNullOrEmpty(TooltipText))
+                    Marker m = new Marker(coordinates)
                     {
-                        m1.ToolTipText = TooltipText;
-                        m1.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                    }
-                    m1.Offset = new Point(-12, -12);
-                    targets.Markers.Add(m1);
-                }
-                else if (ActiveMode == ActiveMapMode.Route)
-                {
-                    GMapMarker m = new MarkerHelper().AddMarker(coordinates);
-                    m.Offset = new Point(-12, -12);
+                        Icon = Properties.Resources.dot_blue,
+                        ToolTipMode = MarkerTooltipMode.Always,
+                    };
 
-                    markers.Markers.Add(m);
+                    if (!string.IsNullOrEmpty(TooltipText))
+                    {
+                        m.ToolTipText = TooltipText;
+                    }
+                    targets.Markers.Add(m.ToMarker());
+                }
+                else if (ActiveMode == ActiveMapMode.Trajectory)
+                {
+                    Marker m = new Marker(coordinates)
+                    {
+                        Icon = Properties.Resources.dot_red,
+                        IsShowCoordintes = true,
+                        ToolTipMode = MarkerTooltipMode.Always,
+                    };
+                    markers.Markers.Add(m.ToMarker());
+
                     if (markers.Markers.Count == 2)
                     {
                         PointLatLng p1 = markers.Markers[0].Position;
                         PointLatLng p2 = markers.Markers[1].Position;
 
-                        Bitmap icon = Properties.Resources.missaile;
-                        icon = RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
+                        Bitmap icon = Properties.Resources.tu_22;
+                        icon = ImageHelper.RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
+                        icon = ImageHelper.ColorReplace(icon, 250, Color.Red);
 
                         PointLatLng point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
-                        GMapMarker m1 = new MarkerHelper().AddMarker(point, icon);
-                        m1.Offset = new Point(-20, -20);
-                        m1.ToolTipMode = MarkerTooltipMode.Always;
+                        Marker mx = new Marker(point)
+                        {
+                            //Offset = new Point(-20, -20),
+                            ToolTipMode = MarkerTooltipMode.Always,
+                            Icon = icon,
+                        };
+
+                        GMapMarker m1 = mx.ToMarker();
 
                         double bering = VectorHelper.VectorBearing360(m1.Position, p2);
                         bering = Math.Round(bering, 1);
@@ -114,18 +128,14 @@ namespace MapForms.Controls
                         double timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
                         TimeSpan time = TimeSpan.FromHours(timeInHours);
                         DateTime timeEnd = DateTime.Now + time;
-                        markEnd.ToolTipText = $"{Math.Round(time.TotalMinutes, 0)} min\n" +
-                            $"{timeEnd.Hour}:{timeEnd.Minute}:{timeEnd.Second}";
+                        markEnd.ToolTipText = $"{time.ToString("hh\\:mm\\:ss")}\n" +
+                            $"{timeEnd:HH:mm:ss}";
 
                         markers.Markers.Add(m1);
                         InitTimer();
                     }
                     else if (markers.Markers.Count > 2)
                     {
-                        timer1?.Stop();
-                        markers.Markers.Clear();
-                        list.Clear();
-                        routes.Routes.Clear();
                     }
                 }
 
@@ -184,12 +194,10 @@ namespace MapForms.Controls
         {
             if (e.KeyCode == Keys.Delete)
             {
-                markers.Clear();
-                points.Clear();
+                timer1?.Stop();
+                markers.Markers.Clear();
                 list.Clear();
                 routes.Routes.Clear();
-                polyOverlay.Polygons.Clear();
-                gMapControl.Overlays.Clear();
             }
         }
         private Timer timer1;
@@ -201,26 +209,8 @@ namespace MapForms.Controls
             timer1.Start();
         }
 
-        public static Bitmap RotateImage(Bitmap b, float angle)
-        {
-            //create a new empty bitmap to hold rotated image
-            Bitmap returnBitmap = new Bitmap(b.Width*2, b.Height*2);
-            //make a graphics object from the empty bitmap
-            using (Graphics g = Graphics.FromImage(returnBitmap))
-            {
-                //move rotation point to center of image
-                g.TranslateTransform((float)b.Width / 2, (float)b.Height / 2);
-                //rotate
-                g.RotateTransform(angle);
-                //move image back
-                g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
-                //draw passed in image onto graphics object
-                g.DrawImage(b, new Point(0, 0));
-            }
-            return returnBitmap;
-        }
 
-        public Speed Speed = new Speed(0, Speed.SpeedUnits.kmph);
+        public Speed Speed;
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (markers.Markers.Count == 3)
@@ -244,8 +234,7 @@ namespace MapForms.Controls
                 var timeInHours = VectorHelper.DistanceTo(x.Position, p2) / Speed.ToKmph();
                 var time = TimeSpan.FromHours(timeInHours);
                 var timeEnd = DateTime.Now + time;
-                markEnd.ToolTipText = $"{time.Hours}:{time.Minutes}:{time.Seconds} \n" +
-                    $"{timeEnd.Hour}:{timeEnd.Minute}:{timeEnd.Second}";
+                markEnd.ToolTipText = $"{time.ToString("hh\\:mm\\:ss")}\n{timeEnd:HH:mm:ss}";
             }
 
             //foreach (var m in markers.Markers)

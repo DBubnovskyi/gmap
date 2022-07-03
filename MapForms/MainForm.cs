@@ -26,6 +26,8 @@ namespace MapForms
 
             targetSettings.Visible = false;
             targetSettings.Dock = DockStyle.Fill;
+
+            mapControl.Speed = traceSettings.Speed;
         }
 
         private void gMapControl_MouseMove(object sender, MouseEventArgs e)

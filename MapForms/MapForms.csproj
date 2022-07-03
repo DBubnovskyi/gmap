@@ -81,7 +81,7 @@
     <Compile Include="Controls\TraceSettings.Designer.cs">
       <DependentUpon>TraceSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\MarkerHelper.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\MathHelper.cs" />
     <Compile Include="Helpers\MouseHelper.cs" />
     <Compile Include="Helpers\PoligonCirculeHelper.cs" />

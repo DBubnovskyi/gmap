@@ -6,11 +6,11 @@ namespace MapForms.Models
     internal class MarkerTooltip
     {
         public MarkerTooltip() { }
-        
-        public Color StrokeColor { get; set; } = Color.FromArgb(255, 125, 125, 125);
-        public SolidBrush Foreground { get; set; } = new SolidBrush(Color.BlueViolet);
-        public SolidBrush Fill { get; set; } = new SolidBrush(Color.Transparent);
-        public Font Font { get; set; } = new Font("Arial", 8, FontStyle.Regular);
+
+        public Pen Border { get; set; } = new Pen(Color.Transparent);
+        public SolidBrush TextColor { get; set; } = new SolidBrush(Color.White);
+        public SolidBrush BackgroundColor { get; set; } = new SolidBrush(Color.DarkGray);
+        public Font Font { get; set; } = new Font("Arial", 10, FontStyle.Regular);
         public Point Offset { get; set; } = new Point(4, -4);
 
         public GMapToolTip ToGMapToolTip(GMapMarker marker)
@@ -19,11 +19,10 @@ namespace MapForms.Models
             {
                 Font = Font,
                 Offset = Offset,
-                Fill = Fill,
-                Foreground = Foreground
-
+                Fill = BackgroundColor,
+                Foreground = TextColor,
+                Stroke = Border
             };
-            toolTip.Stroke.Color = StrokeColor;
             return toolTip;
         }
     }
