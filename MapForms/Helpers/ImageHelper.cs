@@ -27,7 +27,7 @@ namespace MapForms.Helpers
                 //move image back
                 g.TranslateTransform(-(float)bitmap.Width / 2, -(float)bitmap.Height / 2);
                 //draw passed in image onto graphics object
-                g.DrawImage(bitmap, point);
+                g.DrawImage(bitmap, point.X, point.Y, 32, 32);
             }
             return returnBitmap;
         }

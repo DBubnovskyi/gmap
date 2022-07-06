@@ -110,7 +110,7 @@ namespace MapForms.Controls
                         PointLatLng point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
                         Marker mx = new Marker(point)
                         {
-                            //Offset = new Point(-20, -20),
+                            Offset = new Point(-16, -16),
                             ToolTipMode = MarkerTooltipMode.Always,
                             Icon = icon,
                         };
@@ -128,7 +128,7 @@ namespace MapForms.Controls
                         double timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
                         TimeSpan time = TimeSpan.FromHours(timeInHours);
                         DateTime timeEnd = DateTime.Now + time;
-                        markEnd.ToolTipText = $"{time.ToString("hh\\:mm\\:ss")}\n" +
+                        markEnd.ToolTipText = $"{time:hh\\:mm\\:ss}\n" +
                             $"{timeEnd:HH:mm:ss}";
 
                         markers.Markers.Add(m1);

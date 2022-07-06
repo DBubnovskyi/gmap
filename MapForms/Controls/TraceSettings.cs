@@ -34,7 +34,8 @@ namespace MapForms.Controls
         int horizontal = 0;
         private void numericAngle_ValueChanged(object sender, EventArgs e)
         {
-            pictureBox1.Image = ImageHelper.RotateImage(r, (int)numericAngle.Value, new Point(vertical, horizontal));
+            pictureBox1.Image = ImageHelper.RotateImage(r, (int)numericAngle.Value, 
+                new Point(vertical, horizontal));
         }
 
         private void buttonUp_Click(object sender, EventArgs e)
@@ -59,6 +60,14 @@ namespace MapForms.Controls
         {
             horizontal--;
             pictureBox1.Image = ImageHelper.RotateImage(r, (int)numericAngle.Value, new Point(vertical, horizontal));
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            vertical = 0;
+            r = Properties.Resources.tu_22;
+            horizontal = 0;
+            pictureBox1.Image = r;
         }
     }
 }

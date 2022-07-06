@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\MarkerTooltip.cs" />
+    <Compile Include="Models\Line.cs" />
     <Compile Include="Models\Units\Distance.cs" />
     <Compile Include="Models\Units\Speed.cs" />
     <Compile Include="Program.cs" />

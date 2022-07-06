@@ -39,6 +39,7 @@
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
             this.numericAngle = new System.Windows.Forms.NumericUpDown();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericAngle)).BeginInit();
@@ -166,10 +167,20 @@
             this.numericAngle.TabIndex = 10;
             this.numericAngle.ValueChanged += new System.EventHandler(this.numericAngle_ValueChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(202, 275);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(28, 23);
+            this.button1.TabIndex = 11;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // TraceSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.numericAngle);
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonRight);
@@ -204,5 +215,6 @@
         private System.Windows.Forms.Button buttonRight;
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.NumericUpDown numericAngle;
+        private System.Windows.Forms.Button button1;
     }
 }
