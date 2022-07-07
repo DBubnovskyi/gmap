@@ -42,10 +42,10 @@ namespace MapForms.Controls
             //gMapControl.MouseMove += gMapControl_MouseMove;
             gMapControl.MouseUp += GMapControl_MouseClick;
             gMapControl.KeyDown += GMapControl_KeyClick;
+            gMapControl.Overlays.Add(routes);
             gMapControl.Overlays.Add(markers);
             gMapControl.Overlays.Add(polyOverlay);
             gMapControl.Overlays.Add(targets);
-            gMapControl.Overlays.Add(routes);
             //InitTimer();
         }
 
@@ -91,11 +91,9 @@ namespace MapForms.Controls
                 }
                 else if (ActiveMode == ActiveMapMode.Trajectory)
                 {
-                    var icon1 = ImageHelper.DrawCircule();
                     Marker m = new Marker(coordinates)
                     {
-                        Icon = Properties.Resources.dot_red,
-                        //Icon = icon1,
+                        Icon = ImageHelper.DrawCircule(Color.Sienna),
                         IsShowCoordintes = true,
                         ToolTipMode = MarkerTooltipMode.Always,
                     };
@@ -107,9 +105,9 @@ namespace MapForms.Controls
                         PointLatLng p2 = markers.Markers[1].Position;
                         routes.Routes.Add(new Line(p1, p2).ToRoute());
 
-                        Bitmap icon = Properties.Resources.tu_22;
+                        Bitmap icon = Properties.Resources.cruise_missaile;
                         icon = ImageHelper.RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
-                        icon = ImageHelper.ColorReplace(icon, 250, Color.Red);
+                        icon = ImageHelper.ColorReplace(icon, 50, Color.Red);
 
                         PointLatLng point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
                         Marker mx = new Marker(point)
@@ -225,6 +223,7 @@ namespace MapForms.Controls
 
                 var point = VectorHelper.FindPointOnRoute(x.Position, p2, Speed.ToMps() / 1000);
                 x.Position = point;
+                x.ToolTipMode = MarkerTooltipMode.Always;
 
                 double bering = VectorHelper.VectorBearing360(x.Position, p2);
                 bering = Math.Round(bering, 1);

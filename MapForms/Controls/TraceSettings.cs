@@ -20,6 +20,7 @@ namespace MapForms.Controls
         {
             InitializeComponent();
             Speed.Value = (double)numericSpeed.Value;
+            pictureBox2.Image = ImageHelper.DrawCircule(Color.Red, (int)numericUpDown1.Value);
         }
 
         private void numericSpeed_ValueChanged(object sender, EventArgs e)
@@ -68,6 +69,11 @@ namespace MapForms.Controls
             r = Properties.Resources.tu_22;
             horizontal = 0;
             pictureBox1.Image = r;
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            pictureBox2.Image = ImageHelper.DrawCircule(Color.Red, (int)numericUpDown1.Value);
         }
     }
 }

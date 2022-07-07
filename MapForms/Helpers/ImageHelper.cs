@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace MapForms.Helpers
 {
@@ -120,19 +121,22 @@ namespace MapForms.Helpers
             return image;
         }
 
-        public static Bitmap DrawCircule()
+        public static Bitmap DrawCircule(Color color, int nSize = 8)
         {
-            using (Bitmap btm = new Bitmap(25, 25))
+            int maxSize = 32;
+            int minSize = 1;
+            if(nSize > maxSize || nSize < minSize)
             {
-                using (Graphics grf = Graphics.FromImage(btm))
-                {
-                    using (Brush brsh = new SolidBrush(ColorTranslator.FromHtml("#ff00ffff")))
-                    {
-                        grf.FillEllipse(brsh, 0, 0, 19, 19);
-                    }
-                }
-                return btm;
+                nSize = maxSize / 2;    
             }
+            Bitmap bm = new Bitmap(maxSize, maxSize);
+            using (Graphics gr = Graphics.FromImage(bm))
+            {
+                gr.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                gr.FillEllipse(new SolidBrush(color), Convert.ToInt32((maxSize - nSize) / 2),
+                    Convert.ToInt32((maxSize - nSize) / 2), nSize, nSize);
+            }
+            return bm;
         }
     }
 }
