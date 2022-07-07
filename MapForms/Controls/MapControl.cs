@@ -45,6 +45,7 @@ namespace MapForms.Controls
             gMapControl.Overlays.Add(markers);
             gMapControl.Overlays.Add(polyOverlay);
             gMapControl.Overlays.Add(targets);
+            gMapControl.Overlays.Add(routes);
             //InitTimer();
         }
 
@@ -90,9 +91,11 @@ namespace MapForms.Controls
                 }
                 else if (ActiveMode == ActiveMapMode.Trajectory)
                 {
+                    var icon1 = ImageHelper.DrawCircule();
                     Marker m = new Marker(coordinates)
                     {
                         Icon = Properties.Resources.dot_red,
+                        //Icon = icon1,
                         IsShowCoordintes = true,
                         ToolTipMode = MarkerTooltipMode.Always,
                     };
@@ -102,6 +105,7 @@ namespace MapForms.Controls
                     {
                         PointLatLng p1 = markers.Markers[0].Position;
                         PointLatLng p2 = markers.Markers[1].Position;
+                        routes.Routes.Add(new Line(p1, p2).ToRoute());
 
                         Bitmap icon = Properties.Resources.tu_22;
                         icon = ImageHelper.RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
