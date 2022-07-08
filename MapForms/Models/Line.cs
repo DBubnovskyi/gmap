@@ -17,10 +17,13 @@ namespace MapForms.Models
 
         public PointLatLng Start { get; set; }
         public PointLatLng End { get; set; }
-        public Pen Stroke { get; set; } = new Pen(Color.Red, 1);
+        public Pen Stroke { get; set; } = new Pen(Color.FromArgb(100, Color.Red), 3);
 
         public GMapRoute ToRoute()
         {
+
+            Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            Stroke.DashPattern = new float[] { 0.25F, 0.25F, 1F, 0.5F };
             GMapRoute route = new GMapRoute(new List<PointLatLng> { Start, End }, $"line {counter}")
             {
                 Stroke = Stroke

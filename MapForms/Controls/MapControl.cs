@@ -107,7 +107,7 @@ namespace MapForms.Controls
 
                         Bitmap icon = Properties.Resources.cruise_missaile;
                         icon = ImageHelper.RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
-                        icon = ImageHelper.ColorReplace(icon, 50, Color.Red);
+                        icon = ImageHelper.ColorReplace(icon, 1, Color.Red);
 
                         PointLatLng point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
                         Marker mx = new Marker(point)

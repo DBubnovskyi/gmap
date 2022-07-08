@@ -8,9 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MapForms.Properties {
-    using System;
-    
+namespace MapForms.Properties {   
     
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
