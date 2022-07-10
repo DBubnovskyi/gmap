@@ -42,10 +42,65 @@ namespace MapForms.Controls
             //gMapControl.MouseMove += gMapControl_MouseMove;
             gMapControl.MouseUp += GMapControl_MouseClick;
             gMapControl.KeyDown += GMapControl_KeyClick;
+            gMapControl.Overlays.Add(polyOverlay);
             gMapControl.Overlays.Add(routes);
             gMapControl.Overlays.Add(markers);
-            gMapControl.Overlays.Add(polyOverlay);
             gMapControl.Overlays.Add(targets);
+
+            //var root = Class1.ReadFile("data-1");
+
+            //foreach(var f in root.features)
+            //{
+            //    List<PointLatLng> points_p = new List<PointLatLng>();
+            //    foreach (var s in f.geometry.coordinates)
+            //    {
+            //        points_p.Add(new PointLatLng(s[1], s[0]));
+            //    }
+            //    GMapRoute r = new GMapRoute(points_p, "myroute");
+            //    r.Stroke.Width = 3;
+            //    r.Stroke.Color = Color.WhiteSmoke;
+            //    polyOverlay.Routes.Add(r);
+            //}
+
+            var root1 = V2.Temperatures.FromJson("line");
+            foreach (var f in root1.Features)
+            {
+                List<PointLatLng> points_p = new List<PointLatLng>();
+                foreach (var c1 in f.Geometry.Coordinates)
+                {
+                    foreach(var c2 in c1)
+                    {
+                        points_p.Add(new PointLatLng(c2[1], c2[0]));
+                    }
+                }
+                GMapPolygon r = new GMapPolygon(points_p, "polygon")
+                {
+                    Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
+                    Stroke = new Pen(Color.Red, 1)
+                };
+                polyOverlay.Polygons.Add(r);
+            }
+
+            var root2 = V1.Temperatures.FromJson("line2");
+            foreach (var f in root2.Features)
+            {
+                List<PointLatLng> points_p = new List<PointLatLng>();
+                foreach (var c1 in f.Geometry.Coordinates)
+                {
+                    foreach (var c2 in c1)
+                    {
+                        foreach (var c3 in c2)
+                        {
+                            points_p.Add(new PointLatLng(c3[1], c3[0]));
+                        }
+                    }
+                }
+                GMapRoute r = new GMapRoute(points_p, "myroute");
+                r.Stroke.Width = 3;
+                r.Stroke.Color = Color.DarkBlue;
+                polyOverlay.Routes.Add(r);
+            }
+
             //InitTimer();
         }
 

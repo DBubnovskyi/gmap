@@ -75,5 +75,10 @@ namespace MapForms.Controls
         {
             pictureBox2.Image = ImageHelper.DrawCircule(Color.Red, (int)numericUpDown1.Value);
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
