@@ -84,8 +84,6 @@
     <Compile Include="Controls\TraceSettings.Designer.cs">
       <DependentUpon>TraceSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Class1.cs" />
-    <Compile Include="Helpers\Temperatures.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\MathHelper.cs" />
     <Compile Include="Helpers\MouseHelper.cs" />
@@ -97,6 +95,16 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Data\SetUawardata\DataSet.cs" />
+    <Compile Include="Models\Data\SetUawardata\Crs.cs" />
+    <Compile Include="Models\Data\SetUawardata\CrsProperties.cs" />
+    <Compile Include="Models\Data\SetUawardata\DateList.cs" />
+    <Compile Include="Models\Data\SetUawardata\FeatureV2.cs" />
+    <Compile Include="Models\Data\SetUawardata\FeatureV1.cs" />
+    <Compile Include="Models\Data\SetUawardata\Geometry.cs" />
+    <Compile Include="Models\Data\Converter.cs" />
+    <Compile Include="Models\Data\SetUawardata\Properties.cs" />
+    <Compile Include="Models\Data\SetUawardata\UawardataDataProcessor.cs" />
     <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\MarkerTooltip.cs" />
     <Compile Include="Models\Line.cs" />
@@ -130,16 +138,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="DataSets\Targets.json">
+    <Content Include="DataSets\targets.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DataSets\data-1.json">
+    <Content Include="DataSets\occupied-battle.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DataSets\line.json">
+    <Content Include="DataSets\ocupated.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DataSets\line2.json">
+    <Content Include="DataSets\outline.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
@@ -180,5 +188,6 @@
     <None Include="Resources\fast-forward-l.png" />
     <None Include="Resources\maps-and-flags.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

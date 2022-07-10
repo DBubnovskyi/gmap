@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using MapForms.Models;
+using MapForms.Models.Data;
+using MapForms.Models.Data.SetUawardata;
 
 namespace MapForms.Controls
 {
@@ -47,59 +49,68 @@ namespace MapForms.Controls
             gMapControl.Overlays.Add(markers);
             gMapControl.Overlays.Add(targets);
 
-            //var root = Class1.ReadFile("data-1");
+            var s = new UawardataDataProcessor();
 
-            //foreach(var f in root.features)
+            //var root1 = DataSet<FeatureV1>.FromJson("ocupated");
+            //foreach (var f in root1.Features)
             //{
             //    List<PointLatLng> points_p = new List<PointLatLng>();
-            //    foreach (var s in f.geometry.coordinates)
+            //    foreach (var c1 in f.Geometry.Coordinates)
             //    {
-            //        points_p.Add(new PointLatLng(s[1], s[0]));
+            //        foreach (var c2 in c1)
+            //        {
+            //            points_p.Add(new PointLatLng(c2[1], c2[0]));
+            //        }
+            //    }
+            //    GMapPolygon r = new GMapPolygon(points_p, "polygon")
+            //    {
+            //        Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
+            //        Stroke = new Pen(Color.Red, 1)
+            //    };
+            //    polyOverlay.Polygons.Add(r);
+            //}
+
+            //var root2 = DataSet<FeatureV2>.FromJson("outline");
+            //foreach (var f in root2.Features)
+            //{
+            //    List<PointLatLng> points_p = new List<PointLatLng>();
+            //    foreach (var c1 in f.Geometry.Coordinates)
+            //    {
+            //        foreach (var c2 in c1)
+            //        {
+            //            foreach (var c3 in c2)
+            //            {
+            //                points_p.Add(new PointLatLng(c3[1], c3[0]));
+            //            }
+            //        }
             //    }
             //    GMapRoute r = new GMapRoute(points_p, "myroute");
             //    r.Stroke.Width = 3;
-            //    r.Stroke.Color = Color.WhiteSmoke;
+            //    r.Stroke.Color = Color.DarkBlue;
             //    polyOverlay.Routes.Add(r);
             //}
 
-            var root1 = V2.Temperatures.FromJson("line");
-            foreach (var f in root1.Features)
-            {
-                List<PointLatLng> points_p = new List<PointLatLng>();
-                foreach (var c1 in f.Geometry.Coordinates)
-                {
-                    foreach(var c2 in c1)
-                    {
-                        points_p.Add(new PointLatLng(c2[1], c2[0]));
-                    }
-                }
-                GMapPolygon r = new GMapPolygon(points_p, "polygon")
-                {
-                    Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
-                    Stroke = new Pen(Color.Red, 1)
-                };
-                polyOverlay.Polygons.Add(r);
-            }
-
-            var root2 = V1.Temperatures.FromJson("line2");
-            foreach (var f in root2.Features)
-            {
-                List<PointLatLng> points_p = new List<PointLatLng>();
-                foreach (var c1 in f.Geometry.Coordinates)
-                {
-                    foreach (var c2 in c1)
-                    {
-                        foreach (var c3 in c2)
-                        {
-                            points_p.Add(new PointLatLng(c3[1], c3[0]));
-                        }
-                    }
-                }
-                GMapRoute r = new GMapRoute(points_p, "myroute");
-                r.Stroke.Width = 3;
-                r.Stroke.Color = Color.DarkBlue;
-                polyOverlay.Routes.Add(r);
-            }
+            //var root3 = DataSet<FeatureV2>.FromJson("occupied-battle");
+            //foreach (var f in root3.Features)
+            //{
+            //    foreach (var c1 in f.Geometry.Coordinates)
+            //    {
+            //        foreach (var c2 in c1)
+            //        {
+            //            List<PointLatLng> points_p = new List<PointLatLng>();
+            //            foreach (var c3 in c2)
+            //            {
+            //                points_p.Add(new PointLatLng(c3[1], c3[0]));
+            //            }
+            //            GMapPolygon r = new GMapPolygon(points_p, "polygon")
+            //            {
+            //                Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
+            //                Stroke = new Pen(Color.Red, 1)
+            //            };
+            //            polyOverlay.Polygons.Add(r);
+            //        }
+            //    }
+            //}
 
             //InitTimer();
         }
