@@ -1,0 +1,11 @@
+C:\Users\оллд\Documents\gmap\MapProcassor\bin\Debug\MapProcassor.exe.config
+C:\Users\оллд\Documents\gmap\MapProcassor\bin\Debug\MapProcassor.exe
+C:\Users\оллд\Documents\gmap\MapProcassor\bin\Debug\MapProcassor.pdb
+C:\Users\оллд\Documents\gmap\MapProcassor\bin\Debug\Newtonsoft.Json.dll
+C:\Users\оллд\Documents\gmap\MapProcassor\bin\Debug\Newtonsoft.Json.xml
+C:\Users\оллд\Documents\gmap\MapProcassor\obj\Debug\MapProcassor.csproj.AssemblyReference.cache
+C:\Users\оллд\Documents\gmap\MapProcassor\obj\Debug\MapProcassor.csproj.SuggestedBindingRedirects.cache
+C:\Users\оллд\Documents\gmap\MapProcassor\obj\Debug\MapProcassor.csproj.CoreCompileInputs.cache
+C:\Users\оллд\Documents\gmap\MapProcassor\obj\Debug\MapProcassor.csproj.CopyComplete
+C:\Users\оллд\Documents\gmap\MapProcassor\obj\Debug\MapProcassor.exe
+C:\Users\оллд\Documents\gmap\MapProcassor\obj\Debug\MapProcassor.pdb

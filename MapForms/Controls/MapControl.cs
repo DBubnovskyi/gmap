@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using MapForms.Models;
 using MapForms.Models.Data;
 using MapForms.Models.Data.SetUawardata;
+using MapProcassor.Models.Alert;
+using MapProcassor.Models;
 
 namespace MapForms.Controls
 {
@@ -50,67 +52,73 @@ namespace MapForms.Controls
             gMapControl.Overlays.Add(targets);
 
             var s = new UawardataDataProcessor();
+            foreach(var a in s.ActualLine)
+            {
+                GMapPolygon r = new GMapPolygon(a, "polygon")
+                {
+                    Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
+                    Stroke = new Pen(Color.FromArgb(150, Color.Red), 1)
+                };
+                polyOverlay.Polygons.Add(r);
+            }
 
-            //var root1 = DataSet<FeatureV1>.FromJson("ocupated");
-            //foreach (var f in root1.Features)
-            //{
-            //    List<PointLatLng> points_p = new List<PointLatLng>();
-            //    foreach (var c1 in f.Geometry.Coordinates)
-            //    {
-            //        foreach (var c2 in c1)
-            //        {
-            //            points_p.Add(new PointLatLng(c2[1], c2[0]));
-            //        }
-            //    }
-            //    GMapPolygon r = new GMapPolygon(points_p, "polygon")
-            //    {
-            //        Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
-            //        Stroke = new Pen(Color.Red, 1)
-            //    };
-            //    polyOverlay.Polygons.Add(r);
-            //}
+            foreach (var a in s.Line240222)
+            {
+                GMapPolygon r = new GMapPolygon(a, "polygon")
+                {
+                    Fill = new SolidBrush(Color.FromArgb(50, Color.DarkRed)),
+                    Stroke = new Pen(Color.FromArgb(150, Color.DarkRed), 1)
+                };
+                polyOverlay.Polygons.Add(r);
+            }
 
-            //var root2 = DataSet<FeatureV2>.FromJson("outline");
-            //foreach (var f in root2.Features)
-            //{
-            //    List<PointLatLng> points_p = new List<PointLatLng>();
-            //    foreach (var c1 in f.Geometry.Coordinates)
-            //    {
-            //        foreach (var c2 in c1)
-            //        {
-            //            foreach (var c3 in c2)
-            //            {
-            //                points_p.Add(new PointLatLng(c3[1], c3[0]));
-            //            }
-            //        }
-            //    }
-            //    GMapRoute r = new GMapRoute(points_p, "myroute");
-            //    r.Stroke.Width = 3;
-            //    r.Stroke.Color = Color.DarkBlue;
-            //    polyOverlay.Routes.Add(r);
-            //}
+            var aleerts = new Alerts().Convert();
+            string regionJson = "";
+            foreach (var reg in aleerts)
+            {
+                if (reg.Enabled)
+                {
+                    string url = $"https://nominatim.openstreetmap.org/search.php?q={reg.Name}&format=jsonv2";
+                    string json = Loader.LoadJson(url);
+                    List<Geonode>  region = Geonode.FromJson(json);
 
-            //var root3 = DataSet<FeatureV2>.FromJson("occupied-battle");
-            //foreach (var f in root3.Features)
-            //{
-            //    foreach (var c1 in f.Geometry.Coordinates)
-            //    {
-            //        foreach (var c2 in c1)
-            //        {
-            //            List<PointLatLng> points_p = new List<PointLatLng>();
-            //            foreach (var c3 in c2)
-            //            {
-            //                points_p.Add(new PointLatLng(c3[1], c3[0]));
-            //            }
-            //            GMapPolygon r = new GMapPolygon(points_p, "polygon")
-            //            {
-            //                Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
-            //                Stroke = new Pen(Color.Red, 1)
-            //            };
-            //            polyOverlay.Polygons.Add(r);
-            //        }
-            //    }
-            //}
+                    url = $"https://polygons.openstreetmap.fr/get_geojson.py?id={region[0].OsmId}";
+                    regionJson = Loader.LoadJson(url);
+                }
+            }
+            var regionPoligon = RegionPoligon.FromJson(regionJson).ToPoligons();
+
+            Pen p = new Pen(Color.FromArgb(200, Color.Gray), 2); 
+            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            p.DashPattern = new float[] { 0.25F, 0.25F, 0.25F, 0.25F, 1F, 1F, 1F, 1F };
+            foreach (var a in regionPoligon)
+            {
+                GMapPolygon r = new GMapPolygon(a, "polygon")
+                {
+                    Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
+                    Stroke = p
+                };
+                polyOverlay.Polygons.Add(r);
+            }
+
+            //https://www.saveecobot.com/fire-maps#9/47.0467/33.0688/none/capt
+            string urlTest = $"https://nominatim.openstreetmap.org/search.php?q=Вінницька область&format=jsonv2";
+            string jsonTest = Loader.LoadJson(urlTest);
+            List<Geonode> regionTest = Geonode.FromJson(jsonTest);
+
+            urlTest = $"https://polygons.openstreetmap.fr/get_geojson.py?id={regionTest[0].OsmId}";
+            regionJson = Loader.LoadJson(urlTest);
+
+            regionPoligon = RegionPoligon.FromJson(regionJson).ToPoligons();
+            foreach (var a in regionPoligon)
+            {
+                GMapPolygon r = new GMapPolygon(a, "polygon")
+                {
+                    Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
+                    Stroke = p
+                };
+                polyOverlay.Polygons.Add(r);
+            }
 
             //InitTimer();
         }

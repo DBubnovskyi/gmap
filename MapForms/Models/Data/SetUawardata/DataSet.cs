@@ -22,17 +22,6 @@ namespace MapForms.Models.SetUawardata.Data
 
 
         public static DataSet<T> FromJson(string json) => JsonConvert.DeserializeObject<DataSet<T>>(json, Converter.Settings);
-        //public static DataSet<T> FromJson(string fileName)
-        //{
-        //    string path = Path.GetDirectoryName(Application.ExecutablePath) + $"\\DataSets\\{fileName}.json";
-        //    if (File.Exists(path))
-        //    {
-        //        string json = File.ReadAllText(path);
-        //        var obj = JsonConvert.DeserializeObject<DataSet<T>>(json, Converter.Settings);
-        //        return obj;
-        //    }
-        //    return null;
-        //}
     }
 
     public static partial class Serialize
