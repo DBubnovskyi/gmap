@@ -19,6 +19,6 @@ namespace MapForms.Models.Settings
         }
 
         public DashStyle DashStyle { get; set; } = DashStyle.Custom;
-        public float[] DashPattern { get; set; } = new float[] {1F};
+        public float[] DashPattern { get; set; } = new float[] {1F, 0.5F};
     }
 }

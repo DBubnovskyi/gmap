@@ -8,8 +8,15 @@ namespace MapForms.Models
     internal class Line
     {
         private static int counter;
-        public Line(PointLatLng start, PointLatLng end)
+
+        public Line(PointLatLng start, PointLatLng end) => new Line(start, end, Color.Red);
+
+        public Line(PointLatLng start, PointLatLng end, Color lineColor)
+            => new Line(start, end, new Pen(Color.FromArgb(100, lineColor), 3));
+
+        public Line(PointLatLng start, PointLatLng end, Pen linePen)
         {
+            Stroke = linePen;
             Start = start;
             End = end;
             counter++;
@@ -22,8 +29,8 @@ namespace MapForms.Models
         public GMapRoute ToRoute()
         {
 
-            Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            Stroke.DashPattern = new float[] { 0.25F, 0.25F, 1F, 0.5F };
+            //Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            //Stroke.DashPattern = new float[] { 0.25F, 0.25F, 1F, 0.5F };
             GMapRoute route = new GMapRoute(new List<PointLatLng> { Start, End }, $"line {counter}")
             {
                 Stroke = Stroke

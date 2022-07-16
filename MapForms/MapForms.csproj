@@ -95,6 +95,10 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Data\Alert\Alerts.cs" />
+    <Compile Include="Models\Data\Alert\Extension.cs" />
+    <Compile Include="Models\Data\Alert\Geonode.cs" />
+    <Compile Include="Models\Data\Alert\RegionPoligon.cs" />
     <Compile Include="Models\Data\SetUawardata\DataSet.cs" />
     <Compile Include="Models\Data\SetUawardata\Crs.cs" />
     <Compile Include="Models\Data\SetUawardata\CrsProperties.cs" />
@@ -105,6 +109,8 @@
     <Compile Include="Models\Data\Converter.cs" />
     <Compile Include="Models\Data\SetUawardata\Properties.cs" />
     <Compile Include="Models\Data\SetUawardata\UawardataDataProcessor.cs" />
+    <Compile Include="Models\LineTraice.cs" />
+    <Compile Include="Models\Loader.cs" />
     <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\MarkerTooltip.cs" />
     <Compile Include="Models\Line.cs" />

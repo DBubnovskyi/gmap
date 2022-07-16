@@ -98,7 +98,7 @@ namespace MapForms.Controls
                     Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
                     Stroke = p
                 };
-                polyOverlay.Polygons.Add(r);
+                //polyOverlay.Polygons.Add(r);
             }
 
             //https://www.saveecobot.com/fire-maps#9/47.0467/33.0688/none/capt
@@ -117,7 +117,7 @@ namespace MapForms.Controls
                     Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
                     Stroke = p
                 };
-                polyOverlay.Polygons.Add(r);
+                //polyOverlay.Polygons.Add(r);
             }
 
             //InitTimer();
