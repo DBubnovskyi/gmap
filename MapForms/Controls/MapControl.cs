@@ -162,7 +162,7 @@ namespace MapForms.Controls
                     {
                         m.ToolTipText = TooltipText;
                     }
-                    targets.Markers.Add(m.ToMarker());
+                    targets.Markers.Add(m.ToGMapMarker());
                 }
                 else if (ActiveMode == ActiveMapMode.Trajectory)
                 {
@@ -170,159 +170,39 @@ namespace MapForms.Controls
                     {
                         Icon = ImageHelper.DrawCircule(Color.Sienna),
                         IsShowCoordintes = true,
-                        ToolTipMode = MarkerTooltipMode.Always,
+                        ToolTipMode = MarkerTooltipMode.OnMouseOver,
                     };
-                    markers.Markers.Add(m.ToMarker());
+                    markers.Markers.Add(m.ToGMapMarker());
 
-                    if (markers.Markers.Count == 2)
-                    {
-                        PointLatLng p1 = markers.Markers[0].Position;
-                        PointLatLng p2 = markers.Markers[1].Position;
-                        var r = new Line(p1, p2).ToRoute();
-                        routes.Routes.Add(r);
-
-                        Bitmap icon = Properties.Resources.cruise_missaile;
-                        icon = ImageHelper.RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
-                        icon = ImageHelper.ColorReplace(icon, 1, Color.Red);
-
-                        PointLatLng point = VectorHelper.FindPointOnRouteV2(p1, p2, Speed.ToMps() / 1000);
-                        Marker mx = new Marker(point)
-                        {
-                            Offset = new Point(-16, -16),
-                            ToolTipMode = MarkerTooltipMode.Always,
-                            Icon = icon,
-                        };
-
-                        GMapMarker m1 = mx.ToMarker();
-
-                        double bering = VectorHelper.VectorBearing360(m1.Position, p2);
-                        bering = Math.Round(bering, 1);
-                        double distance = VectorHelper.DistanceTo(m1.Position, p2);
-                        distance = Math.Round(distance, 3);
-                        m1.ToolTipText = $"{bering}°\n{distance}км";
-
-                        GMapMarker markEnd = markers.Markers[1];
-                        markEnd.ToolTipMode = MarkerTooltipMode.Always;
-                        double timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
-                        TimeSpan time = TimeSpan.FromHours(timeInHours);
-                        DateTime timeEnd = DateTime.Now + time;
-                        markEnd.ToolTipText = $"{time:hh\\:mm\\:ss}\n{timeEnd:HH:mm:ss}";
-
-                        markers.Markers.Add(m1);
-                        InitTimer();
-                    }
-                    else if (markers.Markers.Count > 2)
-                    {
-                    }
+                    //if (markers.Markers.Count == 2)
+                    //{
+                        //PointLatLng p1 = markers.Markers[0].Position;
+                        //PointLatLng p2 = markers.Markers[1].Position;
+                        //var lt = new LineTraice(routes, p1, p2, Speed);
+                        //lt.StartMove();
+                    //}
                 }
-
-
-                //if (ActiveMode == ActiveMapMode.Route)
-                //{
-                //    gMapControl.Overlays.Add(routes);
-                //    list.Add(coordinates);
-                //    GMapRoute r = new GMapRoute(list, "myroute"); // object for routing
-                //    r.Stroke.Width = 5;
-                //    r.Stroke.Color = Color.Red;
-                //    labelDistance.Text = $"{Math.Round(r.Distance, 3)} km";
-                //    routes.Routes.Add(r);
-
-
-                //    GMapMarker m1 = new MarkerHelper().AddMarker(coordinates);
-                //    m.Offset = new Point(-12, -12);
-                //    markers.Markers.Add(m1);
-                //}
-                //else if (ActiveMode == ActiveMapMode.Poligon)
-                //{
-                //    polyOverlay.Polygons.Clear();
-                //    points.Add(coordinates);
-                //    GMapPolygon polygon = new GMapPolygon(points, "mypolygon")
-                //    {
-                //        Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
-                //        Stroke = new Pen(Color.Red, 1)
-                //    };
-                //    polyOverlay.Polygons.Add(polygon);
-
-                //    var m = new MarkerHelper().AddMarker(coordinates);
-                //    m.Offset = new Point(-12, -12);
-                //    markers.Markers.Add(m);
-                //}
-                //else if (ActiveMode == ActiveMapMode.Marcer)
-                //{
-                //    //GMapMarker marker = new GMap.NET.WindowsForms.Markers.GMarkerGoogle(
-                //    //    coordinates, Properties.Resources.dot_blue);
-                //    //marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                //    ////marker.ToolTipText = "ARDUINO 1";
-                //    //marker.ToolTip = new GMapBaloonToolTip(marker);
-                //    ////marker.ToolTip.Stroke.Color = Color.FromArgb(0, 255, 255, 0);
-                //    //marker.ToolTip.Font = new Font("Arial", 8, FontStyle.Regular);
-                //    //marker.ToolTip.Fill = new SolidBrush(Color.Transparent);
-                //    //marker.ToolTip.Foreground = new SolidBrush(Color.Red);
-                //    //marker.ToolTip.Offset = new Point(8, -8);
-                //    //marker.Offset = new Point(-12, -12);
-
-                //    var m = new MarkerHelper().AddMarker(coordinates);
-                //    m.Offset = new Point(-12, -12);
-                //    markers.Markers.Add(m);
-                //}
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                List<PointLatLng> points = new List<PointLatLng>();
+                foreach(var point in markers.Markers)
+                {
+                    points.Add(point.Position);
+                }
+                new RouteTraice(routes, points, Speed).StartRoute();
             }
         }
         private void GMapControl_KeyClick(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
-                timer1?.Stop();
                 markers.Markers.Clear();
                 list.Clear();
                 routes.Routes.Clear();
             }
         }
-        private Timer timer1;
-        public void InitTimer()
-        {
-            timer1 = new Timer();
-            timer1.Tick += new EventHandler(timer1_Tick);
-            timer1.Interval = 1000; // in miliseconds
-            timer1.Start();
-        }
-
 
         public Speed Speed;
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (markers.Markers.Count == 3)
-            {
-                PointLatLng p1 = markers.Markers[0].Position;
-                PointLatLng p2 = markers.Markers[1].Position;
-                var x = markers.Markers[2];
-
-                var point = VectorHelper.FindPointOnRoute(x.Position, p2, Speed.ToMps() / 1000);
-                x.Position = point;
-                x.ToolTipMode = MarkerTooltipMode.Always;
-
-                double bering = VectorHelper.VectorBearing360(x.Position, p2);
-                bering = Math.Round(bering, 1);
-                double distance = VectorHelper.DistanceTo(x.Position, p2);
-                double distance2 = VectorHelper.DistanceRoute(x.Position, p2);
-                distance = Math.Round(distance, 3);
-                distance2 = Math.Round(distance2, 3);
-
-                x.ToolTipText = $"{bering}°\n{distance}км\n{distance2}";
-
-                var markEnd = markers.Markers[1];
-                markEnd.ToolTipMode = MarkerTooltipMode.Always;
-                var timeInHours = VectorHelper.DistanceTo(x.Position, p2) / Speed.ToKmph();
-                var time = TimeSpan.FromHours(timeInHours);
-                var timeEnd = DateTime.Now + time;
-                markEnd.ToolTipText = $"{time.ToString("hh\\:mm\\:ss")}\n{timeEnd:HH:mm:ss}";
-            }
-
-            //foreach (var m in markers.Markers)
-            //{
-            //    polyOverlay.Polygons.Clear();
-            //    var poligon = PoligonCirculeHelper.CreateCircle(m.Position, s);
-            //    polyOverlay.Polygons.Add(poligon);
-            //}
-        }
     }
 }

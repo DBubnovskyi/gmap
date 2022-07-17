@@ -20,7 +20,7 @@ namespace MapForms.Models
         public MarkerTooltipMode ToolTipMode { get; set; } = MarkerTooltipMode.OnMouseOver;
         public bool IsShowCoordintes { get; set; }
 
-        public virtual GMapMarker ToMarker()
+        public virtual GMapMarker ToGMapMarker()
         {
             GMapMarker marker = new GMap.NET.WindowsForms.Markers.GMarkerGoogle(Coordinates, Icon)
             {
