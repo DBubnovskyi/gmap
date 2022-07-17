@@ -9,7 +9,7 @@
             Miles,
         }
 
-        public Distance(double value) :this(value, DistanceUnits.Meters) { }
+        public Distance(double value) :this(value, DistanceUnits.Kilometers) { }
 
         public Distance(double value, DistanceUnits units)
         {
@@ -78,7 +78,7 @@
         /// <returns>distance in miles</returns>
         private static double Km_to_miles(double km)
         {
-            return 1.6093472187 * km;
+            return km / 1.6093472187;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@
         /// <returns>distance in kilometers</returns>
         private static double Miles_to_km(double miles)
         {
-            return miles / 1.6093472187;
+            return 1.6093472187 * miles;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace MapForms.Helpers
             dist = Math.Acos(dist);
             dist = dist * 180 / Math.PI;
             dist = dist * 60 * 1.15077945;
-            Distance distance = new Distance(dist);
+            Distance distance = new Distance(dist, DistanceUnits.Miles);
             double result = distance.FromKm(unit);
             return result;
         }
