@@ -8,5 +8,6 @@ namespace MapForms.Models
 {
     internal class LineTraice
     {
+
     }
 }

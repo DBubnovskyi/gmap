@@ -9,16 +9,12 @@
             Miles,
         }
 
-        public Distance(double value)
-        {
-            _value = value;
-            _units = DistanceUnits.Kilometers;
-        }
+        public Distance(double value) :this(value, DistanceUnits.Meters) { }
 
         public Distance(double value, DistanceUnits units)
         {
-            _value = value;
             _units = units;
+            Value = value;
         }
 
         private double _valueKm;
@@ -28,7 +24,7 @@
             get => _value;
             set
             {
-                _valueKm = To_km(value, _units);
+                _valueKm = ToKm(value, _units);
                 _value = value;
             }
         }
@@ -39,16 +35,16 @@
             get => _units;
             set
             {
-                _value = From_km(_valueKm, value);
+                _value = FromKm(_valueKm, value);
                 _units = value;
             }
         }
 
         public double ToKm() => _valueKm;
-        public double ToMiles() => From_km(_valueKm, DistanceUnits.Miles);
-        public double ToMeters() => From_km(_valueKm, DistanceUnits.Meters);
+        public double ToMiles() => FromKm(_valueKm, DistanceUnits.Miles);
+        public double ToMeters() => FromKm(_valueKm, DistanceUnits.Meters);
 
-        public double To_km(double value, DistanceUnits units)
+        public double ToKm(double value, DistanceUnits units)
         {
             if (units == DistanceUnits.Miles)
             {
@@ -61,7 +57,8 @@
             return value;
         }
 
-        public double From_km(double value, DistanceUnits units)
+        public double FromKm(DistanceUnits units) => FromKm(_valueKm, units);
+        public double FromKm(double value, DistanceUnits units)
         {
             if (units == DistanceUnits.Miles)
             {

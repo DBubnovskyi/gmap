@@ -72,53 +72,54 @@ namespace MapForms.Controls
                 polyOverlay.Polygons.Add(r);
             }
 
-            var aleerts = new Alerts().Convert();
-            string regionJson = "";
-            foreach (var reg in aleerts)
-            {
-                if (reg.Enabled)
-                {
-                    string url = $"https://nominatim.openstreetmap.org/search.php?q={reg.Name}&format=jsonv2";
-                    string json = Loader.LoadJson(url);
-                    List<Geonode>  region = Geonode.FromJson(json);
+            //var aleerts = new Alerts().Convert();
+            //string regionJson = "";
+            //foreach (var reg in aleerts)
+            //{
+            //    if (reg.Enabled)
+            //    {
+            //        string url = $"https://nominatim.openstreetmap.org/search.php?q={reg.Name}&format=jsonv2";
+            //        string json = Loader.LoadJson(url);
+            //        List<Geonode>  region = Geonode.FromJson(json);
 
-                    url = $"https://polygons.openstreetmap.fr/get_geojson.py?id={region[0].OsmId}";
-                    regionJson = Loader.LoadJson(url);
-                }
-            }
-            var regionPoligon = RegionPoligon.FromJson(regionJson).ToPoligons();
+            //        url = $"https://polygons.openstreetmap.fr/get_geojson.py?id={region[0].OsmId}";
+            //        regionJson = Loader.LoadJson(url);
+            //    }
+            //}
+            //var regionPoligon = RegionPoligon.FromJson(regionJson).ToPoligons();
 
-            Pen p = new Pen(Color.FromArgb(200, Color.Gray), 2); 
-            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            p.DashPattern = new float[] { 0.25F, 0.25F, 0.25F, 0.25F, 1F, 1F, 1F, 1F };
-            foreach (var a in regionPoligon)
-            {
-                GMapPolygon r = new GMapPolygon(a, "polygon")
-                {
-                    Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
-                    Stroke = p
-                };
+            //Pen p = new Pen(Color.FromArgb(200, Color.Gray), 2); 
+            //p.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            //p.DashPattern = new float[] { 0.25F, 0.25F, 0.25F, 0.25F, 1F, 1F, 1F, 1F };
+            //foreach (var a in regionPoligon)
+            //{
+            //    GMapPolygon r = new GMapPolygon(a, "polygon")
+            //    {
+            //        Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
+            //        Stroke = p
+            //    };
                 //polyOverlay.Polygons.Add(r);
-            }
+            //}
 
             //https://www.saveecobot.com/fire-maps#9/47.0467/33.0688/none/capt
-            string urlTest = $"https://nominatim.openstreetmap.org/search.php?q=Вінницька область&format=jsonv2";
-            string jsonTest = Loader.LoadJson(urlTest);
-            List<Geonode> regionTest = Geonode.FromJson(jsonTest);
+            //string regionName = "Білорусь";
+            //string urlTest = $"https://nominatim.openstreetmap.org/search.php?q={regionName}&format=jsonv2";
+            //string jsonTest = Loader.LoadJson(urlTest);
+            //List<Geonode> regionTest = Geonode.FromJson(jsonTest);
 
-            urlTest = $"https://polygons.openstreetmap.fr/get_geojson.py?id={regionTest[0].OsmId}";
-            regionJson = Loader.LoadJson(urlTest);
+            //urlTest = $"https://polygons.openstreetmap.fr/get_geojson.py?id={regionTest[0].OsmId}";
+            //regionJson = Loader.LoadJson(urlTest);
 
-            regionPoligon = RegionPoligon.FromJson(regionJson).ToPoligons();
-            foreach (var a in regionPoligon)
-            {
-                GMapPolygon r = new GMapPolygon(a, "polygon")
-                {
-                    Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
-                    Stroke = p
-                };
-                //polyOverlay.Polygons.Add(r);
-            }
+            //regionPoligon = RegionPoligon.FromJson(regionJson).ToPoligons();
+            //foreach (var a in regionPoligon)
+            //{
+            //    GMapPolygon r = new GMapPolygon(a, "polygon")
+            //    {
+            //        Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
+            //        Stroke = p
+            //    };
+            //    polyOverlay.Polygons.Add(r);
+            //}
 
             //InitTimer();
         }
@@ -177,7 +178,8 @@ namespace MapForms.Controls
                     {
                         PointLatLng p1 = markers.Markers[0].Position;
                         PointLatLng p2 = markers.Markers[1].Position;
-                        routes.Routes.Add(new Line(p1, p2).ToRoute());
+                        var r = new Line(p1, p2).ToRoute();
+                        routes.Routes.Add(r);
 
                         Bitmap icon = Properties.Resources.cruise_missaile;
                         icon = ImageHelper.RotateImage(icon, (float)VectorHelper.VectorBearing360(p1, p2));
@@ -204,8 +206,7 @@ namespace MapForms.Controls
                         double timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
                         TimeSpan time = TimeSpan.FromHours(timeInHours);
                         DateTime timeEnd = DateTime.Now + time;
-                        markEnd.ToolTipText = $"{time:hh\\:mm\\:ss}\n" +
-                            $"{timeEnd:HH:mm:ss}";
+                        markEnd.ToolTipText = $"{time:hh\\:mm\\:ss}\n{timeEnd:HH:mm:ss}";
 
                         markers.Markers.Add(m1);
                         InitTimer();
@@ -302,9 +303,11 @@ namespace MapForms.Controls
                 double bering = VectorHelper.VectorBearing360(x.Position, p2);
                 bering = Math.Round(bering, 1);
                 double distance = VectorHelper.DistanceTo(x.Position, p2);
+                double distance2 = VectorHelper.DistanceRoute(x.Position, p2);
                 distance = Math.Round(distance, 3);
+                distance2 = Math.Round(distance2, 3);
 
-                x.ToolTipText = $"{bering}°\n{distance}км";
+                x.ToolTipText = $"{bering}°\n{distance}км\n{distance2}";
 
                 var markEnd = markers.Markers[1];
                 markEnd.ToolTipMode = MarkerTooltipMode.Always;
