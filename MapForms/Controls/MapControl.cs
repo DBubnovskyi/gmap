@@ -35,9 +35,9 @@ namespace MapForms.Controls
         public MapControl()
         {
             InitializeComponent();
-            gMapControl.MapProvider = BingMapProvider.Instance;
+            //gMapControl.MapProvider = BingMapProvider.Instance;
             GMaps.Instance.Mode = AccessMode.ServerOnly;
-            gMapControl.MapProvider = GMapProviders.GoogleMap;
+            gMapControl.MapProvider = GMapProviders.GoogleTerrainMap;
             gMapControl.Position = new PointLatLng(48.35, 33.35);
             gMapControl.MinZoom = 0;
             gMapControl.MaxZoom = 22;
@@ -134,6 +134,7 @@ namespace MapForms.Controls
             labelCoordinates.Location = new Point(mouseX, mouseY + 10);
         }
 
+        List<RouteTraice> _traice = new List<RouteTraice>();
         private readonly GMapOverlay targets = new GMapOverlay("targets");
         private readonly GMapOverlay routes = new GMapOverlay("gMapControl");
         private readonly GMapOverlay markers = new GMapOverlay("markers");
@@ -145,6 +146,11 @@ namespace MapForms.Controls
             if (gMapControl.IsDragging || ActiveMode == ActiveMapMode.None)
             {
                 return;
+            }
+
+            if(_traice.Count == 0)
+            {
+                _traice.Add(new RouteTraice(routes, Speed));
             }
 
             PointLatLng coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
@@ -166,21 +172,7 @@ namespace MapForms.Controls
                 }
                 else if (ActiveMode == ActiveMapMode.Trajectory)
                 {
-                    Marker m = new Marker(coordinates)
-                    {
-                        Icon = ImageHelper.DrawCircule(Color.Sienna),
-                        IsShowCoordintes = true,
-                        ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                    };
-                    markers.Markers.Add(m.ToGMapMarker());
-
-                    //if (markers.Markers.Count == 2)
-                    //{
-                        //PointLatLng p1 = markers.Markers[0].Position;
-                        //PointLatLng p2 = markers.Markers[1].Position;
-                        //var lt = new LineTraice(routes, p1, p2, Speed);
-                        //lt.StartMove();
-                    //}
+                    _traice[_traice.Count -1].AddPoint(coordinates);
                 }
             }
             else if (e.Button == MouseButtons.Right)
@@ -190,16 +182,19 @@ namespace MapForms.Controls
                 {
                     points.Add(point.Position);
                 }
-                new RouteTraice(routes, points, Speed).StartRoute();
+                _traice[_traice.Count - 1].StartRoute();
+                _traice.Add(new RouteTraice(routes, Speed));
             }
         }
         private void GMapControl_KeyClick(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
+                _traice.Clear();
                 markers.Markers.Clear();
                 list.Clear();
                 routes.Routes.Clear();
+                routes.Markers.Clear();
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using GMap.NET;
 using MapForms.Models.SetUawardata.Data;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -26,14 +27,17 @@ namespace MapForms.Models.Data.SetUawardata
         {
             using (var client = new WebClient())
             {
-                string areaslistResponce = client.DownloadString($"{hostUrl}{areaslist}");
-                var dateList = DateList.FromJson(areaslistResponce);
-                string actualLineUrl = $"{hostUrl}{areas}{dateList[0].Date}.geojson";
-                string batleResponce = client.DownloadString(actualLineUrl);
-                ActualLine = ParseActualLine(batleResponce);
-                string line240222LineUrl = $"{hostUrl}{line240222}";
-                string line240222Responce = client.DownloadString(line240222LineUrl);
-                Line240222 = ParseLine240222(line240222Responce);
+                try{
+                    string areaslistResponce = client.DownloadString($"{hostUrl}{areaslist}");
+                    var dateList = DateList.FromJson(areaslistResponce);
+                    string actualLineUrl = $"{hostUrl}{areas}{dateList[0].Date}.geojson";
+                    string batleResponce = client.DownloadString(actualLineUrl);
+                    ActualLine = ParseActualLine(batleResponce);
+                    string line240222LineUrl = $"{hostUrl}{line240222}";
+                    string line240222Responce = client.DownloadString(line240222LineUrl);
+                    Line240222 = ParseLine240222(line240222Responce);
+                }
+                catch (Exception) { };
             }
         }
 

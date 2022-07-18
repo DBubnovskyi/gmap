@@ -44,12 +44,39 @@ namespace MapForms.Models
         public Marker Marker { get; set; }
         public Line Line { get; set; }
         public Speed Speed { get; set; }
+        public Marker Start { get; set; }
+        public Marker End { get; set; }
+        public DateTime EndTime { get; set; }
 
+        public void CalculateEndTime() => CalculateEndTime(DateTime.Now);
+        public void CalculateEndTime(DateTime startTime)
+        {
+            PointLatLng p1 = Line.Start;
+            PointLatLng p2 = Line.End;
+            double timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
+            TimeSpan time = TimeSpan.FromHours(timeInHours);
+            EndTime = startTime + time;
+            End = new Marker(p2)
+            {
+                ToolTipMode = MarkerTooltipMode.Always,
+                ToolTipText = $"{time:hh\\:mm\\:ss}\n{EndTime:HH:mm:ss}"
+            };
+            Overlay.Markers.Add(End.ToGMapMarker());
+        }
 
         public void StartMove()
         {
             PointLatLng p1 = Line.Start;
             PointLatLng p2 = Line.End;
+            Start = new Marker(p1)
+            {
+                ToolTipMode = MarkerTooltipMode.Always,
+                ToolTipText = $"{DateTime.Now:HH:mm:ss}\n{Speed.ToKmph()} км/год"
+            };
+            Overlay.Markers.Add(Start.ToGMapMarker());
+
+            CalculateEndTime(DateTime.Now);
+
             _totalDistance = r.Distance;
 
             Bitmap icon = Properties.Resources.cruise_missaile;
@@ -103,12 +130,6 @@ namespace MapForms.Models
 
                 marker.ToolTipText = $"{bering}°\n{distance}км";
             }
-
-            //markEnd.ToolTipMode = MarkerTooltipMode.Always;
-            //var timeInHours = VectorHelper.DistanceTo(x.Position, p2) / Speed.ToKmph();
-            //var time = TimeSpan.FromHours(timeInHours);
-            //var timeEnd = DateTime.Now + time;
-            //markEnd.ToolTipText = $"{time.ToString("hh\\:mm\\:ss")}\n{timeEnd:HH:mm:ss}";
         }
     }
 }

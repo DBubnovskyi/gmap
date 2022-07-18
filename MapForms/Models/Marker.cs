@@ -1,5 +1,6 @@
 ﻿using GMap.NET;
 using GMap.NET.WindowsForms;
+using MapForms.Helpers;
 using System;
 using System.Drawing;
 
@@ -15,7 +16,7 @@ namespace MapForms.Models
         public string Name { get; set; }
         public string ToolTipText { get; set; }
         public Point Offset { get; set; } = new Point(-12, -12);
-        public Bitmap Icon { get; set; }
+        public Bitmap Icon { get; set; } = ImageHelper.DrawCircule(Color.Red, 8);
         public PointLatLng Coordinates { get; set; } = new PointLatLng();
         public MarkerTooltipMode ToolTipMode { get; set; } = MarkerTooltipMode.OnMouseOver;
         public bool IsShowCoordintes { get; set; }
