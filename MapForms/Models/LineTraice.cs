@@ -68,12 +68,12 @@ namespace MapForms.Models
         {
             PointLatLng p1 = Line.Start;
             PointLatLng p2 = Line.End;
-            Start = new Marker(p1)
-            {
-                ToolTipMode = MarkerTooltipMode.Always,
-                ToolTipText = $"{DateTime.Now:HH:mm:ss}\n{Speed.ToKmph()} км/год"
-            };
-            Overlay.Markers.Add(Start.ToGMapMarker());
+            //Start = new Marker(p1)
+            //{
+            //    ToolTipMode = MarkerTooltipMode.Always,
+            //    ToolTipText = $"{DateTime.Now:HH:mm:ss}\n{Speed.ToKmph()} км/год"
+            //};
+            //Overlay.Markers.Add(Start.ToGMapMarker());
 
             CalculateEndTime(DateTime.Now);
 

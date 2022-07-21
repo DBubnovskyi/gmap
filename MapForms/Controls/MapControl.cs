@@ -12,6 +12,7 @@ using MapForms.Models.Data;
 using MapForms.Models.Data.SetUawardata;
 using MapProcassor.Models.Alert;
 using MapProcassor.Models;
+using Newtonsoft.Json;
 
 namespace MapForms.Controls
 {
@@ -35,9 +36,9 @@ namespace MapForms.Controls
         public MapControl()
         {
             InitializeComponent();
-            //gMapControl.MapProvider = BingMapProvider.Instance;
+            gMapControl.MapProvider = BingMapProvider.Instance;
             GMaps.Instance.Mode = AccessMode.ServerOnly;
-            gMapControl.MapProvider = GMapProviders.GoogleTerrainMap;
+            //gMapControl.MapProvider = GMapProviders.GoogleTerrainMap;
             gMapControl.Position = new PointLatLng(48.35, 33.35);
             gMapControl.MinZoom = 0;
             gMapControl.MaxZoom = 22;
@@ -51,26 +52,42 @@ namespace MapForms.Controls
             gMapControl.Overlays.Add(markers);
             gMapControl.Overlays.Add(targets);
 
-            var s = new UawardataDataProcessor();
-            foreach(var a in s.ActualLine)
+            var data = new DataProcesor();
+            data.LoadAll();
+            foreach (var sets in data.DataSets)
             {
-                GMapPolygon r = new GMapPolygon(a, "polygon")
+                foreach (var points in sets.Points)
                 {
-                    Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
-                    Stroke = new Pen(Color.FromArgb(150, Color.Red), 1)
-                };
-                polyOverlay.Polygons.Add(r);
+                    GMapPolygon polygon = new GMapPolygon(points, "polygon")
+                    {
+                        Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
+                        Stroke = new Pen(Color.FromArgb(150, Color.Red), 1)
+                    };
+                    polyOverlay.Polygons.Add(polygon);
+                }
             }
 
-            foreach (var a in s.Line240222)
-            {
-                GMapPolygon r = new GMapPolygon(a, "polygon")
-                {
-                    Fill = new SolidBrush(Color.FromArgb(50, Color.DarkRed)),
-                    Stroke = new Pen(Color.FromArgb(150, Color.DarkRed), 1)
-                };
-                polyOverlay.Polygons.Add(r);
-            }
+
+            //var s = new UawardataDataProcessor();
+            //foreach(var a in s.ActualLine)
+            //{
+            //    GMapPolygon r = new GMapPolygon(a, "polygon")
+            //    {
+            //        Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
+            //        Stroke = new Pen(Color.FromArgb(150, Color.Red), 1)
+            //    };
+            //    polyOverlay.Polygons.Add(r);
+            //}
+
+            //foreach (var a in s.Line240222)
+            //{
+            //    GMapPolygon r = new GMapPolygon(a, "polygon")
+            //    {
+            //        Fill = new SolidBrush(Color.FromArgb(50, Color.DarkRed)),
+            //        Stroke = new Pen(Color.FromArgb(150, Color.DarkRed), 1)
+            //    };
+            //    polyOverlay.Polygons.Add(r);
+            //}
 
             //var aleerts = new Alerts().Convert();
             //string regionJson = "";
@@ -98,7 +115,7 @@ namespace MapForms.Controls
             //        Fill = new SolidBrush(Color.FromArgb(200, Color.Gray)),
             //        Stroke = p
             //    };
-                //polyOverlay.Polygons.Add(r);
+            //polyOverlay.Polygons.Add(r);
             //}
 
             //https://www.saveecobot.com/fire-maps#9/47.0467/33.0688/none/capt
@@ -195,6 +212,37 @@ namespace MapForms.Controls
                 list.Clear();
                 routes.Routes.Clear();
                 routes.Markers.Clear();
+                points.Clear();
+                polyOverlay.Polygons.Clear();
+            }
+            else if (e.KeyCode == Keys.Z)
+            {
+                points.RemoveAt(points.Count - 1);
+                polyOverlay.Polygons.Clear();
+                GMapPolygon polygon = new GMapPolygon(points, "polygon")
+                {
+                    Fill = new SolidBrush(Color.FromArgb(150, Color.DarkBlue)),
+                    Stroke = new Pen(Color.FromArgb(150, Color.DarkBlue), 1)
+                };
+                polyOverlay.Polygons.Add(polygon);
+            }
+            else if (e.KeyCode == Keys.Space)
+            {
+                polyOverlay.Polygons.Clear();
+                var data = new DataProcesor();
+                data.LoadAll();
+                foreach (var sets in data.DataSets)
+                {
+                    foreach (var points in sets.Points)
+                    {
+                        GMapPolygon polygon = new GMapPolygon(points, "polygon")
+                        {
+                            Fill = new SolidBrush(Color.FromArgb(50, Color.Red)),
+                            Stroke = new Pen(Color.FromArgb(150, Color.Red), 1)
+                        };
+                        polyOverlay.Polygons.Add(polygon);
+                    }
+                }
             }
         }
 

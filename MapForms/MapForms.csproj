@@ -99,6 +99,9 @@
     <Compile Include="Models\Data\Alert\Extension.cs" />
     <Compile Include="Models\Data\Alert\Geonode.cs" />
     <Compile Include="Models\Data\Alert\RegionPoligon.cs" />
+    <Compile Include="Models\Data\DataProcesor.cs" />
+    <Compile Include="Models\Data\DataSet.cs" />
+    <Compile Include="Models\Data\SetOpenstreetmap\OpenstreetmapProvider.cs" />
     <Compile Include="Models\Data\SetUawardata\DataSet.cs" />
     <Compile Include="Models\Data\SetUawardata\Crs.cs" />
     <Compile Include="Models\Data\SetUawardata\CrsProperties.cs" />
@@ -145,9 +148,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="DataSets\targets.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="DataSets\occupied-battle.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
