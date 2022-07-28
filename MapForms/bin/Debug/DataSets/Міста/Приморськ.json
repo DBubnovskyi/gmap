@@ -1,0 +1,24 @@
+{
+  "type": "GeometryCollection",
+  "geometries": [
+    {
+      "type": "MultiLocation",
+      "coordinates": [
+        [
+          [
+            [
+              36.3596,
+              46.7333
+            ]
+          ]
+        ]
+      ]
+    }
+  ],
+  "transparency": 150,
+  "line color": null,
+  "background": null,
+  "text color": "#222222",
+  "label": "Приморськ",
+  "mode": 3
+}

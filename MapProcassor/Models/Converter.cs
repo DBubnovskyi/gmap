@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System.Globalization;
 
-namespace MapForms.Models.Data
+namespace MapProcassor.Models
 {
     public static class Converter
     {
@@ -10,6 +10,7 @@ namespace MapForms.Models.Data
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
+            Formatting = Formatting.Indented,
             Converters =
             {
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }

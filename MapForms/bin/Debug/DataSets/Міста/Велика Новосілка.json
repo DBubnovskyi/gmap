@@ -1,0 +1,24 @@
+{
+  "type": "GeometryCollection",
+  "geometries": [
+    {
+      "type": "MultiLocation",
+      "coordinates": [
+        [
+          [
+            [
+              36.83012,
+              47.84091
+            ]
+          ]
+        ]
+      ]
+    }
+  ],
+  "transparency": 150,
+  "line color": null,
+  "background": null,
+  "text color": "#222222",
+  "label": "Велика Новосілка",
+  "mode": 3
+}

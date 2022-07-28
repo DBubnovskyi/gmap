@@ -1,0 +1,24 @@
+{
+  "type": "GeometryCollection",
+  "geometries": [
+    {
+      "type": "MultiLocation",
+      "coordinates": [
+        [
+          [
+            [
+              32.9869,
+              50.0186
+            ]
+          ]
+        ]
+      ]
+    }
+  ],
+  "transparency": 150,
+  "line color": null,
+  "background": null,
+  "text color": "#222222",
+  "label": "Лубни",
+  "mode": 3
+}

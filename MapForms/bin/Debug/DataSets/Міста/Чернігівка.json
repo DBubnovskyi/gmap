@@ -1,0 +1,24 @@
+{
+  "type": "GeometryCollection",
+  "geometries": [
+    {
+      "type": "MultiLocation",
+      "coordinates": [
+        [
+          [
+            [
+              36.2023,
+              47.1942
+            ]
+          ]
+        ]
+      ]
+    }
+  ],
+  "transparency": 150,
+  "line color": null,
+  "background": null,
+  "text color": "#222222",
+  "label": "Чернігівка",
+  "mode": 3
+}

@@ -1,0 +1,24 @@
+{
+  "type": "GeometryCollection",
+  "geometries": [
+    {
+      "type": "MultiLocation",
+      "coordinates": [
+        [
+          [
+            [
+              25.0012,
+              48.8669
+            ]
+          ]
+        ]
+      ]
+    }
+  ],
+  "transparency": 150,
+  "line color": null,
+  "background": null,
+  "text color": "#222222",
+  "label": "Тлумач",
+  "mode": 3
+}

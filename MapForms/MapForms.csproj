@@ -99,8 +99,9 @@
     <Compile Include="Models\Data\Alert\Extension.cs" />
     <Compile Include="Models\Data\Alert\Geonode.cs" />
     <Compile Include="Models\Data\Alert\RegionPoligon.cs" />
+    <Compile Include="Models\Data\DataInfo.cs" />
     <Compile Include="Models\Data\DataProcesor.cs" />
-    <Compile Include="Models\Data\DataSet.cs" />
+    <Compile Include="Models\Data\Data.cs" />
     <Compile Include="Models\Data\SetOpenstreetmap\OpenstreetmapProvider.cs" />
     <Compile Include="Models\Data\SetUawardata\DataSet.cs" />
     <Compile Include="Models\Data\SetUawardata\Crs.cs" />
@@ -148,15 +149,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="DataSets\occupied-battle.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DataSets\ocupated.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DataSets\outline.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="DataSets\occupied-battle.json" />
+    <Content Include="DataSets\ocupated.json" />
+    <Content Include="DataSets\outline.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -6,7 +6,7 @@ using MapForms.Models.Data;
 
 namespace MapForms.Models.SetUawardata.Data
 {
-    public class DataSet<T>
+    public class DataSet<T> : DataInfo
     {
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -21,7 +21,8 @@ namespace MapForms.Models.SetUawardata.Data
         public List<T> Features { get; set; }
 
 
-        public static DataSet<T> FromJson(string json) => JsonConvert.DeserializeObject<DataSet<T>>(json, Converter.Settings);
+        public static DataSet<T> FromJson(string json) =>
+            JsonConvert.DeserializeObject<DataSet<T>>(json, Converter.Settings);
     }
 
     public static partial class Serialize

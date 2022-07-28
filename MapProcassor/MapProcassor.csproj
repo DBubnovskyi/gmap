@@ -47,7 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Alerts.cs" />
+    <Compile Include="Models\City.cs" />
+    <Compile Include="Models\CityData.cs" />
     <Compile Include="Models\Converter.cs" />
+    <Compile Include="Models\Data.cs" />
+    <Compile Include="Models\DataInfo.cs" />
     <Compile Include="Models\Extension.cs" />
     <Compile Include="Models\Geonode.cs" />
     <Compile Include="Models\Loader.cs" />

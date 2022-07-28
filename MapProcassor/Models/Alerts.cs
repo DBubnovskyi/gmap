@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapProcassor.Models.Test
+namespace MapProcassor.Models
 {
     public class Alerts
     {

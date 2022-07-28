@@ -1,0 +1,25 @@
+{
+  "type": "GeometryCollection",
+  "geometries": [
+    {
+      "type": "MultiLocation",
+      "coordinates": [
+        [
+          [
+            [
+              31.2947,
+              51.4939
+            ]
+          ]
+        ]
+      ]
+    }
+  ],
+  "transparency": 150,
+  "line color": null,
+  "background": null,
+  "text color": "#444444",
+  "label": "Чернігів",
+  "mode": 3,
+  "visible zoom" : 6
+}

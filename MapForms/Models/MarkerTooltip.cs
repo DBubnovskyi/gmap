@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace MapForms.Models
 {
-    internal class MarkerTooltip
+    public class MarkerTooltip
     {
         public MarkerTooltip() { }
 
@@ -23,6 +23,32 @@ namespace MapForms.Models
                 //Foreground = TextColor,
                 //Stroke = Border
             };
+
+            if(Border != null)
+            {
+                toolTip.Stroke = Border;
+            }
+
+            if(TextColor != null)
+            {
+                toolTip.Foreground = TextColor;
+            }
+
+            if(BackgroundColor != null)
+            {
+                toolTip.Fill = BackgroundColor;
+            }
+
+            if(Font != null)
+            {
+                toolTip.Font = Font;
+            }
+
+            if(Offset != null)
+            {
+                toolTip.Offset = Offset;
+            }
+
             return toolTip;
         }
     }

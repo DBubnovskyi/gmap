@@ -1,6 +1,4 @@
-﻿using MapForms.Models.Data;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace MapProcassor.Models
@@ -22,11 +20,31 @@ namespace MapProcassor.Models
         [JsonProperty("boundingbox")]
         public List<string> Boundingbox { get; set; }
 
+        private string _latStr = string.Empty;
         [JsonProperty("lat")]
-        public string Lat { get; set; }
+        public string LatStr
+        {
+            get => _latStr;
+            set
+            {
+                _latStr = value;
+                Lat = double.Parse(_latStr, System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+        public double Lat { get; set; }
 
+        private string _lonStr = string.Empty;
         [JsonProperty("lon")]
-        public string Lon { get; set; }
+        public string LonStr
+        {
+            get => _lonStr;
+            set
+            {
+                _lonStr = value;
+                Lon = double.Parse(_lonStr, System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+        public double Lon { get; set; }
 
         [JsonProperty("display_name")]
         public string DisplayName { get; set; }
@@ -48,5 +66,41 @@ namespace MapProcassor.Models
 
         public static List<Geonode> FromJson(string json) 
             => JsonConvert.DeserializeObject<List<Geonode>>(json, Converter.Settings);
+
+        public string ToMapDataString()
+        {
+            var poins = new List<List<List<List<double>>>>
+            {
+                new List<List<List<double>>>
+                {
+                    new List<List<double>>
+                    {
+                        new List<double>
+                        {
+                            Lon,
+                            Lat
+                        }
+                    }
+                }
+            };
+            var data = new Data()
+            {
+                Label = DisplayName,
+                Mode = DataInfo.SetType.Markers,
+                TextColor = "#444444",
+                Transparency = 150,
+                Type = "GeometryCollection",
+                Geometries = new List<Geometry>()
+                {
+                    new Geometry()
+                    {
+                        Type = "MultiLocation",
+                        Coordinates = poins
+                    }
+                }
+            };
+
+            return JsonConvert.SerializeObject(data, Converter.Settings);
+        }
     }
 }

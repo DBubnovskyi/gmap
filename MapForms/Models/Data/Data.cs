@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace MapForms.Models.Data
 {
-    public class DataSet
+    public class Data : DataInfo
     {
-        public enum ActiveMapMode
+        public enum SetType
         {
-            None,
-            Marker,
-            Route,
-            Poligon,
+            None, Poligon, Route, Markers,
         }
 
-        public string Name { get; set; }
         public List<List<PointLatLng>> Points { get; set; }
 
     }

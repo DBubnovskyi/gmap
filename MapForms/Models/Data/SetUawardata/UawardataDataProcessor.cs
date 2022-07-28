@@ -32,52 +32,72 @@ namespace MapForms.Models.Data.SetUawardata
                     var dateList = DateList.FromJson(areaslistResponce);
                     string actualLineUrl = $"{hostUrl}{areas}{dateList[0].Date}.geojson";
                     string batleResponce = client.DownloadString(actualLineUrl);
-                    ActualLine = ParseActualLine(batleResponce);
+                    ActualLine = ParseLine<FeatureV2>(batleResponce);
                     string line240222LineUrl = $"{hostUrl}{line240222}";
                     string line240222Responce = client.DownloadString(line240222LineUrl);
-                    Line240222 = ParseLine240222(line240222Responce);
+                    Line240222 = ParseLine<FeatureV1>(line240222Responce);
                 }
                 catch (Exception) { };
             }
         }
 
-        public static List<List<PointLatLng>> ParseActualLine(string json)
+        public static List<List<PointLatLng>> ParseLine<T>(string json) =>
+            ToPointsList(DataSet<T>.FromJson(json));
+
+        public static Data ToData<T>(string json)
         {
-            var root = DataSet<FeatureV2>.FromJson(json);
-            List<List<PointLatLng>> tmp = new List<List<PointLatLng>>();
-            foreach (var f in root.Features)
+            var dataSet = DataSet<T>.FromJson(json);
+            if(dataSet?.Features != null)
             {
-                foreach (var c1 in f.Geometry.Coordinates)
+                return new Data()
+                {
+                    Points = ToPointsList(dataSet),
+                    Label = dataSet.Label,
+                    Mode = dataSet.Mode,
+                    LineColor = dataSet.LineColor,
+                    TextColor = dataSet.TextColor,
+                    Background = dataSet.Background,
+                    Transparency = dataSet.Transparency
+                };
+            }
+            return null;
+        }
+
+        public static List<List<PointLatLng>> ToPointsList<T>(DataSet<T> dataSet)
+        {
+            List<List<PointLatLng>> tmp = new List<List<PointLatLng>>();
+            if (typeof(T) == typeof(FeatureV1))
+            {
+                foreach (var f in dataSet.Features as List<FeatureV1>)
                 {
                     List<PointLatLng> list = new List<PointLatLng>();
-                    foreach (var c2 in c1)
+                    foreach (var c1 in f.Geometry.Coordinates)
                     {
-                        foreach (var c3 in c2)
+                        foreach (var c2 in c1)
                         {
-                            list.Add(new PointLatLng(c3[1], c3[0]));
+                            list.Add(new PointLatLng(c2[1], c2[0]));
                         }
                     }
                     tmp.Add(list);
                 }
             }
-            return tmp;
-        }
-
-        public static List<List<PointLatLng>> ParseLine240222(string json)
-        {
-            var root = DataSet<FeatureV1>.FromJson(json);
-            List<List<PointLatLng>> tmp = new List<List<PointLatLng>>();
-            foreach (var f in root.Features)
+            else if (typeof(T) == typeof(FeatureV2))
             {
-                List<PointLatLng> list = new List<PointLatLng>();
-                foreach (var c1 in f.Geometry.Coordinates)
+                foreach (var f in dataSet.Features as List<FeatureV2>)
                 {
-                    foreach (var c2 in c1)
+                    foreach (var c1 in f.Geometry.Coordinates)
                     {
-                        list.Add(new PointLatLng(c2[1], c2[0]));
+                        List<PointLatLng> list = new List<PointLatLng>();
+                        foreach (var c2 in c1)
+                        {
+                            foreach (var c3 in c2)
+                            {
+                                list.Add(new PointLatLng(c3[1], c3[0]));
+                            }
+                        }
+                        tmp.Add(list);
                     }
                 }
-                tmp.Add(list);
             }
             return tmp;
         }

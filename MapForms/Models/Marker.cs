@@ -20,6 +20,7 @@ namespace MapForms.Models
         public PointLatLng Coordinates { get; set; } = new PointLatLng();
         public MarkerTooltipMode ToolTipMode { get; set; } = MarkerTooltipMode.OnMouseOver;
         public bool IsShowCoordintes { get; set; }
+        public MarkerTooltip Tooltip { get; set; }
 
         public virtual GMapMarker ToGMapMarker()
         {
@@ -38,7 +39,7 @@ namespace MapForms.Models
             {
                 marker.ToolTipMode = ToolTipMode;
                 marker.ToolTipText = ToolTipText;
-                marker.ToolTip = new MarkerTooltip().ToGMapToolTip(marker);
+                marker.ToolTip = Tooltip?.ToGMapToolTip(marker) ?? new MarkerTooltip().ToGMapToolTip(marker);
             }
             return marker;
         }

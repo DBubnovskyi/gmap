@@ -33,7 +33,8 @@ namespace MapForms
         private void gMapControl_MouseMove(object sender, MouseEventArgs e)
         {
             var coordinates = MouseHelper.GetPointLatLng(mapControl.gMapControl, e);
-            labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}";
+            labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}" +
+                $" zoom:{mapControl.gMapControl.Zoom}";
         }
         private void NameChanged(string name)
         {

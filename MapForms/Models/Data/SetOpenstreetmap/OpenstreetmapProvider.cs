@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MapForms.Models.Data.SetOpenstreetmap
 {
-    public class OpenstreetmapProvider
+    public class OpenstreetmapProvider : DataInfo
     {
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -19,11 +19,47 @@ namespace MapForms.Models.Data.SetOpenstreetmap
         public static OpenstreetmapProvider FromJson(string json) => 
             JsonConvert.DeserializeObject<OpenstreetmapProvider>(json, Converter.Settings);
 
+        public static Data ToData(string json)
+        {
+            var dataSet = FromJson(json);
+            if (dataSet != null)
+            {
+                return new Data()
+                {
+                    Label = dataSet.Label,
+                    Points = dataSet.ToPointsList(),
+                    Mode = dataSet.Mode,
+                    LineColor = dataSet.LineColor,
+                    TextColor = dataSet.TextColor,
+                    Background = dataSet.Background,
+                    Transparency = dataSet.Transparency
+
+                };
+            }
+            return null;
+        }
+
         public static List<List<PointLatLng>> ParseLine(string json)
         {
             var root = OpenstreetmapProvider.FromJson(json);
+
+            if (root?.Geometries == null)
+            {
+                return null;
+            }
+
+            return root.ToPointsList();
+        }
+
+        public List<List<PointLatLng>> ToPointsList()
+        {
+            if(this.Geometries == null)
+            {
+                return null;
+            }
+
             List<List<PointLatLng>> tmp = new List<List<PointLatLng>>();
-            foreach (var f in root.Geometries)
+            foreach (var f in Geometries)
             {
                 foreach (var c1 in f.Coordinates)
                 {

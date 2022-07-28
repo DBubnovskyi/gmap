@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MapForms.Models.Data.SetOpenstreetmap;
 using MapForms.Models.Data.SetUawardata;
+using MapForms.Models.SetUawardata.Data;
 
 namespace MapForms.Models.Data
 {
@@ -15,7 +16,7 @@ namespace MapForms.Models.Data
         private string _dataFolder = "DataSets";
 
         private static string _assemblyDirectoryBuf;
-        private static string _assemblyDirectory
+        public static string AssemblyDirectory
         {
             get
             {
@@ -30,55 +31,34 @@ namespace MapForms.Models.Data
             }
         }
 
-        public List<DataSet> DataSets { get; set; } = new List<DataSet>();
+        public List<Data> DataSets { get; set; } = new List<Data>();
 
         public void Load(string path)
         {
             string json = File.ReadAllText(path);
-            DataSet dataSet;
             string fileName = Path.GetFileName(path);
-            try
+
+            var data = UawardataDataProcessor.ToData<FeatureV1>(json) ??
+                UawardataDataProcessor.ToData<FeatureV2>(json) ??
+                OpenstreetmapProvider.ToData(json);
+            if (data != null)
             {
-                var data = UawardataDataProcessor.ParseActualLine(json);
-                dataSet = new DataSet()
-                {
-                    Points = data,
-                    Name = fileName
-                };
+                DataSets.Add(data);
             }
-            catch (Exception)
-            {
-                try
-                {
-                    var data = UawardataDataProcessor.ParseLine240222(json);
-                    dataSet = new DataSet()
-                    {
-                        Points = data,
-                        Name = fileName
-                    };
-                }
-                catch (Exception)
-                {
-                    var data = OpenstreetmapProvider.ParseLine(json);
-                    dataSet = new DataSet()
-                    {
-                        Points = data,
-                        Name = fileName
-                    };
-                }
-            }
-            DataSets.Add(dataSet);
         }
 
         public void LoadAll()
         {
-            string[] files = Directory.GetFiles(
-                $"{_assemblyDirectory}/{_dataFolder}", 
-                "*.json",
-                SearchOption.AllDirectories);
-            foreach (var file in files)
-            {
-                Load(file);
+            DataSets.Clear();
+            if (Directory.Exists($"{ AssemblyDirectory}/{ _dataFolder}")) { 
+                string[] files = Directory.GetFiles(
+                    $"{AssemblyDirectory}/{_dataFolder}", 
+                    "*.json",
+                    SearchOption.AllDirectories);
+                foreach (var file in files)
+                {
+                    Load(file);
+                }
             }
         }
     }

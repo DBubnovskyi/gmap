@@ -8,6 +8,7 @@ namespace MapForms.Models.Data
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
+            Error = (sender, error) => error.ErrorContext.Handled = true,
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters =
