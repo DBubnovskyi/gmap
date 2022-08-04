@@ -47,6 +47,7 @@ namespace MapForms.Models
         public Marker Start { get; set; }
         public Marker End { get; set; }
         public DateTime EndTime { get; set; }
+        public TimeSpan FlyTime { get; set; }
 
         public void CalculateEndTime() => CalculateEndTime(DateTime.Now);
         public void CalculateEndTime(DateTime startTime)
@@ -54,13 +55,14 @@ namespace MapForms.Models
             PointLatLng p1 = Line.Start;
             PointLatLng p2 = Line.End;
             double timeInHours = VectorHelper.DistanceTo(p1, p2) / Speed.ToKmph();
-            TimeSpan time = TimeSpan.FromHours(timeInHours);
-            EndTime = startTime + time;
-            End = new Marker(p2)
+            FlyTime = TimeSpan.FromHours(timeInHours);
+            EndTime = startTime + FlyTime;
+            if(End == null)
             {
-                ToolTipMode = MarkerTooltipMode.Always,
-                ToolTipText = $"{time:hh\\:mm\\:ss}\n{EndTime:HH:mm:ss}"
-            };
+                End = new Marker(p2);
+            }
+            End.ToolTipMode = MarkerTooltipMode.Always;
+            End.ToolTipText = $"{FlyTime:hh\\:mm\\:ss}\n{EndTime:HH:mm:ss}";
             Overlay.Markers.Add(End.ToGMapMarker());
         }
 

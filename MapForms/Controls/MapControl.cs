@@ -13,6 +13,9 @@ using MapForms.Models.Data.SetUawardata;
 using MapProcassor.Models.Alert;
 using MapProcassor.Models;
 using Newtonsoft.Json;
+using GMap.NET.WindowsForms.Markers;
+
+//https://github.com/Symbian9/awesome-maps-ukraine
 
 namespace MapForms.Controls
 {
@@ -37,14 +40,14 @@ namespace MapForms.Controls
         {
             InitializeComponent();
             //gMapControl.MapProvider = BingMapProvider.Instance;
-            //gMapControl.MapProvider = GMapProviders.GoogleTerrainMap;
+            gMapControl.MapProvider = GMapProviders.GoogleTerrainMap;
             GMaps.Instance.Mode = AccessMode.ServerAndCache;
             gMapControl.Position = new PointLatLng(48.35, 33.35);
             gMapControl.MinZoom = 0;
             gMapControl.MaxZoom = 22;
             gMapControl.Zoom = 6;
             gMapControl.DragButton = MouseButtons.Left;
-            //gMapControl.MouseMove += gMapControl_MouseMove;
+            gMapControl.MouseMove += gMapControl_MouseMove;
             gMapControl.MouseUp += GMapControl_MouseClick;
             gMapControl.KeyDown += GMapControl_KeyClick;
             gMapControl.OnMapZoomChanged += Gmap_OnMapZoomChanged;
@@ -52,7 +55,8 @@ namespace MapForms.Controls
             gMapControl.Overlays.Add(routes);
             gMapControl.Overlays.Add(markers);
             gMapControl.Overlays.Add(targets);
-
+            gMapControl.Overlays.Add(distance);
+            gMapControl.Overlays.Add(showRoute);
 
             LoadSavedData();
 
@@ -129,18 +133,102 @@ namespace MapForms.Controls
             //InitTimer();
         }
 
-        private void GMapControl_MouseMove(object sender, MouseEventArgs e)
+        private void gMapControl_MouseMove(object sender, MouseEventArgs e)
         {
             PointLatLng coordinates = MouseHelper.GetPointLatLng(gMapControl, e);
-            labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}"
-                + $" zoom:{gMapControl.Zoom}" ;
+            labelCoordinates.Text = $"lat: {coordinates.Lat} lng: {coordinates.Lng}";
 
-            int mouseY = e.Location.Y;
-            int mouseX = e.Location.X;
-            labelCoordinates.Location = new Point(mouseX, mouseY + 10);
+            //int mouseY = e.Location.Y;
+            //int mouseX = e.Location.X;
+            //labelCoordinates.Location = new Point(mouseX, mouseY + 10);
+
+            if(_distanceStart != null)
+            {
+                if (_distanceEnd == null)
+                {
+                    _distanceEnd = new GMarkerGoogle(
+                            coordinates, ImageHelper.DrawCircule(Color.Black, 2))
+                    {
+                        Offset = new Point(-16, -16),
+                    };
+                    _distanceEnd.ToolTipMode = MarkerTooltipMode.Always;
+                }
+                else
+                {
+                    _distanceEnd.Position = coordinates;
+                }
+                PointLatLng start = _distanceStart.Position;
+                PointLatLng end = _distanceEnd.Position;
+
+                var distance = VectorHelper.DistanceRoute(start, end);
+                distance = Math.Round(distance, 2);
+                var bering = VectorHelper.GetBearing(start, end);
+                bering = Math.Round(bering, 2);
+                _distanceEnd.ToolTipText = $"{distance}km\n{bering}°";
+
+                this.distance.Markers.Add(_distanceEnd);
+
+                if(_distanceLine == null)
+                {
+                    _distanceLine = new Line(start, end, Color.Black).ToRoute();
+                }
+                else
+                {
+                    _distanceLine.Points[1] = coordinates;
+                    this.distance.Routes.Remove(_distanceLine);
+                }
+
+                this.distance.Routes.Add(_distanceLine);
+            }
+
+            if(_routeStart != null)
+            {
+                if (_routeEnd == null)
+                {
+                    _routeEnd = new GMarkerGoogle(
+                            coordinates, ImageHelper.DrawCircule(Color.Red, 2))
+                    {
+                        Offset = new Point(-16, -16),
+                    };
+                    _routeEnd.ToolTipMode = MarkerTooltipMode.Always;
+                }
+                else
+                {
+                    this.showRoute.Markers.Clear();
+                    _routeEnd.Position = coordinates;
+                }
+                PointLatLng start = _routeStart?? new PointLatLng();
+                PointLatLng end = _routeEnd.Position;
+
+                var distance = VectorHelper.DistanceRoute(start, end);
+                distance = Math.Round(distance, 2);
+                var bering = VectorHelper.GetBearing(start, end);
+                bering = Math.Round(bering, 2);
+
+                double timeInHours = distance  / Speed.ToKmph();
+                TimeSpan time = TimeSpan.FromHours(timeInHours);
+                _routeEnd.ToolTipMode = MarkerTooltipMode.Always;
+                _routeEnd.ToolTipText = $"{time:hh\\:mm\\:ss}\n{distance}km\n{bering}°";
+
+                this.showRoute.Markers.Add(_routeEnd);
+
+                if (_routeLine == null)
+                {
+                    _routeLine = new Line(start, end, Color.Black).ToRoute();
+                }
+                else
+                {
+                    _routeLine.Points[1] = coordinates;
+                    this.showRoute.Routes.Remove(_routeLine);
+                }
+
+                this.showRoute.Routes.Add(_routeLine);
+            }
         }
 
         List<RouteTraice> _traice = new List<RouteTraice>();
+        private readonly GMapOverlay distance = new GMapOverlay("distance");
+        private readonly GMapOverlay showRoute = new GMapOverlay("showRoute");
         private readonly GMapOverlay targets = new GMapOverlay("targets");
         private readonly GMapOverlay routes = new GMapOverlay("gMapControl");
         private readonly GMapOverlay markers = new GMapOverlay("markers");
@@ -152,7 +240,7 @@ namespace MapForms.Controls
         private readonly List<PointLatLng> list = new List<PointLatLng>();
         private void GMapControl_MouseClick(object sender, MouseEventArgs e)
         {
-            if (gMapControl.IsDragging || ActiveMode == ActiveMapMode.None)
+            if (gMapControl.IsDragging /*|| ActiveMode == ActiveMapMode.None*/)
             {
                 return;
             }
@@ -181,11 +269,22 @@ namespace MapForms.Controls
                 }
                 else if (ActiveMode == ActiveMapMode.Trajectory)
                 {
+                    _routeStart = coordinates;
+                    if(_routeEnd != null)
+                    {
+                        _routeEnd = null;
+                        _routeLine = null;
+                    }
                     _traice[_traice.Count - 1].AddPoint(coordinates);
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
+                this.showRoute.Markers.Clear();
+                this.showRoute.Routes.Clear();
+                _routeStart = null;
+                _routeEnd = null;
+                _routeLine = null;
                 List<PointLatLng> points = new List<PointLatLng>();
                 foreach (var point in markers.Markers)
                 {
@@ -194,7 +293,33 @@ namespace MapForms.Controls
                 _traice[_traice.Count - 1].StartRoute();
                 _traice.Add(new RouteTraice(routes, Speed));
             }
+            else if(e.Button == MouseButtons.Middle)
+            {
+                if(_distanceStart == null)
+                {
+                    _distanceStart = new GMarkerGoogle(coordinates, ImageHelper.DrawCircule(Color.Black, 2))
+                    {
+                        Offset = new Point(-16, -16),
+                    };
+                    distance.Markers.Add(_distanceStart);
+                }
+                else
+                {
+                    _distanceEnd.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                    _distanceStart = null;
+                    _distanceEnd = null;
+                    _distanceLine = null;
+                }
+            }
         }
+
+        GMarkerGoogle _distanceStart;
+        GMarkerGoogle _distanceEnd;
+        GMapRoute _distanceLine;
+
+        PointLatLng? _routeStart;
+        GMarkerGoogle _routeEnd;
+        GMapRoute _routeLine;
 
         DataProcesor _data = new DataProcesor();
         private void LoadSavedData()

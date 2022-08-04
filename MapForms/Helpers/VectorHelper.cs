@@ -60,9 +60,10 @@ namespace MapForms.Helpers
 
         public static double VectorBearing(double lat1, double lng1, double lat2, double lng2)
         {
-            double dx = lat2 - lat1;
-            double dy = lng2 - lng1;
-            return Math.Atan2(dy, dx) * (180 / Math.PI);
+            //double dx = lat2 - lat1;
+            //double dy = lng2 - lng1;
+            //return Math.Atan2(dy, dx) * (180 / Math.PI);
+            return GetBearing(lat1, lng1, lat2, lng2);
         }
 
         public static double DistanceRoute(PointLatLng vectorStart, PointLatLng vectorEnd)
@@ -73,6 +74,42 @@ namespace MapForms.Helpers
         public static double DistanceTo(PointLatLng vectorStart, PointLatLng vectorEnd, DistanceUnits unit = DistanceUnits.Kilometers)
         {
             return DistanceTo(vectorStart.Lat, vectorStart.Lng, vectorEnd.Lat, vectorEnd.Lng, unit);
+        }
+
+        private static double Radians(double n)
+        {
+            return n * (Math.PI / 180);
+        }
+
+        private static double Degrees(double n)
+        {
+            return n * (180 / Math.PI);
+        }
+
+        public static double GetBearing(PointLatLng p1, PointLatLng p2) =>
+            GetBearing(p1.Lat, p1.Lng, p2.Lat, p2.Lng);
+
+        public static double GetBearing(double startLat, double startLong, 
+            double endLat, double endLong)
+        {
+            startLat = Radians(startLat);
+            startLong = Radians(startLong);
+            endLat = Radians(endLat);
+            endLong = Radians(endLong);
+
+            var dLong = endLong - startLong;
+
+            var dPhi = Math.Log(Math.Tan(endLat / 2.0 + Math.PI / 4.0)
+                / Math.Tan(startLat / 2.0 + Math.PI / 4.0));
+            if (Math.Abs(dLong) > Math.PI)
+            {
+                if (dLong > 0.0)
+                    dLong = -(2.0 * Math.PI - dLong);
+                else
+                    dLong = (2.0 * Math.PI + dLong);
+            }
+
+            return (Degrees(Math.Atan2(dLong, dPhi)) + 360.0) % 360.0;
         }
 
         public static double DistanceTo(double lat1, double lng1, double lat2, double lng2, DistanceUnits unit = DistanceUnits.Kilometers)
