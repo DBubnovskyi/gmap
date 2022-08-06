@@ -14,6 +14,7 @@ using MapProcassor.Models.Alert;
 using MapProcassor.Models;
 using Newtonsoft.Json;
 using GMap.NET.WindowsForms.Markers;
+using System.Threading.Tasks;
 
 //https://github.com/Symbian9/awesome-maps-ukraine
 
@@ -41,7 +42,8 @@ namespace MapForms.Controls
             InitializeComponent();
             //gMapControl.MapProvider = BingMapProvider.Instance;
             gMapControl.MapProvider = GMapProviders.GoogleTerrainMap;
-            GMaps.Instance.Mode = AccessMode.ServerAndCache;
+            gMapControl.CacheLocation = $"{DataProcesor.AssemblyDirectory}/MapCache";
+            GMaps.Instance.Mode = AccessMode.CacheOnly;
             gMapControl.Position = new PointLatLng(48.35, 33.35);
             gMapControl.MinZoom = 0;
             gMapControl.MaxZoom = 22;
@@ -448,7 +450,23 @@ namespace MapForms.Controls
             }
             else if (e.KeyCode == Keys.Space)
             {
-                LoadSavedData();
+                //LoadSavedData();RectLatLng area = gMapControl.SelectedArea;
+
+                RectLatLng area = RectLatLng.FromLTRB(16, 58, 56, 40);
+                if (!area.IsEmpty)
+                {
+                    for (int i = 12/*(int)gMapControl.Zoom*/; i <= gMapControl.MaxZoom; i++)
+                    {
+                        TilePrefetcher obj = new TilePrefetcher();
+                        obj.Name = "Prefetching Tiles";
+                        obj.ShowCompleteMessage = false;
+                        obj.Start(area, i, gMapControl.MapProvider, 100, 2);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No Area Chosen", "Error");
+                }
             }
         }
 
